@@ -1,7 +1,6 @@
 import pymongo
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from utilities import parse_json, getBooksByCategory
 from datetime import datetime
 
 app = Flask(__name__)
@@ -11,7 +10,7 @@ CORS(app)
 def before_request():
     if request.method == "OPTIONS":
         headers = {
-            "Access-Control-Allow-Origin": "http://localhost:3001",
+            "Access-Control-Allow-Origin": "http://localhost:3000",
             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
             "Access-Control-Allow-Credentials": "true",

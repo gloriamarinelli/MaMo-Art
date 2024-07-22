@@ -1,0 +1,63 @@
+.Alert {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+}
+
+.MessageBubble {
+    display: flex;
+    border-radius: 24px;
+    justify-content: center;
+    width: 40%;
+    background-color: white;
+    flex-direction: column;
+    align-items: center;
+}
+
+.MessageBubble >h1 {
+    display: flex;
+    font-size: 2vw;
+
+}
+
+.MessageBubble > h2 {
+    display: flex;
+    font-size: 1.5vw;
+    font-weight: normal;
+    margin: 5%;
+}
+
+.Buttons {
+    width: -webkit-fill-available;
+    display: flex;
+    flex-direction: row;
+    margin: 1%;
+    justify-content: space-evenly;
+}
+
+.Buttons> input[type="button"] {
+    font-size: 1.3vw;
+    padding: 1%;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+}
+
+#cancel {
+    background-color: rgb(114,62,176);
+    color: white;
+}
+
+#confirm {
+    background-color: rgb(211,42,5);
+    color: white;
+}
