@@ -9,7 +9,7 @@ db = client['MaMo-Art']
 def cleanText(text):
    return re.sub(r'\s+,', ',', text)
 
-def loadData():
+def loadPaintings():
     print("Loading data into the MongoDB database...")
     paintings = []
     paintings_titles = set()  # Use a set for title uniqueness
@@ -54,42 +54,29 @@ def loadData():
 
     print("Collection 'paintings' loaded successfully.")
 
-def createArtistCollections():
-    print("Creating artist collections...")
-
-    # Get the MongoDB collection
-    paintings_coll = db['paintings']
+def loadArtists():
+    print("Loading data into the MongoDB database...")
+    artists = []
+    artists_name = set()  # Use a set for title uniqueness
+   
+    # Read data from the CSV file
+    with open('./artists.csv', 'r', encoding='utf-8') as file:
+        csv_reader = csv.reader(file);
+        for row in csv_reader:
+            artists.append(row)
     
-    # Dictionary to hold artist data
-    artist_data = {}
+    artists_coll=db['artists']
 
-    # Iterate through all paintings and group them by artist
-    for painting in paintings_coll.find():
-        artist_id = painting.get('artist_id', '')
-        
-        # Skip paintings with multiple artist IDs
-        if ',' in artist_id:
-            print(f"Skipping painting with multiple artist IDs: {painting}")
-            continue
 
-        artist_name = painting.get('name', '')
-        if artist_name:
-            if artist_name not in artist_data:
-                artist_data[artist_name] = []
-            artist_data[artist_name].append(painting)
+    for artist in artists:
+        new_artist = {
+            'id': artist[0], 'name': artist[1], 'nationality': artist[2],
+            'gender': artist[3], 'birth_year': artist[4], 'death_year': artist[5]
+        }
+        artists_coll.insert_one(new_artist)
 
-    # Create a new collection for each artist and insert their paintings
-    for artist_name, paintings in artist_data.items():
-        # Create a collection for each artist, sanitized for MongoDB collection name rules
-        sanitized_artist_name = artist_name.replace(' ', '_').replace('/', '_')
-        artist_coll = db[sanitized_artist_name]
+    print("Collection 'artists' loaded successfully.")
+          
 
-        # Insert all paintings for the artist into their collection
-        artist_coll.insert_many(paintings)
-        print(f"Collection '{sanitized_artist_name}' created and populated with {len(paintings)} paintings.")
-
-    print("All artist collections created successfully.")
-
-# Call the function to load the data and create artist collections
-loadData()
-createArtistCollections()
+loadPaintings()
+loadArtists()
