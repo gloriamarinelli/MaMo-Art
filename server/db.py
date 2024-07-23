@@ -92,8 +92,4 @@ def createArtistCollections():
 
 # Call the function to load the data and create artist collections
 loadData()
-
-# Call the function to create artist collections
 createArtistCollections()
-
-
