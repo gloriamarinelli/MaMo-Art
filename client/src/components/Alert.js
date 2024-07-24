@@ -1,4 +1,5 @@
 import React from "react";
+import "../style/alert.css";
 
 export const Alerts = {
   AskConfirmation: 0,
@@ -23,8 +24,7 @@ function Alert(props) {
   return (
     <div className="Alert">
       <div className="MessageBubble">
-        <h1>{props.message}</h1>
-        <h2>{props.body}</h2>
+        <h2>{props.body} ✔ </h2>
         <div className="Buttons">
           {props.type === Alerts.AskConfirmation && (
             <>
@@ -45,7 +45,7 @@ function Alert(props) {
           {props.type === Alerts.Confirm && (
             <input
               type="button"
-              id="cancel"
+              id="confirm"
               value="Confirm"
               onClick={setTrue1}
             ></input>

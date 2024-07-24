@@ -18,7 +18,7 @@
     border-radius: 24px;
     justify-content: center;
     width: 40%;
-    background-color: white;
+    background-color: whitesmoke;
     flex-direction: column;
     align-items: center;
 }
@@ -52,12 +52,9 @@
     border-radius: 10px;
 }
 
-#cancel {
-    background-color: rgb(114,62,176);
-    color: white;
+#confirm {
+    background-color: #ff7f50;
+    font-size: 18px;
+    color: black;
 }
 
-#confirm {
-    background-color: rgb(211,42,5);
-    color: white;
-}

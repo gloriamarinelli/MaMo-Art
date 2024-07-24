@@ -1,147 +1,92 @@
 .LoginContainer {
-    display: flex;
-    width: -webkit-fill-available;
-    height: -webkit-fill-available;
-
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
 }
 
 .Logo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 5;
-    margin-left: 2.5%;
-    color: white;
+  display: flex;
+  width: -webkit-fill-available;
+  justify-content: center;
 }
+
 .Background {
-    position: absolute;
-    display: flex;
-    width: -webkit-fill-available;
-    height: -webkit-fill-available;
-
-    background-position: center; 
-    background-repeat: no-repeat; 
-    background-size: cover; 
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
-
-    align-items: center;
-    justify-content: center;
+  background-image: url('../images/MaMo.png');
+  background-color: #ff7f50;
 }
 
 .Card {
-    position: relative;
-    display: flex;
-    padding: 2.5%;
-    flex-direction: column;
-    border-radius: 16px;
-    background-color: white;
-    align-items: center;
-    height: fit-content;
-    width: 27%;
-    height: auto;
+  position: relative;
+  display: flex;
+  padding: 2.5%;
+  flex-direction: column;
+  border-radius: 16px;
+  background-color: whitesmoke;
+  align-items: center;
+  height: fit-content;
+  width: 27%;
+  height: auto;
 }
 
 .Title {
-    display: flex;
-    width: -webkit-fill-available;
-    justify-content: flex-start;
-}
-
-.Title > h1 {
-    margin: 0;
-}
-
-.InputForms{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80%;
-
-    margin: 5% 0% 5% 0%;
-}
-
-.InputLabels {
-    display: flex;
-    width: -webkit-fill-available;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    margin-top: 5px;
+  display: flex;
+  width: -webkit-fill-available;
+  justify-content: center;
 }
 
 #signUp {
-    display: flex;
-    color: rgb(149, 102, 208);  
-    cursor: pointer;
-    margin-left: 5px;
+  display: flex;
+  color: #ff7f50;
+  cursor: pointer;
+  margin-left: 5px;
 }
 
 #signUp:hover {
-    text-decoration: underline;
-    text-decoration-color:rgb(114,62,176);
-}
-
-#showPassword {
-    cursor: pointer;
-    margin-right: 7%;
-}
-
-#showPassword>img {
-    aspect-ratio: 1 / 1;
-    max-height: 20px;
-}
-
-.InputLabels > h3 {
-    margin: 0;
-    display: flex;
-    font-weight: bold;
-}
-
-.InputLabels > h4 {
-    margin: 0;
-    display: flex;
-    font-weight: 50;
+  text-decoration: underline;
+  text-decoration-color: #ff7f50;
 }
 
 .invalidContentMessage {
-    color: #d9212c;
-    font-size: small;
+  color: #d9212c;
+  font-size: small;
+  margin-top: 5%;
 }
 
 .InputForms > input {
-    display: flex;
-    font-size: xx-large;
-    width: -webkit-fill-available;
-    border-radius: 5px;
+  margin-top: 15px;
+  display: flex;
+  font-size: x-large;
+  width: -webkit-fill-available;
 }
 
 .InvalidInput {
-    border: 1px solid #d9212c;
-    border-radius: 4px;
-    box-shadow: 0 0 0 3.2px rgba(217,33,44,.25);
+  border: 1px solid #d9212c;
+  border-radius: 4px;
+  box-shadow: 0 0 0 3.2px rgba(217, 33, 44, 0.25);
+  background-color: rgba(217, 33, 44, 0.1);
 }
 
 .InvalidInput:focus {
-    outline: none !important;
+  outline: none !important;
 }
 
-
-.Card > input[type='button'] {
-    padding: 0px;
-    padding: 2%;
-    font-size: x-large;
-    text-align: center;
-    align-items: center;
-    width: 80%;
-    border-radius: 10px;
-    border: none;
-    background-color: rgb(149, 102, 208);
-    cursor: pointer;
-    margin-top: 1%;
+.InputLabels{
 }
 
-.Card > input[type='button']:hover {
-    background-color: rgb(171, 131, 221);
+.Card > input[type="button"] {
+  padding: 0px;
+  padding: 2%;
+  text-align: center;
+  align-items: center;
+  width: 70%;
+  border-radius: 10px;
+  border: none;
+  background-color: #ff7f50;
+  cursor: pointer;
+  margin-top: 1%;
+}
+
+.Card > input[type="button"]:hover {
+  background-color: rgba(255, 127, 80, 0.8);
 }
