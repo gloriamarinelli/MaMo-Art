@@ -11,7 +11,7 @@ def cleanText(text):
  
 def clean_collection_name(name):
     # Rimuovere caratteri non validi per i nomi delle collezioni
-    cleaned_name = name.strip().replace(' ', '_').replace('.', '')
+    cleaned_name = name.strip().replace('.', '')
     return cleaned_name
 
 """La funzione clean_collection_name rimuove i caratteri non validi e ora gestisce correttamente i casi in cui il nome potrebbe
@@ -81,6 +81,7 @@ def loadPaintings():
             }}
 
             artist_coll.update_one(filter, update, upsert=True)
+
 
         # Calculate and print progress
         progress = (index + 1) / total_paintings * 100
