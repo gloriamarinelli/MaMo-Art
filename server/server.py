@@ -136,18 +136,6 @@ def getPaintingsByArt():
 
     return jsonify({'paintings': parse_json(paintings), 'status': 200})
 
-def queryOnCollection(collection_name, query):
-    collection = db[collection_name]
-    results = collection.find(query)
-    paintings = []
-    for result in results:
-        if 'title' in result: 
-            paintings.append({
-                'title': result['title'],
-                'collection_name': collection_name
-            })
-    return paintings
-
 @app.route('/getPaintingsByArtColl', methods=['GET'])
 def getPaintingsByArtColl():
     name = request.args.get('name')
@@ -155,62 +143,34 @@ def getPaintingsByArtColl():
     if not name:
         return jsonify({'message': 'Name query parameter is missing!', 'status': 400})
     
-    query = {'title': {'$regex': name, '$options': 'i'}}
     paintings = []
-
+    
     # Get all collections in the database
     collections = db.list_collection_names()
     
-    # Exclude specific collections
-    collections_to_query = [coll for coll in collections if coll not in ['paintings', 'artists']]
+    # Find collections whose names contain the input name
+    matching_collections = [coll for coll in collections if name.lower() in coll.lower()]
     
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        resultCollection = {executor.submit(queryOnCollection, coll, query): coll for coll in collections_to_query}
-        for result in concurrent.futures.as_completed(resultCollection):
-            result = result.result()
-            paintings.extend(result)
+    if not matching_collections:
+        return jsonify({'message': 'No matching collections found!', 'status': 404})
     
-    if not paintings:
-        return jsonify({'message': 'No paintings found for the given name!', 'status': 404})
-    
-    return jsonify({'paintings': paintings, 'status': 200})
-
-"""
-@app.route('/getPaintingsByArtColl', methods=['GET'])
-def getPaintingsByArtColl():
-    name = request.args.get('name')
-    
-    if not name:
-        return jsonify({'message': 'Name query parameter is missing!', 'status': 400})
-    
-    query = {'title': {'$regex': name, '$options': 'i'}}
-    paintings = []
-
-    # Get all collections in the database
-    collections = db.list_collection_names()
-    
-    # Exclude specific collections
-    collections_to_query = [coll for coll in collections if coll not in ['paintings', 'artists']]
-    
-    for collection_name in collections_to_query:
+    for collection_name in matching_collections:
         collection = db[collection_name]
-        results = collection.find(query)
+        results = collection.find({}, {'title': 1, '_id': 0})  
         for result in results:
-            if 'title' in result:  # Ensure 'title' field exists
+            if 'title' in result:
                 paintings.append({
                     'title': result['title'],
                     'collection_name': collection_name
                 })
     
     if not paintings:
-        return jsonify({'message': 'No paintings found for the given name!', 'status': 404})
+        return jsonify({'message': 'No paintings found in the matching collections!', 'status': 404})
     
     return jsonify({'paintings': paintings, 'status': 200})
-"""
 
 def parse_json(data):
     return json.loads(json_util.dumps(data))
-
 
 if __name__ == "__main__":
     app.run(debug=True, host="localhost", port=5000)
