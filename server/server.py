@@ -1,6 +1,6 @@
 import json
 import pymongo
-from pymongo import MongoClient
+from pymongo import DESCENDING, MongoClient
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from datetime import datetime
@@ -109,8 +109,13 @@ def getPaintings():
     return jsonify({'paintings':paintings, 'status':200})
 
 
-@app.route('/getPaintingsIndex', methods=['GET'])
-def getPaintingsIndex():
+def serializeDocument(doc):
+    if '_id' in doc:
+        doc['_id'] = str(doc['_id'])
+    return doc
+
+@app.route('/getPaintingsByIndex', methods=['GET'])
+def getPaintingsByIndex():
     paintings_coll = db['paintings']
 
     index_name = 'name_1'
@@ -129,10 +134,13 @@ def getPaintingsIndex():
     query = {'name': {'$regex': name, '$options': 'i'}}
     
     # Find and sort the documents by 'name' field in ascending order
-    paintings = list(paintings_coll.find(query, {'_id': 0, 'name': 1}).sort('name', ASCENDING))
-
+    paintings = list(paintings_coll.find(query).sort('name', ASCENDING))
+    
     if not paintings:
         return jsonify({'message': 'No paintings found for the given name!', 'status': 404})
+
+    # Convert ObjectId to string in each document
+    paintings = [serializeDocument(doc) for doc in paintings]
 
     return jsonify({'paintings': paintings, 'status': 200})
 
