@@ -6,6 +6,8 @@ from flask_cors import CORS
 from datetime import datetime
 from bson import json_util
 import concurrent.futures
+from pymongo import ASCENDING
+
 
 app = Flask(__name__)
 CORS(app)
@@ -98,12 +100,43 @@ def getPaintings():
     paintings_coll = db['paintings']
 
     for painting in paintings_coll.find():
-        paintings['_id']= str(painting['_id'])
+        painting['_id'] = str(painting['_id'])
         paintings.append(painting)
+        
+    if not paintings:
+        return jsonify({'message': 'No paintings found!', 'status': 404})
 
     return jsonify({'paintings':paintings, 'status':200})
 
 
+@app.route('/getPaintingsIndex', methods=['GET'])
+def getPaintingsIndex():
+    paintings_coll = db['paintings']
+
+    index_name = 'name_1'
+    existing_indexes = paintings_coll.index_information()
+    if index_name in existing_indexes:
+        paintings_coll.drop_index(index_name)
+
+    # Create a dense secondary non-unique sorted index
+    paintings_coll.create_index([('name', ASCENDING)], name='name_index')
+
+    name = request.args.get('name')
+    
+    if not name:
+        return jsonify({'message': 'Name query parameter is missing!', 'status': 400})
+    
+    query = {'name': {'$regex': name, '$options': 'i'}}
+    
+    # Find and sort the documents by 'name' field in ascending order
+    paintings = list(paintings_coll.find(query, {'_id': 0, 'name': 1}).sort('name', ASCENDING))
+
+    if not paintings:
+        return jsonify({'message': 'No paintings found for the given name!', 'status': 404})
+
+    return jsonify({'paintings': paintings, 'status': 200})
+
+       
 @app.route('/getPaintingsByDep', methods=['GET'])
 def getPaintingsByDep():
     department = request.args.get('department')
