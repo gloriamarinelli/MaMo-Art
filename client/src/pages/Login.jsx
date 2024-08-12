@@ -39,13 +39,11 @@ function Login() {
     }
 
     try {
-      // Send a POST request to the /login endpoint of the Flask server
       const response = await axios.post(endpoint, {
         username,
         password,
       });
 
-      // If the login has been successfully performed, then redirect the user to the homepage.
       if (response.data.status === 200) {
         setLogoutTimeout();
         navigate("/homepage");

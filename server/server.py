@@ -118,11 +118,6 @@ def serializeDocument(doc):
 def getPaintingsByIndex():
     paintings_coll = db['paintings']
 
-    index_name = 'name_1'
-    existing_indexes = paintings_coll.index_information()
-    if index_name in existing_indexes:
-        paintings_coll.drop_index(index_name)
-
     # Create a dense secondary non-unique sorted index
     paintings_coll.create_index([('name', ASCENDING)], name='name_index')
 
@@ -161,7 +156,7 @@ def getPaintingsByDep():
 
     return jsonify({'paintings': parse_json(paintings), 'status': 200})
 
-@app.route('/getPaintingsByArt', methods=['GET'])
+'''@app.route('/getPaintingsByArt', methods=['GET'])
 def getPaintingsByArt():
     name = request.args.get('name')
     
@@ -175,7 +170,7 @@ def getPaintingsByArt():
     if not paintings:
         return jsonify({'message': 'No paintings found for the given name!', 'status': 404})
 
-    return jsonify({'paintings': parse_json(paintings), 'status': 200})
+    return jsonify({'paintings': parse_json(paintings), 'status': 200})'''
 
 @app.route('/getPaintingsByArtColl', methods=['GET'])
 def getPaintingsByArtColl():
