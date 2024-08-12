@@ -17,73 +17,69 @@ const loggedIn = localStorage.getItem("LoggedUser");
 
 function SignUp() {
   const navigate = useNavigate();
+
+  const [invalidUsername, setInvalidUsername] = useState(
+    LoginResult.correctField
+  );
+  const [invalidPassword, setInvalidPassword] = useState(
+    LoginResult.correctField
+  );
   const [showAlert, setShowAlert] = useState(false);
-  const [invalidPs, SetInvPs] = useState(LoginResult.correctField);
-  const [invalidUs, SetInvUs] = useState(LoginResult.correctField);
-  const [invalidName, SetInvName] = useState(LoginResult.correctField);
-  const [invalidSurn, SetInvSurn] = useState(LoginResult.correctField);
-  const [invalidCopyPs, SetInvCopyPs] = useState(LoginResult.correctField);
+  const [invalidName, setInvalidName] = useState(LoginResult.correctField);
+  const [invalidCofirmPass, setInvalidCofirmPass] = useState(
+    LoginResult.correctField
+  );
 
   async function SubmitLogin() {
     var checkPassed = true;
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
-    var copyPassword = document.getElementById("copyPassword").value;
-    var name = document.getElementById("name").value;
-    var surname = document.getElementById("surname").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+    var name = document.getElementById("name_surname").value;
 
     if (!username) {
-      SetInvUs(LoginResult.invalidField);
+      setInvalidUsername(LoginResult.invalidField);
       checkPassed = false;
     }
 
     if (!password || password.length < 8) {
-      SetInvPs(LoginResult.invalidField);
+      setInvalidPassword(LoginResult.invalidField);
       checkPassed = false;
     }
 
-    if (!copyPassword) {
-      SetInvCopyPs(LoginResult.invalidField);
+    if (!confirmPassword) {
+      setInvalidCofirmPass(LoginResult.invalidField);
       checkPassed = false;
     }
 
-    if (copyPassword !== password) {
-      SetInvCopyPs(LoginResult.wrongContent);
-      SetInvPs(LoginResult.wrongContent);
+    if (confirmPassword !== password) {
+      setInvalidCofirmPass(LoginResult.wrongContent);
+      setInvalidPassword(LoginResult.wrongContent);
       checkPassed = false;
     }
 
     if (!name) {
-      SetInvName(LoginResult.invalidField);
-      checkPassed = false;
-    }
-
-    if (!surname) {
-      SetInvSurn(LoginResult.invalidField);
+      setInvalidName(LoginResult.invalidField);
       checkPassed = false;
     }
 
     if (!checkPassed) return;
 
     try {
-      // Send a POST request to the /login endpoint of the Flask server
       const response = await axios.post(endpoint, {
         username,
         name,
-        surname,
         password,
       });
 
-      // If the login has been successfully performed, then redirect the user to the login page.
       if (response.status === 200) {
         setShowAlert(true);
       } else if (response.status === 400) {
-        SetInvPs(LoginResult.invalidField);
+        setInvalidPassword(LoginResult.invalidField);
       } else if (response.status === 500) {
         alert(response.message);
       }
     } catch (error) {
-      // Request failed
       console.log("[ERROR] Request failed: " + error);
     }
   }
@@ -94,16 +90,19 @@ function SignUp() {
   }
 
   return (
-    <div className="LoginContainer" style={{ backgroundImage: `url(${image1})` }}>
+    <div
+      className="SignUpContainer"
+      style={{ backgroundImage: `url(${image1})` }}
+    >
       {showAlert && (
         <Alert
           message=""
-          body="Your account has been created successfully."
+          body="Your account has been created successfully"
           type={Alerts.Confirm}
           result={AlertConfirm}
         />
       )}
-      
+
       {loggedIn && <Navigate to="/homepage" />}
 
       {!showAlert && (
@@ -119,16 +118,15 @@ function SignUp() {
             <div className="InputLabels">
               <h5 style={{ textAlign: "left" }}>Username</h5>
             </div>
-            {((invalidUs === LoginResult.invalidField || invalidUs === LoginResult.wrongContent) && (
+            {((invalidUsername === LoginResult.invalidField ||
+              invalidUsername === LoginResult.wrongContent) && (
               <input type="text" id="username" className="InvalidInput" />
-            )) || (
-              <input type="text" id="username" />
-            )}
+            )) || <input type="text" id="username" />}
             <div className="InputLabels">
-              {invalidUs === LoginResult.invalidField && (
+              {invalidUsername === LoginResult.invalidField && (
                 <h5 className="invalidContentMessage">Invalid content!</h5>
               )}
-              {invalidUs === LoginResult.wrongContent && (
+              {invalidUsername === LoginResult.wrongContent && (
                 <h5 className="invalidContentMessage">Wrong username!</h5>
               )}
             </div>
@@ -137,47 +135,35 @@ function SignUp() {
             <div className="InputLabels">
               <h5 style={{ textAlign: "left" }}>Name</h5>
             </div>
-            {((invalidName === LoginResult.invalidField || invalidName === LoginResult.wrongContent) && (
+            {((invalidName === LoginResult.invalidField ||
+              invalidName === LoginResult.wrongContent) && (
               <input type="text" id="name" className="InvalidInput" />
-            )) || (
-              <input type="text" id="name" />
-            )}
+            )) || <input type="text" id="name" />}
             <div className="InputLabels">
               {invalidName === LoginResult.invalidField && (
                 <h5 className="invalidContentMessage">Invalid content!</h5>
               )}
             </div>
           </div>
-          <div className="InputForms">
-            <div className="InputLabels">
-              <h5 style={{ textAlign: "left" }}>Surname</h5>
-            </div>
-            {((invalidSurn === LoginResult.invalidField || invalidSurn === LoginResult.wrongContent) && (
-              <input type="text" id="surname" className="InvalidInput" />
-            )) || (
-              <input type="text" id="surname" />
-            )}
-            <div className="InputLabels">
-              {invalidSurn === LoginResult.invalidField && (
-                <h5 className="invalidContentMessage">Invalid content!</h5>
-              )}
-            </div>
-          </div>
+
           <div className="InputForms">
             <div className="InputLabels">
               <h5 style={{ textAlign: "left" }}>Password</h5>
             </div>
-            {((invalidPs === LoginResult.invalidField || invalidPs === LoginResult.wrongContent) && (
+            {((invalidPassword === LoginResult.invalidField ||
+              invalidPassword === LoginResult.wrongContent) && (
               <input type="password" id="password" className="InvalidInput" />
-            )) || (
-              <input type="password" id="password" />
-            )}
+            )) || <input type="password" id="password" />}
             <div className="InputLabels">
-              {invalidPs === LoginResult.invalidField && (
-                <h5 className="invalidContentMessage">Insert at least 8 characters!</h5>
+              {invalidPassword === LoginResult.invalidField && (
+                <h5 className="invalidContentMessage">
+                  Insert at least 8 characters!
+                </h5>
               )}
-              {invalidPs === LoginResult.wrongContent && (
-                <h5 className="invalidContentMessage">Passwords are different!</h5>
+              {invalidPassword === LoginResult.wrongContent && (
+                <h5 className="invalidContentMessage">
+                  Passwords are different!
+                </h5>
               )}
             </div>
           </div>
@@ -185,17 +171,22 @@ function SignUp() {
             <div className="InputLabels">
               <h5 style={{ textAlign: "left" }}>Confirm Password</h5>
             </div>
-            {((invalidCopyPs === LoginResult.invalidField || invalidCopyPs === LoginResult.wrongContent) && (
-              <input type="password" id="copyPassword" className="InvalidInput" />
-            )) || (
-              <input type="password" id="copyPassword" />
-            )}
+            {((invalidCofirmPass === LoginResult.invalidField ||
+              invalidCofirmPass === LoginResult.wrongContent) && (
+              <input
+                type="password"
+                id="copyPassword"
+                className="InvalidInput"
+              />
+            )) || <input type="password" id="copyPassword" />}
             <div className="InputLabels">
-              {invalidCopyPs === LoginResult.invalidField && (
+              {invalidCofirmPass === LoginResult.invalidField && (
                 <h5 className="invalidContentMessage">Invalid content!</h5>
               )}
-              {invalidCopyPs === LoginResult.wrongContent && (
-                <h5 className="invalidContentMessage">Passwords are different!</h5>
+              {invalidCofirmPass === LoginResult.wrongContent && (
+                <h5 className="invalidContentMessage">
+                  Passwords are different!
+                </h5>
               )}
             </div>
           </div>

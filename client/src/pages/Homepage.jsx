@@ -9,7 +9,7 @@ function Homepage() {
   return (
     <>
       <Navbar />
-      <h1>Homepage working</h1>
+     
     </>
   );
 }

@@ -24,7 +24,7 @@ function Alert(props) {
   return (
     <div className="Alert">
       <div className="MessageBubble">
-        <h2>{props.body} ✔ </h2>
+        <h2>{props.body}</h2>
         <div className="Buttons">
           {props.type === Alerts.AskConfirmation && (
             <>
