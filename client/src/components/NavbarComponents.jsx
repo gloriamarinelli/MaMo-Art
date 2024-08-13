@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import image from "../images/MaMo.png";
 import "bootstrap/dist/css/bootstrap.css";
 
 function Navbar() {
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("LoggedUser");
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
   return (
     <>
       <nav
@@ -43,6 +51,13 @@ function Navbar() {
               <a class="nav-link" style={{ color: "black" }} href="#">
                 Account
               </a>
+            </li>
+          </ul>
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <span className="nav-link" style={{ color: "black", marginLeft: "1000px" }}>
+                {username ? `Welcome, ${username}` : "Welcome, Guest"}
+              </span>
             </li>
           </ul>
         </div>
