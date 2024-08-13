@@ -93,7 +93,7 @@ def deleteAccount():
 
     return jsonify({'message':'Account successfully deleted!', 'status':200})
 
-#GetPaintings base, torna tutti i paintings
+########### getPaintings, torna i paintings senza uso di strutture (no index, ...)
 
 @app.route('/getPaintings', methods=['GET'])
 def getPaintings():
@@ -109,36 +109,62 @@ def getPaintings():
 
     return jsonify({'paintings':paintings, 'status':200})
 
+########### getPaintingsByIndex, torna i paintings con PARAM = ID usando l'index
+
+@app.route('/getPaintingsByIndex', methods=['GET'])
+def getPaintingsByIndex():
+    paintings_coll = db['paintings']
+
+    # Create a dense secondary non-unique sorted index
+    paintings_coll.create_index([('id', ASCENDING)], name='id_index')
+
+    id = request.args.get('id')
+    
+    if not id:
+        return jsonify({'message': 'Id query parameter is missing!', 'status': 400})
+    
+    query = {'id': {'$regex': id, '$options': 'i'}}
+    
+    # Find and sort the documents by 'name' field in ascending order
+    paintings = list(paintings_coll.find(query).sort('id', ASCENDING))
+    
+    if not paintings:
+        return jsonify({'message': 'No paintings found for the given id!', 'status': 404})
+
+    # Convert ObjectId to string in each document
+    paintings = [serializeDocument(doc) for doc in paintings]
+
+    return jsonify({'paintings': paintings, 'status': 200})
+
 
 def serializeDocument(doc):
     if '_id' in doc:
         doc['_id'] = str(doc['_id'])
     return doc
 
-########### GetPaintingsByTitle, torna i paitings dato il title ##########
+########### getPaintingsByTitle, torna i paintings con PARAM = TITLE senza uso di strutture (no index, ...)
 
 @app.route('/getPaintingsByTitle', methods=['GET'])
 def getPaintingsByTitle():
     title = request.args.get('title')
     
     if not title:
-        return jsonify({'message': 'Department query parameter is missing!', 'status': 400})
+        return jsonify({'message': 'Title query parameter is missing!', 'status': 400})
     
     paintings_coll = db['paintings']
-    query = {'department': {'$regex': title, '$options': 'i'}}
+    query = {'title': {'$regex': title, '$options': 'i'}}
     paintings = list(paintings_coll.find(query))
 
     if not paintings:
-        return jsonify({'message': 'No paintings found for the given department!', 'status': 404})
+        return jsonify({'message': 'No paintings found for the given title!', 'status': 404})
 
     return jsonify({'paintings': parse_json(paintings), 'status': 200})
 
-########### getPaintingsForTitleByIndex, torna i paitings dato il title usando l'index ##########
+########### getPaintingsTitleByIndex, torna i paintings con PARAM = TITLE usando l'index
 
-@app.route('/getPaintingsForTitleByIndex', methods=['GET'])
-def getPaintingsForTitleByIndex():
+@app.route('/getPaintingsTitleByIndex', methods=['GET'])
+def getPaintingsTitleByIndex():
     paintings_coll = db['paintings']
-
 
     # Create a dense secondary non-unique sorted index
     paintings_coll.create_index([('title', ASCENDING)], name='title_index')
@@ -161,12 +187,11 @@ def getPaintingsForTitleByIndex():
 
     return jsonify({'paintings': paintings, 'status': 200})
 
-########### getPaintingsForDepByIndex, torna i paitings dato il department usando l'index ##########
+########### getPaintingsByDepByIndex, torna i paintings con PARAM = DEPARTMENT usando l'index
 
-@app.route('/getPaintingsForDepByIndex', methods=['GET'])
-def getPaintingsForDepByIndex():
+@app.route('/getPaintingsByDepByIndex', methods=['GET'])
+def getPaintingsByDepByIndex():
     paintings_coll = db['paintings']
-
 
     # Create a dense secondary non-unique sorted index
     paintings_coll.create_index([('department', ASCENDING)], name='dep_index')
@@ -189,7 +214,7 @@ def getPaintingsForDepByIndex():
 
     return jsonify({'paintings': paintings, 'status': 200})
 
-########### getPaintingsByDep, torna i paitings dato il department ##########
+########### getPaintingsByDep, torna i paintings con PARAM = DEPARTMENT senza uso di strutture (no index, ...)
        
 @app.route('/getPaintingsByDep', methods=['GET'])
 def getPaintingsByDep():
@@ -207,10 +232,10 @@ def getPaintingsByDep():
 
     return jsonify({'paintings': parse_json(paintings), 'status': 200})
 
-########### getPaintingsByArt, torna i paitings dato il name usando l'index ##########
+########### getPaintingsByArtist, torna i paintings con PARAM = NAME senza uso di strutture (no index, ...)
 
-@app.route('/getPaintingsByArt', methods=['GET'])
-def getPaintingsByArt():
+@app.route('/getPaintingsByArtist', methods=['GET'])
+def getPaintingsByArtist():
     name = request.args.get('name')
     
     if not name:
@@ -225,12 +250,11 @@ def getPaintingsByArt():
 
     return jsonify({'paintings': parse_json(paintings), 'status': 200})
 
-########### getPaintingsForNameByIndex, torna i paitings dato il name usando l'index ##########
+########### getPaintingsByArtistByIndex, torna i paintings con PARAM = NAME usando l'index
 
-@app.route('/getPaintingsForNameByIndex', methods=['GET'])
-def getPaintingsForNameByIndex():
+@app.route('/getPaintingsByArtistByIndex', methods=['GET'])
+def getPaintingsByArtistByIndex():
     paintings_coll = db['paintings']
-
 
     # Create a dense secondary non-unique sorted index
     paintings_coll.create_index([('name', ASCENDING)], name='name_index')
@@ -253,7 +277,7 @@ def getPaintingsForNameByIndex():
 
     return jsonify({'paintings': paintings, 'status': 200})
 
-@app.route('/getPaintingsByArtColl', methods=['GET'])
+'''@app.route('/getPaintingsByArtColl', methods=['GET'])
 def getPaintingsByArtColl():
     name = request.args.get('name')
     
@@ -284,7 +308,7 @@ def getPaintingsByArtColl():
     if not paintings:
         return jsonify({'message': 'No paintings found in the matching collections!', 'status': 404})
     
-    return jsonify({'paintings': paintings, 'status': 200})
+    return jsonify({'paintings': paintings, 'status': 200})'''
 
 def parse_json(data):
     return json.loads(json_util.dumps(data))

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavbarComponents";
 import { CircularProgress } from "@mui/material";
 import defaultImage from "../images/defaultPaint.png";
@@ -13,6 +14,7 @@ function Homepage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPaintings = async () => {
@@ -43,12 +45,16 @@ function Homepage() {
     setCurrentPage(page);
   };
 
+  const handleTitleClick = (painting) => {
+    navigate(`/painting?id=${painting.id}`, { state: { painting } });
+  };
+
   return (
     <>
       <Navbar />
       <div>
         <h1>Welcome to the MaMoArt Paintings!</h1>
-        <hr></hr>
+        <hr />
         {loading && (
           <CircularProgress
             style={{
@@ -76,7 +82,11 @@ function Homepage() {
                     />
                   </div>
                   <div className="description">
-                    <a className="underline" style={{ textDecoration: "none" }}>
+                    <a
+                      className="underline"
+                      style={{ textDecoration: "none" }}
+                      onClick={() => handleTitleClick(painting)}
+                    >
                       <p
                         style={{
                           fontFamily: "Fira Sans Extra Condensed, sans-serif",

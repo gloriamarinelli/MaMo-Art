@@ -4,6 +4,7 @@ import './App.css';
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import PaintingDetails from "./pages/PaintingDetails";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/homepage" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
+          <Route path="/homepage/paintingDetails?:id" element={<PaintingDetails />} />
         </Routes>
       </BrowserRouter>
     </div>
