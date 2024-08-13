@@ -15,7 +15,7 @@ function App() {
           <Route path="/homepage" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
-          <Route path="/homepage/paintingDetails?:id" element={<PaintingDetails />} />
+          <Route path="/homepage/paintingDetails/:id" element={<PaintingDetails />} /> 
         </Routes>
       </BrowserRouter>
     </div>

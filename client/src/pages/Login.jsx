@@ -47,6 +47,7 @@ function Login() {
       if (response.data.status === 200) {
         setLogoutTimeout();
         navigate("/homepage");
+        localStorage.setItem("LoggedUser", username); 
         window.location.replace(window.location.href);
       } else if (response.data.status === 400 || response.data.status === 404) {
         setInvalidPassword(LoginResult.wrongContent);

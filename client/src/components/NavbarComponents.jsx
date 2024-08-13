@@ -5,7 +5,10 @@ import "bootstrap/dist/css/bootstrap.css";
 function Navbar() {
   return (
     <>
-      <nav style={{backgroundColor: "rgba(255, 127, 80, 0.9)" }}class="navbar navbar-expand-lg ">
+      <nav
+        style={{ backgroundColor: "rgba(255, 127, 80, 0.9)" }}
+        class="navbar navbar-expand-lg "
+      >
         <img
           src={image}
           width="100"
@@ -25,23 +28,22 @@ function Navbar() {
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav" style={{fontWeight: "bold"}}>
+          <ul class="navbar-nav" style={{ fontWeight: "bold" }}>
             <li class="nav-item active">
-              <a class="nav-link" style={{color: "black"}} href="/homepage">
-                Home 
+              <a class="nav-link" style={{ color: "black" }} href="/homepage">
+                Home
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" style={{color: "black"}} href="#">
-              Orders
+              <a class="nav-link" style={{ color: "black" }} href="#">
+                Orders
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" style={{color: "black"}} href="#">
-                 Account
+              <a class="nav-link" style={{ color: "black" }} href="#">
+                Account
               </a>
             </li>
-           
           </ul>
         </div>
       </nav>

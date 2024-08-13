@@ -93,6 +93,9 @@ def deleteAccount():
 
     return jsonify({'message':'Account successfully deleted!', 'status':200})
 
+
+
+
 ########### getPaintings, torna i paintings senza uso di strutture (no index, ...)
 
 @app.route('/getPaintings', methods=['GET'])
@@ -123,7 +126,7 @@ def getPaintingsByIndex():
     if not id:
         return jsonify({'message': 'Id query parameter is missing!', 'status': 400})
     
-    query = {'id': {'$regex': id, '$options': 'i'}}
+    query = {'id': id}
     
     # Find and sort the documents by 'name' field in ascending order
     paintings = list(paintings_coll.find(query).sort('id', ASCENDING))

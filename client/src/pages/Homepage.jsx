@@ -45,8 +45,8 @@ function Homepage() {
     setCurrentPage(page);
   };
 
-  const handleTitleClick = (painting) => {
-    navigate(`/painting?id=${painting.id}`, { state: { painting } });
+  const handleTitleClick = (id) => {
+    navigate(`/homepage/paintingDetails/${id}`); // Correct path format
   };
 
   return (
@@ -82,21 +82,27 @@ function Homepage() {
                     />
                   </div>
                   <div className="description">
-                    <a
+                    <button
                       className="underline"
-                      style={{ textDecoration: "none" }}
-                      onClick={() => handleTitleClick(painting)}
+                      style={{
+                        textDecoration: "none",
+                        border: "none",
+                        background: "none",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleTitleClick(painting.id)}
                     >
                       <p
                         style={{
                           fontFamily: "Fira Sans Extra Condensed, sans-serif",
                           textTransform: "uppercase",
                           color: "#ff7f50",
+                          margin: 0,
                         }}
                       >
                         "{painting.title}"
                       </p>
-                    </a>
+                    </button>
                     <p
                       style={{
                         fontFamily: "Fira Sans Extra Condensed, sans-serif",
