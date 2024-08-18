@@ -35,7 +35,7 @@ function SignUp() {
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
     var confirmPassword = document.getElementById("confirmPassword").value;
-    var name = document.getElementById("name_surname").value;
+    var name = document.getElementById("name").value;
 
     if (!username) {
       setInvalidUsername(LoginResult.invalidField);
