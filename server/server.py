@@ -128,8 +128,6 @@ def getPaintingsFilter():
 
     return jsonify({'paintings': paintings, 'status': 200})
 
-
-
 ########### getPaintings, torna i paintings senza uso di strutture (no index, ...)
 
 @app.route('/getPaintings', methods=['GET'])
