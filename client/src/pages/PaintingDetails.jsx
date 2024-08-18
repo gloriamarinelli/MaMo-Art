@@ -96,9 +96,13 @@ function PaintingDetails() {
         </p>
       </div>
 
+      
+
       <div>
         <button
         //onClick={() => handlePageChange(currentPage - 1)}
+        //disabled={currentPage === 1}
+      
         >
           Add to the cart
         </button>
