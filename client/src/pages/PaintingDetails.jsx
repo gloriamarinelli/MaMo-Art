@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/NavbarComponents";
-import { CircularProgress } from "@mui/material";
+import {
+  CircularProgress,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Typography,
+} from "@mui/material";
 
 const endpoint = "http://localhost:5000";
 
@@ -41,72 +48,77 @@ function PaintingDetails() {
     );
   }
 
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
     <>
       <Navbar />
-      <div>
-        <h1>{painting.title}</h1>
-        <p>
-          <strong>Name:</strong> {painting.name}
-        </p>
-        <p>
-          <strong>Date:</strong> {painting.date}
-        </p>
-        <p>
-          <strong>Medium:</strong> {painting.medium}
-        </p>
-        <p>
-          <strong>Dimensions:</strong> {painting.dimensions}
-        </p>
-        <p>
-          <strong>Acquisition Date:</strong> {painting.acquisition_date}
-        </p>
-        <p>
-          <strong>Credit:</strong> {painting.credit}
-        </p>
-        <p>
-          <strong>Catalogue:</strong> {painting.catalogue}
-        </p>
-        <p>
-          <strong>Department:</strong> {painting.department}
-        </p>
-        <p>
-          <strong>Classification:</strong> {painting.classification}
-        </p>
-        <p>
-          <strong>Diameter (cm):</strong> {painting.diameter}
-        </p>
-        <p>
-          <strong>Circumference (cm):</strong> {painting.circumference}
-        </p>
-        <p>
-          <strong>Height (cm):</strong> {painting.height}
-        </p>
-        <p>
-          <strong>Length (cm):</strong> {painting.length}
-        </p>
-        <p>
-          <strong>Width (cm):</strong> {painting.width}
-        </p>
-        <p>
-          <strong>Depth (cm):</strong> {painting.depth}
-        </p>
-        <p>
-          <strong>Weight (kg):</strong> {painting.weight}
-        </p>
-      </div>
-
-      
-
-      <div>
-        <button
-        //onClick={() => handlePageChange(currentPage - 1)}
-        //disabled={currentPage === 1}
-      
-        >
-          Add to the cart
-        </button>
-      </div>
+      <Card style={{ maxWidth: 600, margin: "20px auto", padding: "20px" }}>
+        <h1 style={{ fontWeight: "bold", color: "#ff7f50" }} gutterBottom>
+          {painting.title}
+        </h1>
+        <CardContent style={{ textAlign: "left" }}>
+          <Typography variant="body1">
+            <strong>Name:</strong> {painting.name}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Date:</strong> {painting.date}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Medium:</strong> {painting.medium}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Dimensions:</strong> {painting.dimensions}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Acquisition Date:</strong> {painting.acquisition_date}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Credit:</strong> {painting.credit}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Catalogue:</strong> {painting.catalogue}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Department:</strong> {painting.department}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Classification:</strong> {painting.classification}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Diameter (cm):</strong> {painting.diameter}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Circumference (cm):</strong> {painting.circumference}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Height (cm):</strong> {painting.height}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Length (cm):</strong> {painting.length}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Width (cm):</strong> {painting.width}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Depth (cm):</strong> {painting.depth}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Weight (kg):</strong> {painting.weight}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <div>
+            <button
+            //onClick={() => handlePageChange(currentPage - 1)}
+            >
+              ADD TO CART
+            </button>
+          </div>
+        </CardActions>
+      </Card>
     </>
   );
 }
