@@ -18,24 +18,19 @@ const loggedIn = localStorage.getItem("LoggedUser");
 function SignUp() {
   const navigate = useNavigate();
 
-  const [invalidUsername, setInvalidUsername] = useState(
-    LoginResult.correctField
-  );
-  const [invalidPassword, setInvalidPassword] = useState(
-    LoginResult.correctField
-  );
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  
+  const [invalidUsername, setInvalidUsername] = useState(LoginResult.correctField);
+  const [invalidPassword, setInvalidPassword] = useState(LoginResult.correctField);
   const [showAlert, setShowAlert] = useState(false);
   const [invalidName, setInvalidName] = useState(LoginResult.correctField);
-  const [invalidCofirmPass, setInvalidCofirmPass] = useState(
-    LoginResult.correctField
-  );
+  const [invalidConfirmPass, setInvalidConfirmPass] = useState(LoginResult.correctField);
 
   async function SubmitLogin() {
     var checkPassed = true;
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-    var confirmPassword = document.getElementById("confirmPassword").value;
-    var name = document.getElementById("name").value;
 
     if (!username) {
       setInvalidUsername(LoginResult.invalidField);
@@ -48,12 +43,12 @@ function SignUp() {
     }
 
     if (!confirmPassword) {
-      setInvalidCofirmPass(LoginResult.invalidField);
+      setInvalidConfirmPass(LoginResult.invalidField);
       checkPassed = false;
     }
 
     if (confirmPassword !== password) {
-      setInvalidCofirmPass(LoginResult.wrongContent);
+      setInvalidConfirmPass(LoginResult.wrongContent);
       setInvalidPassword(LoginResult.wrongContent);
       checkPassed = false;
     }
@@ -90,10 +85,7 @@ function SignUp() {
   }
 
   return (
-    <div
-      className="SignUpContainer"
-      style={{ backgroundImage: `url(${image1})` }}
-    >
+    <div className="SignUpContainer" style={{ backgroundImage: `url(${image1})` }}>
       {showAlert && (
         <Alert
           message=""
@@ -118,10 +110,13 @@ function SignUp() {
             <div className="InputLabels">
               <h5 style={{ textAlign: "left" }}>Username</h5>
             </div>
-            {((invalidUsername === LoginResult.invalidField ||
-              invalidUsername === LoginResult.wrongContent) && (
-              <input type="text" id="username" className="InvalidInput" />
-            )) || <input type="text" id="username" />}
+            <input
+              type="text"
+              id="username"
+              className={invalidUsername ? "InvalidInput" : ""}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
             <div className="InputLabels">
               {invalidUsername === LoginResult.invalidField && (
                 <h5 className="invalidContentMessage">Invalid content!</h5>
@@ -135,10 +130,13 @@ function SignUp() {
             <div className="InputLabels">
               <h5 style={{ textAlign: "left" }}>Name</h5>
             </div>
-            {((invalidName === LoginResult.invalidField ||
-              invalidName === LoginResult.wrongContent) && (
-              <input type="text" id="name" className="InvalidInput" />
-            )) || <input type="text" id="name" />}
+            <input
+              type="text"
+              id="name"
+              className={invalidName ? "InvalidInput" : ""}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
             <div className="InputLabels">
               {invalidName === LoginResult.invalidField && (
                 <h5 className="invalidContentMessage">Invalid content!</h5>
@@ -150,20 +148,19 @@ function SignUp() {
             <div className="InputLabels">
               <h5 style={{ textAlign: "left" }}>Password</h5>
             </div>
-            {((invalidPassword === LoginResult.invalidField ||
-              invalidPassword === LoginResult.wrongContent) && (
-              <input type="password" id="password" className="InvalidInput" />
-            )) || <input type="password" id="password" />}
+            <input
+              type="password"
+              id="password"
+              className={invalidPassword ? "InvalidInput" : ""}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <div className="InputLabels">
               {invalidPassword === LoginResult.invalidField && (
-                <h5 className="invalidContentMessage">
-                  Insert at least 8 characters!
-                </h5>
+                <h5 className="invalidContentMessage">Insert at least 8 characters!</h5>
               )}
               {invalidPassword === LoginResult.wrongContent && (
-                <h5 className="invalidContentMessage">
-                  Passwords are different!
-                </h5>
+                <h5 className="invalidContentMessage">Passwords are different!</h5>
               )}
             </div>
           </div>
@@ -171,22 +168,19 @@ function SignUp() {
             <div className="InputLabels">
               <h5 style={{ textAlign: "left" }}>Confirm Password</h5>
             </div>
-            {((invalidCofirmPass === LoginResult.invalidField ||
-              invalidCofirmPass === LoginResult.wrongContent) && (
-              <input
-                type="password"
-                id="copyPassword"
-                className="InvalidInput"
-              />
-            )) || <input type="password" id="copyPassword" />}
+            <input
+              type="password"
+              id="confirmPassword"
+              className={invalidConfirmPass ? "InvalidInput" : ""}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
             <div className="InputLabels">
-              {invalidCofirmPass === LoginResult.invalidField && (
+              {invalidConfirmPass === LoginResult.invalidField && (
                 <h5 className="invalidContentMessage">Invalid content!</h5>
               )}
-              {invalidCofirmPass === LoginResult.wrongContent && (
-                <h5 className="invalidContentMessage">
-                  Passwords are different!
-                </h5>
+              {invalidConfirmPass === LoginResult.wrongContent && (
+                <h5 className="invalidContentMessage">Passwords are different!</h5>
               )}
             </div>
           </div>
