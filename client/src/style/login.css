@@ -7,9 +7,10 @@
 
 .SignUpContainer {
   display: flex;
-  height: auto;
   align-items: center;
   justify-content: center;
+  height: 100vh;
+
 }
 
 .Logo {

@@ -11,21 +11,22 @@ function Navbar() {
       setUsername(storedUsername);
     }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("LoggedUser");
+    setUsername("");
+    window.location.href = "/login";
+  };
+
   return (
     <>
       <nav
         style={{ backgroundColor: "rgba(255, 127, 80, 0.9)" }}
-        class="navbar navbar-expand-lg "
+        className="navbar navbar-expand-lg"
       >
-        <img
-          src={image}
-          width="100"
-          height="100"
-          margin-left="200px"
-          alt=""
-        ></img>{" "}
+        <img src={image} width="100" height="100" marginLeft="200px" alt="" />
         <button
-          class="navbar-toggler"
+          className="navbar-toggler"
           type="button"
           data-toggle="collapse"
           data-target="#navbarNav"
@@ -33,29 +34,47 @@ function Navbar() {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav" style={{ fontWeight: "bold" }}>
-            <li class="nav-item active">
-              <a class="nav-link" style={{ color: "black" }} href="/homepage">
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav" style={{ fontWeight: "bold" }}>
+            <li className="nav-item active">
+              <a
+                className="nav-link"
+                style={{ color: "black" }}
+                href="/homepage"
+              >
                 Home
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" style={{ color: "black" }} href="#">
+            <li className="nav-item">
+              <a className="nav-link" style={{ color: "black" }} href="#">
                 Orders
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" style={{ color: "black" }} href="#">
+            <li className="nav-item">
+              <a className="nav-link" style={{ color: "black" }} href="#">
                 Account
               </a>
             </li>
+            {username && (
+              <li className="nav-item">
+                <button
+                  className="nav-link"
+                  style={{ color: "#c0392b" }}
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </li>
+            )}
           </ul>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <span className="nav-link" style={{ color: "black", marginLeft: "1000px" }}>
+              <span
+                className="nav-link"
+                style={{ color: "black", marginLeft: "1000px" }}
+              >
                 {username ? `Welcome, ${username}` : "Welcome, Guest"}
               </span>
             </li>

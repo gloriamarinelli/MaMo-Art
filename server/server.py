@@ -39,11 +39,10 @@ def register():
     
     username = data['username']
     name = data['name']
-    surname = data['surname']
     password = data['password']
     
     user_coll = db['user']
-    new_user = {'username':username, 'name':name, 'surname':surname,'password':password}
+    new_user = {'username':username, 'name':name, 'password':password}
     
     # Check username
     for elem in user_coll.find():
