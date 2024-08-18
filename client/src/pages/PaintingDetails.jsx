@@ -52,12 +52,17 @@ function PaintingDetails() {
     return <p>{error}</p>;
   }
 
+  function formatDate(date) {
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString();
+  }
+
   return (
     <>
       <Navbar />
       <Card style={{ maxWidth: 600, margin: "20px auto", padding: "20px" }}>
-        <h1 style={{ fontWeight: "bold", color: "#ff7f50" }} gutterBottom>
-          {painting.title}
+        <h1 style={{ fontWeight: "bold", color: "#ff7f50" }}>
+          "{painting.title}"
         </h1>
         <CardContent style={{ textAlign: "left" }}>
           <Typography variant="body1">
@@ -73,7 +78,8 @@ function PaintingDetails() {
             <strong>Dimensions:</strong> {painting.dimensions}
           </Typography>
           <Typography variant="body1">
-            <strong>Acquisition Date:</strong> {painting.acquisition_date}
+            <strong>Acquisition Date:</strong>{" "}
+            {formatDate(painting.acquisition_date)}
           </Typography>
           <Typography variant="body1">
             <strong>Credit:</strong> {painting.credit}

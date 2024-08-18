@@ -59,13 +59,14 @@ function Navbar() {
             </li>
             {username && (
               <li className="nav-item">
-                <button
+                <a
                   className="nav-link"
                   style={{ color: "#c0392b" }}
                   onClick={handleLogout}
+                  href="#"
                 >
                   Logout
-                </button>
+                </a>
               </li>
             )}
           </ul>
