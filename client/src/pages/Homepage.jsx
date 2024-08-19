@@ -2,37 +2,46 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavbarComponents";
-import Select from "react-select"; // Import react-select
-import { CircularProgress } from "@mui/material";
+import Select from "react-select";
+import {
+  CircularProgress,
+  Pagination,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
+} from "@mui/material";
 import defaultImage from "../images/defaultPaint.png";
 import "../style/homepage.css";
 
 const endpoint = "http://localhost:5000";
-const paintingsPerPage = 100;
 
 function Homepage() {
   const [paintings, setPaintings] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchTitle, setSearchTitle] = useState("");
   const [searchArtist, setSearchArtist] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
+
+  const paintingsPerPage = 100;
 
   const paintingsToShow =
     searchTitle || searchArtist || selectedDepartment
       ? searchResults
       : paintings;
-  const indexOfLastPainting = currentPage * paintingsPerPage;
-  const indexOfFirstPainting = indexOfLastPainting - paintingsPerPage;
-  const currentPaintings = paintingsToShow.slice(
-    indexOfFirstPainting,
-    indexOfLastPainting
+  const startIndex = (page - 1) * paintingsPerPage;
+  const endIndex = Math.min(
+    startIndex + paintingsPerPage,
+    paintingsToShow.length
   );
-  const totalPages = Math.ceil(paintingsToShow.length / paintingsPerPage);
+  const currentPaintings = paintingsToShow.slice(startIndex, endIndex);
 
   useEffect(() => {
     const fetchPaintings = async () => {
@@ -40,7 +49,12 @@ function Homepage() {
         setLoading(true);
         const response = await fetch(`${endpoint}/getPaintings`);
         const data = await response.json();
-        setPaintings(data.paintings);
+        if (data.paintings && data.paintings.length > 0) {
+          setPaintings(data.paintings);
+          setTotalPages(Math.ceil(data.paintings.length / paintingsPerPage));
+        } else {
+          setError("No paintings found");
+        }
       } catch (error) {
         setError(error.message);
       } finally {
@@ -96,6 +110,7 @@ function Homepage() {
       const response = await fetch(searchUrl);
       const data = await response.json();
       setSearchResults(data.paintings);
+      setTotalPages(Math.ceil(data.paintings.length / paintingsPerPage));
     } catch (error) {
       setError(error.message);
     } finally {
@@ -105,7 +120,6 @@ function Homepage() {
 
   const handleDepartment = (selectedOption) => {
     setSelectedDepartment(selectedOption);
-    setCurrentPage(1);
     handleSearch();
   };
 
@@ -114,26 +128,24 @@ function Homepage() {
     setSearchArtist("");
     setSelectedDepartment(null);
     setSearchResults([]);
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+    setPage(1);
   };
 
   const handleTitleClick = (id) => {
     navigate(`/homepage/paintingDetails/${id}`);
   };
 
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
   return (
     <>
       <Navbar />
       <div>
-        <h1
-          style={{
-            padding: "40px",
-          }}
-        >
-          Welcome to the MaMoArt Paintings!
+        <h1 style={{ padding: "40px" }}>
+          Welcome to the <span style={{ color: "#ff7f50" }}>MaMo Art</span>{" "}
+          gallery!
         </h1>
         <hr />
         <div
@@ -198,11 +210,10 @@ function Homepage() {
               border: "1px solid #ccc",
             }}
           />
-
           <div
             style={{
               display: "flex",
-              gap: "10px", // Add some space between buttons
+              gap: "10px",
               width: "50%",
             }}
           >
@@ -250,74 +261,73 @@ function Homepage() {
         )}
         {error && <p>Error fetching paintings: {error}</p>}
 
+        {!loading && paintingsToShow.length === 0 && (
+          <b style={{ fontSize: "18px" }}>
+            No paintings found. Try a different search.
+          </b>
+        )}
+
         {!loading && !error && (
           <div>
-            <div className="paintings-grid">
-              {currentPaintings.map((painting) => (
-                <div
-                  className="blog-card"
-                  key={painting.id}
-                  style={{ width: "100%" }}
-                >
-                  <div className="meta">
-                    <img
-                      src={defaultImage}
+            <Grid container spacing={2} justifyContent="center">
+              {currentPaintings.map((painting, index) => (
+                <Grid item xs={12} sm={6} md={4} key={startIndex + index}>
+                  <Card
+                    sx={{
+                      width: "80%",
+                      cursor: "pointer",
+                      marginLeft: "30px",
+                      marginTop: "10px",
+                    }}
+                    onClick={() => handleTitleClick(painting.id)}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="100"
+                      image={defaultImage}
                       alt={painting.title}
-                      height="100px"
+                      sx={{ objectFit: "contain" }}
                     />
-                  </div>
-                  <div className="description">
-                    <button
-                      className="underline"
-                      style={{
-                        textDecoration: "none",
-                        border: "none",
-                        background: "none",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => handleTitleClick(painting.id)}
-                    >
-                      <p
-                        style={{
+                    <CardContent>
+                      <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{
+                          color: "#ff7f50",
                           fontFamily: "Fira Sans Extra Condensed, sans-serif",
                           textTransform: "uppercase",
-                          color: "#ff7f50",
-                          margin: 0,
+                          mb: 1,
+                          fontSize: "15px",
                         }}
                       >
                         "{painting.title}"
-                      </p>
-                    </button>
-                    <p
-                      style={{
-                        fontFamily: "Fira Sans Extra Condensed, sans-serif",
-                      }}
-                    >
-                      {painting.name}
-                    </p>
-                  </div>
-                </div>
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                          fontFamily: "Fira Sans Extra Condensed, sans-serif",
+                        }}
+                      >
+                        {painting.name}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
               ))}
-            </div>
+            </Grid>
 
-            <div>
-              <button
-                disabled={currentPage === 1}
-                onClick={() => handlePageChange(currentPage - 1)}
-              >
-                Previous
-              </button>
-              <span>
-                {" "}
-                Page {currentPage} of {totalPages}{" "}
-              </span>
-              <button
-                disabled={currentPage === totalPages}
-                onClick={() => handlePageChange(currentPage + 1)}
-              >
-                Next
-              </button>
-            </div>
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={handlePageChange}
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "20px",
+              }}
+            />
           </div>
         )}
       </div>

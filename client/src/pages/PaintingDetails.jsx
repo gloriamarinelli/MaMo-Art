@@ -77,53 +77,53 @@ function PaintingDetails() {
           </h1>
           <CardContent style={{ textAlign: "left" }}>
             <Typography variant="body1">
-              <strong>Name:</strong> {painting.name}
+              <strong>Name:</strong> {painting.name || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Date:</strong> {painting.date}
+              <strong>Date:</strong> {painting.date || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Medium:</strong> {painting.medium}
+              <strong>Medium:</strong> {painting.medium || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Dimensions:</strong> {painting.dimensions}
+              <strong>Dimensions:</strong> {painting.dimensions || "N/A"}
             </Typography>
             <Typography variant="body1">
               <strong>Acquisition Date:</strong>{" "}
-              {formatDate(painting.acquisition_date)}
+              {formatDate(painting.acquisition_date) || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Credit:</strong> {painting.credit}
+              <strong>Credit:</strong> {painting.credit || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Catalogue:</strong> {painting.catalogue}
+              <strong>Catalogue:</strong> {painting.catalogue || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Department:</strong> {painting.department}
+              <strong>Department:</strong> {painting.department|| "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Classification:</strong> {painting.classification}
+              <strong>Classification:</strong> {painting.classification|| "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Diameter (cm):</strong> {painting.diameter}
+              <strong>Diameter (cm):</strong> {painting.diameter|| "N/A"}
             </Typography>
             <Typography variant="body1">
               <strong>Circumference (cm):</strong> {painting.circumference}
             </Typography>
             <Typography variant="body1">
-              <strong>Height (cm):</strong> {painting.height}
+              <strong>Height (cm):</strong> {painting.height|| "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Length (cm):</strong> {painting.length}
+              <strong>Length (cm):</strong> {painting.length|| "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Width (cm):</strong> {painting.width}
+              <strong>Width (cm):</strong> {painting.width|| "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Depth (cm):</strong> {painting.depth}
+              <strong>Depth (cm):</strong> {painting.depth|| "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Weight (kg):</strong> {painting.weight}
+              <strong>Weight (kg):</strong> {painting.weight|| "N/A"}
             </Typography>
           </CardContent>
           <CardActions>

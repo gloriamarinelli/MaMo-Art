@@ -53,8 +53,12 @@ function Navbar() {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" style={{ color: "black" }} href="#">
-                Account
+              <a
+                className="nav-link"
+                style={{ color: "black" }}
+                href="/artists"
+              >
+                Artists
               </a>
             </li>
             {username && (
