@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import PaintingDetails from "./pages/PaintingDetails";
 import Artists from "./pages/Artists";
 import ArtistPaintings from "./pages/ArtistPaintings";
+import Orders from "./pages/Orders";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/artists" element={<Artists />} />
           <Route path="/artist/:artistName" element={<ArtistPaintings />} />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
       </BrowserRouter>
     </div>

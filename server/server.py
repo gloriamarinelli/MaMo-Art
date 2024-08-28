@@ -335,7 +335,7 @@ def getPaintingsArtistByIndex():
 
     return jsonify({"paintings": paintings, "status": 200})
 
-
+########### getArtists, use of the collections (except 'user' and 'paintings' ) in the database 
 @app.route("/getArtists", methods=["GET"])
 def getArtists():
     db = client["MaMo-Art"]
@@ -343,9 +343,9 @@ def getArtists():
     # Get all collections in the database
     collections = db.list_collection_names()
 
-    # Filter out 'user' and 'paintings'
+    # Filter out 'user' and 'paintings' and 'orders' collections
     collections_to_return = [
-        col for col in collections if col not in ["user", "paintings"]
+        col for col in collections if col not in ["user", "paintings", "orders"]
     ]
 
     # Sort the list of artists
@@ -374,8 +374,8 @@ def getArtistsPaintings():
     if not paintings:
         return jsonify({"error": "No paintings found"}), 404
 
-    # Format paintings as a list of dictionaries
-    formatted_paintings = [
+    # list of dictionaries
+    details_painting= [
         {
             "title": p.get("title"),
             "date": p.get("date"),
@@ -399,9 +399,58 @@ def getArtistsPaintings():
         for p in paintings
     ]
 
-    return jsonify({"paintings": formatted_paintings}), 200
+    return jsonify({"paintings": details_painting}), 200
 
+@app.route("/addtocart", methods=["POST"])
+def addtocart():
+    data = request.get_json()
 
+    cart_coll = db["orders"]
+
+    order_id = data.get('order_id')
+    username = data.get('username')
+    artwork_id = data.get('artwork_id')
+    timestamp = datetime.now()
+
+    if not order_id or not username or not artwork_id:
+        return jsonify({"error": "Missing required fields"}), 400
+
+    cart_data = {
+        "order_id": order_id,
+        "username": username,
+        "artwork_id": artwork_id,
+        "timestamp": timestamp
+    }
+
+    result = cart_coll.insert_one(cart_data)
+    
+    return jsonify({"message": "Item added to cart", "cart_id": str(result.inserted_id)}), 201
+
+@app.route("/getUserOrders", methods=["GET"])
+def getUserOrders():
+    username = request.args.get("username")
+
+    if not username:
+        return jsonify({"error": "Missing username parameter"}), 400
+
+    cart_coll = db["orders"]
+
+    cart_coll.create_index([("username", ASCENDING)], name="username_index")
+
+    query = {"username": username}
+
+    orders_details={
+        "order_id": 1,
+        "artwork_id": 1,
+        "timestamp": 1,
+        "_id" :0
+    }
+
+    orders = list(cart_coll.find(query, orders_details).sort("timestamp", DESCENDING))
+  
+    return jsonify({"cart": parse_json(orders)}), 200
+
+   
 def parse_json(data):
     return json.loads(json_util.dumps(data))
 

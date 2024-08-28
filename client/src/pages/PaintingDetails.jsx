@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CardActions,
-  Button,
   Typography,
 } from "@mui/material";
 import image1 from "../images/bg.png";
@@ -41,6 +40,44 @@ function PaintingDetails() {
     fetchPainting();
   }, [id]);
 
+  const handleAddToOrder = async () => {
+    try {
+      const username = localStorage.getItem("LoggedUser");
+      const order_id = generateRandomOrderId();
+
+      const response = await fetch(`${endpoint}/addtocart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          order_id,
+          username,
+          artwork_id: id,
+        }),
+      });
+
+      if (response.ok) {
+        alert("Painting added to orders successfully!");
+      } else {
+        alert("Failed to add painting to cart");
+      }
+    } catch (error) {
+      console.error("Error adding painting to cart", error);
+    }
+  };
+
+  const generateRandomOrderId = () => {
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numbers = Math.floor(Math.random() * 10000000)
+      .toString()
+      .padStart(7, "0");
+    const randomLetters = Array.from({ length: 3 }, () =>
+      letters.charAt(Math.floor(Math.random() * letters.length))
+    ).join(""); 
+    return `${randomLetters}${numbers}`;
+  };
+
   if (loading) {
     return (
       <CircularProgress
@@ -60,7 +97,7 @@ function PaintingDetails() {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       <div
         style={{
           backgroundImage: `url(${image1})`,
@@ -70,7 +107,6 @@ function PaintingDetails() {
           padding: "20px",
         }}
       >
-        
         <Card style={{ maxWidth: 600, margin: "20px auto", padding: "20px" }}>
           <h1 style={{ fontWeight: "bold", color: "#ff7f50" }}>
             "{painting.title}"
@@ -99,40 +135,37 @@ function PaintingDetails() {
               <strong>Catalogue:</strong> {painting.catalogue || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Department:</strong> {painting.department|| "N/A"}
+              <strong>Department:</strong> {painting.department || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Classification:</strong> {painting.classification|| "N/A"}
+              <strong>Classification:</strong>{" "}
+              {painting.classification || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Diameter (cm):</strong> {painting.diameter|| "N/A"}
+              <strong>Diameter (cm):</strong> {painting.diameter || "N/A"}
             </Typography>
             <Typography variant="body1">
               <strong>Circumference (cm):</strong> {painting.circumference}
             </Typography>
             <Typography variant="body1">
-              <strong>Height (cm):</strong> {painting.height|| "N/A"}
+              <strong>Height (cm):</strong> {painting.height || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Length (cm):</strong> {painting.length|| "N/A"}
+              <strong>Length (cm):</strong> {painting.length || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Width (cm):</strong> {painting.width|| "N/A"}
+              <strong>Width (cm):</strong> {painting.width || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Depth (cm):</strong> {painting.depth|| "N/A"}
+              <strong>Depth (cm):</strong> {painting.depth || "N/A"}
             </Typography>
             <Typography variant="body1">
-              <strong>Weight (kg):</strong> {painting.weight|| "N/A"}
+              <strong>Weight (kg):</strong> {painting.weight || "N/A"}
             </Typography>
           </CardContent>
           <CardActions>
             <div>
-              <button
-              //onClick={() => handlePageChange(currentPage - 1)}
-              >
-                ADD TO CART
-              </button>
+              <button onClick={handleAddToOrder}>ADD TO ORDER</button>
             </div>
           </CardActions>
         </Card>
