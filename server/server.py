@@ -8,10 +8,8 @@ from bson import json_util
 import concurrent.futures
 from pymongo import ASCENDING
 
-
 app = Flask(__name__)
 CORS(app)
-
 
 @app.before_request
 def before_request():
@@ -345,14 +343,13 @@ def getArtists():
 
     # Filter out 'user' and 'paintings' and 'orders' collections
     collections_to_return = [
-        col for col in collections if col not in ["user", "paintings", "orders"]
+        col for col in collections if col not in ["user", "paintings", "orders", "artists"]
     ]
 
     # Sort the list of artists
     collections_to_return.sort()
 
     return {"artists": collections_to_return}, 200
-
 
 @app.route("/getArtistsPaintings", methods=["GET"])
 def getArtistsPaintings():

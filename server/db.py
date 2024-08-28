@@ -6,22 +6,21 @@ import pymongo
 client = pymongo.MongoClient('mongodb://localhost:27017')
 db = client['MaMo-Art']
 
+# Replaces spaces followed by a comma ( , ) with just a comma (,)
 def cleanText(text):
     return re.sub(r'\s+,', ',', text)
- 
+
+# Cleans up the name of the collection by: 
+# Removing any extra spaces at the beginning and end
+# Removing all dots from the string
 def clean_collection_name(name):
-    # Rimuovere caratteri non validi per i nomi delle collezioni
     cleaned_name = name.strip().replace('.', '')
     return cleaned_name
-
-"""La funzione clean_collection_name rimuove i caratteri non validi e ora gestisce correttamente i casi in cui il nome potrebbe
-   essere completamente rimosso (diventando una stringa vuota)."""
-
 
 def loadPaintings():
     print("Loading data into the MongoDB database...")
     paintings = []
-    paintings_titles = set()  # Use a set for title uniqueness
+    paintings_titles = set()  
     paintings_right = []
 
     # Read data from the CSV file
