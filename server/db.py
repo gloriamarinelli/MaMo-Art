@@ -10,12 +10,12 @@ db = client['MaMo-Art']
 def cleanText(text):
     return re.sub(r'\s+,', ',', text)
 
-# Cleans up the name of the collection by: 
-# Removing any extra spaces at the beginning and end
-# Removing all dots from the string
+# Cleans up the name of the collection by: # 
+# Removing dots from the string if it is at the end of the string
 def clean_collection_name(name):
-    cleaned_name = name.strip().replace('.', '')
+    cleaned_name = name.strip().rstrip('.')
     return cleaned_name
+
 
 def loadPaintings():
     print("Loading data into the MongoDB database...")
@@ -66,6 +66,7 @@ def loadPaintings():
                 continue
 
             artist_coll = db[cleaned_artist_name]
+
 
             # Create a filter that avoids updating the _id field
             filter = {'title': painting[1]}

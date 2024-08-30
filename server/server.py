@@ -109,10 +109,10 @@ def getPaintingsFilter():
             {"message": "At least one query parameter is required!", "status": 400}
         )
 
-    paintings = list(paintings_coll.find(query).sort("title", ASCENDING))
-    paintings = list(paintings_coll.find(query).sort("department", ASCENDING))
-    paintings = list(paintings_coll.find(query).sort("name", ASCENDING))
-
+    paintings = list(paintings_coll.find(query).sort(
+        [("title", ASCENDING), ("department", ASCENDING), ("name", ASCENDING)]
+    ))
+    
     # Convert ObjectId to string in each document
     paintings = [serializeDocument(doc) for doc in paintings]
 
@@ -397,6 +397,25 @@ def getArtistsPaintings():
     ]
 
     return jsonify({"paintings": details_painting}), 200
+
+@app.route("/getBio", methods=["GET"])
+def getBio():
+    name = request.args.get("name")
+    
+    if not name:
+        return jsonify({"message": "Name parameter is required!", "status": 400})
+    
+    artists_coll = db["artists"]
+    
+    artist = artists_coll.find_one({"name": {"$regex": name, "$options": "i"}})
+    
+    if not artist:
+        return jsonify({"message": "Artist not found!", "status": 404})
+    
+    artist["_id"] = str(artist["_id"])
+    
+    return jsonify({"artist": artist, "status": 200})
+
 
 @app.route("/addtocart", methods=["POST"])
 def addtocart():

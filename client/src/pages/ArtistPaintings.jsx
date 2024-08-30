@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   Typography,
-  Box,
 } from "@mui/material";
 
 const endpoint = "http://localhost:5000";
@@ -15,6 +14,7 @@ const endpoint = "http://localhost:5000";
 function ArtistPaintings() {
   const { artistName } = useParams();
   const [paintings, setPaintings] = useState([]);
+  const [bio, setBio] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -38,6 +38,26 @@ function ArtistPaintings() {
     };
 
     fetchPaintings();
+  }, [artistName]);
+
+  useEffect(() => {
+    const fetchBio = async () => {
+      try {
+        const response = await fetch(`${endpoint}/getBio?name=${artistName}`);
+        const data = await response.json();
+        if (data.artist) {
+          setBio(data.artist);
+        } else {
+          setError(data.error);
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBio();
   }, [artistName]);
 
   if (loading) {
@@ -70,8 +90,47 @@ function ArtistPaintings() {
         </h1>
         <hr />
       </div>
+
       <div style={{ padding: "20px" }}>
         <Grid container spacing={3}>
+          {bio ? (
+            <Grid item xs={12}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h5" gutterBottom>
+                    {bio.name}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    <strong>Nationality:</strong> {bio.nationality || "N/A"}
+                    <br />
+                    <strong>Gender:</strong> {bio.gender || "N/A"}
+                    <br />
+                    <strong>Birth Year:</strong> {bio.birth_year || "N/A"}
+                    <br />
+                    <strong>Death Year:</strong> {bio.death_year || "N/A"}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ) : error ? (
+            <Typography
+              variant="h6"
+              style={{ textAlign: "center", padding: "20px", width: "100%" }}
+            >
+              {error}
+            </Typography>
+          ) : (
+            <Typography
+              variant="h6"
+              style={{ textAlign: "center", padding: "20px", width: "100%" }}
+            >
+              No bio found for{" "}
+              <span style={{ color: "#ff7f50" }}>{artistName}</span>.
+            </Typography>
+          )}
+        </Grid>
+
+        <Grid className="mt-5" container spacing={3}>
           {paintings.map((painting, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Card>
