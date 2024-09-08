@@ -76,11 +76,6 @@ function ArtistPaintings() {
     return <p>{error}</p>;
   }
 
-  function formatDate(date) {
-    const dateObj = new Date(date);
-    return dateObj.toLocaleDateString();
-  }
-
   return (
     <>
       <Navbar />
@@ -130,7 +125,13 @@ function ArtistPaintings() {
           )}
         </Grid>
 
-        <Grid className="mt-5" container spacing={3}>
+        <div style={{ padding: "20px 0", textAlign: "left" }}>
+          <Typography variant="h8">
+            There are <b>{paintings.length}</b> paintings.
+          </Typography>
+        </div>
+
+        <Grid className="mt-2" container spacing={3}>
           {paintings.map((painting, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Card>
@@ -146,7 +147,7 @@ function ArtistPaintings() {
                     <strong>Dimensions:</strong> {painting.dimensions || "N/A"}
                     <br />
                     <strong>Acquisition Date:</strong>{" "}
-                    {formatDate(painting.acquisition_date) || "N/A"}
+                    {painting.acquisition_date || "N/A"}
                     <br />
                     <strong>Credit:</strong> {painting.credit || "N/A"}
                     <br />

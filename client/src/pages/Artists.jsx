@@ -10,6 +10,7 @@ import {
   Pagination,
   CardActions,
   Button,
+  TextField,
   Box,
 } from "@mui/material";
 
@@ -20,7 +21,7 @@ function Artists() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   const artistsPerPage = 100;
@@ -32,7 +33,6 @@ function Artists() {
         const data = await response.json();
         if (data.artists && data.artists.length > 0) {
           setArtists(data.artists);
-          setTotalPages(Math.ceil(data.artists.length / artistsPerPage));
         } else {
           setError("No artists found");
         }
@@ -48,6 +48,11 @@ function Artists() {
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
+  };
+
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+    setPage(1);
   };
 
   const viewPaintings = (artist) => {
@@ -70,9 +75,17 @@ function Artists() {
     return <p>{error}</p>;
   }
 
+  const filteredArtists = artists.filter((artist) =>
+    artist.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredArtists.length / artistsPerPage);
   const startIndex = (page - 1) * artistsPerPage;
-  const endIndex = Math.min(startIndex + artistsPerPage, artists.length);
-  const artistsToDisplay = artists.slice(startIndex, endIndex);
+  const endIndex = Math.min(
+    startIndex + artistsPerPage,
+    filteredArtists.length
+  );
+  const artistsToDisplay = filteredArtists.slice(startIndex, endIndex);
 
   return (
     <>
@@ -83,6 +96,23 @@ function Artists() {
         </h1>
         <hr />
       </div>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "20px",
+        }}
+      >
+        <TextField
+          label="Search for an artist"
+          variant="outlined"
+          value={search}
+          onChange={handleSearch}
+          sx={{ width: "50%" }}
+        />
+      </Box>
+
       <div style={{ padding: "20px" }}>
         <Grid container spacing={3}>
           {artistsToDisplay.map((artist, index) => (

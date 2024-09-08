@@ -26,13 +26,10 @@ def before_request():
 # client = MongoClient('mongodb+srv://user1:rxGIWxHGMKNWWee0@cluster0.gbypuyv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 client = MongoClient("mongodb://localhost:27017/")
 db = client["MaMo-Art"]
-print(client.server_info())
-
 
 @app.route("/")
 def fetch():
     return jsonify({"message": "Server working", "status": 200})
-
 
 @app.route("/register", methods=["POST"])
 def register():
@@ -76,9 +73,9 @@ def login():
         return jsonify({"message": "The user is not registered.", "status": 404})
 
     if user["password"] == password:
-        return jsonify({"message": "Login successful!", "status": 200})
+        return jsonify({"message": "Login was successful.", "status": 200})
 
-    return jsonify({"message": "Wrong username and/or password. ", "status": 400})
+    return jsonify({"message": "ERROR: Wrong username and/or password. ", "status": 400})
 
 
 ########### getPaintingsFilter
@@ -146,7 +143,7 @@ def getPaintingsByIndex():
     id = request.args.get("id")
 
     if not id:
-        return jsonify({"message": "Id query parameter is missing!", "status": 400})
+        return jsonify({"message": "ID query parameter is missing!", "status": 400})
 
     query = {"id": id}
 
@@ -155,7 +152,7 @@ def getPaintingsByIndex():
 
     if not paintings:
         return jsonify(
-            {"message": "No paintings found for the given id!", "status": 404}
+            {"message": "No paintings found for the given ID!", "status": 404}
         )
 
     # Convert ObjectId to string in each document

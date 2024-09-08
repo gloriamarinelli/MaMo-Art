@@ -10,7 +10,7 @@ db = client['MaMo-Art']
 def cleanText(text):
     return re.sub(r'\s+,', ',', text)
 
-# Cleans up the name of the collection by: # 
+# Cleans up the name of the collection by: 
 # Removing dots from the string if it is at the end of the string
 def clean_collection_name(name):
     cleaned_name = name.strip().rstrip('.')
@@ -67,7 +67,6 @@ def loadPaintings():
 
             artist_coll = db[cleaned_artist_name]
 
-
             # Create a filter that avoids updating the _id field
             filter = {'title': painting[1]}
             update = {'$set': {
@@ -81,7 +80,6 @@ def loadPaintings():
             }}
 
             artist_coll.update_one(filter, update, upsert=True)
-
 
         # Calculate and print progress
         progress = (index + 1) / total_paintings * 100
@@ -118,6 +116,13 @@ def loadPaintingsMunch():
 
     # Insert each painting into the collection with progress indicator
     for index, painting in enumerate(paintings_right):
+
+        title = painting[1]
+
+        if paintings_coll.find_one({'title': title}):
+            print(f"Skipping duplicate painting: {title}")
+            continue
+
         new_painting = {
            'id': str(starting_id + index), 'title': painting[1], 'artist_id': "4164",
                 'name': "Edvard Munch", 'date': painting[3], 'medium': painting[5],
@@ -134,7 +139,7 @@ def loadPaintingsMunch():
         progress = (index + 1) / total_paintings * 100
         print(f"Progress: {progress:.2f}%")
 
-    print("Collection 'paintings' loaded successfully.")
+    print("Collection 'paintings of Munch' loaded successfully.")
 
 def loadArtists():
     print("Loading data into the MongoDB database...")
