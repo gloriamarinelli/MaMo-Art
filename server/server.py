@@ -12,6 +12,7 @@ from pymongo import ASCENDING
 app = Flask(__name__)
 CORS(app)
 
+
 @app.before_request
 def before_request():
     if request.method == "OPTIONS":
@@ -28,9 +29,11 @@ def before_request():
 client = MongoClient("mongodb://localhost:27017/")
 db = client["MaMo-Art"]
 
+
 @app.route("/")
 def fetch():
     return jsonify({"message": "Server working", "status": 200})
+
 
 @app.route("/register", methods=["POST"])
 def register():
@@ -76,7 +79,9 @@ def login():
     if user["password"] == password:
         return jsonify({"message": "Login was successful.", "status": 200})
 
-    return jsonify({"message": "ERROR: Wrong username and/or password. ", "status": 400})
+    return jsonify(
+        {"message": "ERROR: Wrong username and/or password. ", "status": 400}
+    )
 
 
 ########### getPaintingsFilter
@@ -107,10 +112,12 @@ def getPaintingsFilter():
             {"message": "At least one query parameter is required!", "status": 400}
         )
 
-    paintings = list(paintings_coll.find(query).sort(
-        [("title", ASCENDING), ("department", ASCENDING), ("name", ASCENDING)]
-    ))
-    
+    paintings = list(
+        paintings_coll.find(query).sort(
+            [("title", ASCENDING), ("department", ASCENDING), ("name", ASCENDING)]
+        )
+    )
+
     # Convert ObjectId to string in each document
     paintings = [serializeDocument(doc) for doc in paintings]
 
@@ -199,7 +206,7 @@ def getPaintingsTitleByIndex():
     title = request.args.get("title")
 
     if not title:
-        return jsonify({"message": "Name query parameter is missing!", "status": 400})
+        return jsonify({"message": "Title query parameter is missing!", "status": 400})
 
     query = {"title": {"$regex": title, "$options": "i"}}
 
@@ -331,7 +338,8 @@ def getPaintingsArtistByIndex():
 
     return jsonify({"paintings": paintings, "status": 200})
 
-########### getArtists, use of the collections (except 'user' and 'paintings' ) in the database 
+
+########### getArtists, use of the collections (except 'user' and 'paintings' ) in the database
 @app.route("/getArtists", methods=["GET"])
 def getArtists():
     db = client["MaMo-Art"]
@@ -341,13 +349,16 @@ def getArtists():
 
     # Filter out 'user' and 'paintings' and 'orders' collections
     collections_to_return = [
-        col for col in collections if col not in ["user", "paintings", "orders", "artists"]
+        col
+        for col in collections
+        if col not in ["user", "paintings", "orders", "artists"]
     ]
 
     # Sort the list of artists
     collections_to_return.sort()
 
     return {"artists": collections_to_return}, 200
+
 
 @app.route("/getArtistsPaintings", methods=["GET"])
 def getArtistsPaintings():
@@ -370,7 +381,7 @@ def getArtistsPaintings():
         return jsonify({"error": "No paintings found"}), 404
 
     # list of dictionaries
-    details_painting= [
+    details_painting = [
         {
             "title": p.get("title"),
             "date": p.get("date"),
@@ -396,22 +407,23 @@ def getArtistsPaintings():
 
     return jsonify({"paintings": details_painting}), 200
 
+
 @app.route("/getBio", methods=["GET"])
 def getBio():
     name = request.args.get("name")
-    
+
     if not name:
         return jsonify({"message": "Name parameter is required!", "status": 400})
-    
+
     artists_coll = db["artists"]
-    
+
     artist = artists_coll.find_one({"name": {"$regex": name, "$options": "i"}})
-    
+
     if not artist:
         return jsonify({"message": "Artist not found!", "status": 404})
-    
+
     artist["_id"] = str(artist["_id"])
-    
+
     return jsonify({"artist": artist, "status": 200})
 
 
@@ -421,9 +433,9 @@ def addtocart():
 
     cart_coll = db["orders"]
 
-    order_id = data.get('order_id')
-    username = data.get('username')
-    artwork_id = data.get('artwork_id')
+    order_id = data.get("order_id")
+    username = data.get("username")
+    artwork_id = data.get("artwork_id")
     timestamp = datetime.now()
 
     if not order_id or not username or not artwork_id:
@@ -433,12 +445,16 @@ def addtocart():
         "order_id": order_id,
         "username": username,
         "artwork_id": artwork_id,
-        "timestamp": timestamp
+        "timestamp": timestamp,
     }
 
     result = cart_coll.insert_one(cart_data)
-    
-    return jsonify({"message": "Item added to cart", "cart_id": str(result.inserted_id)}), 201
+
+    return (
+        jsonify({"message": "Item added to cart", "cart_id": str(result.inserted_id)}),
+        201,
+    )
+
 
 @app.route("/getUserOrders", methods=["GET"])
 def getUserOrders():
@@ -453,45 +469,57 @@ def getUserOrders():
 
     query = {"username": username}
 
-    orders_details={
-        "order_id": 1,
-        "artwork_id": 1,
-        "timestamp": 1,
-        "_id" :0
-    }
+    orders_details = {"order_id": 1, "artwork_id": 1, "timestamp": 1, "_id": 0}
 
     orders = list(cart_coll.find(query, orders_details).sort("timestamp", DESCENDING))
-  
+
     return jsonify({"cart": parse_json(orders)}), 200
 
-   
+
 @app.route("/searchPaintings", methods=["GET"])
 def searchPaintings():
-    # Ottenere l'intervallo di date dall'input dell'utente
-    start_year = request.args.get('start_year', type=int)
-    end_year = request.args.get('end_year', type=int)
-    
-    # Definire il range in cui cercare le date
-    if start_year is None or end_year is None:
-        return jsonify({"message": "Both start_year and end_year are required.", "status": 400})
+    start_year = request.args.get("start_year", type=int)
+    end_year = request.args.get("end_year", type=int)
 
-    # Collezione "paintings"
+    if start_year is None or end_year is None:
+        return jsonify(
+            {"message": "Both start_year and end_year are required.", "status": 400}
+        )
+
     paintings_coll = db["paintings"]
-    
-    # Creare una query per cercare quadri nel range di date
+
     query = {
         "$or": [
-            {"date": {"$regex": r"^\d{4}$", "$gte": str(start_year), "$lte": str(end_year)}},   # Formato xxxx
-            {"date": {"$regex": r"^\d{4}-\d{2}$", "$gte": f"{start_year}-01", "$lte": f"{end_year}-12"}},  # Formato xxxx-xx
-            {"date": {"$regex": r"^\d{4}-\d{4}$", "$gte": f"{start_year}-01", "$lte": f"{end_year}-12"}},  # Formato xxxx-xxxx
+            {
+                "date": {
+                    "$regex": r"^\d{4}$",
+                    "$gte": str(start_year),
+                    "$lte": str(end_year),
+                }
+            },  # Format xxxx
+            {
+                "date": {
+                    "$regex": r"^\d{4}-\d{2}$",
+                    "$gte": f"{start_year}-01",
+                    "$lte": f"{end_year}-12",
+                }
+            },  # Format xxxx-xx
+            {
+                "date": {
+                    "$regex": r"^\d{4}-\d{4}$",
+                    "$gte": f"{start_year}-01",
+                    "$lte": f"{end_year}-12",
+                }
+            },  # Format xxxx-xxxx
         ]
     }
-    
-    # Eseguire la query su MongoDB
-    results = list(paintings_coll.find(query))
-    
-    # Restituire i risultati in formato JSON
+
+    projection = {"title": 1, "date": 1, "_id": 0}
+
+    results = list(paintings_coll.find(query, projection))
+
     return jsonify(json.loads(json_util.dumps(results)))
+
 
 def parse_json(data):
     return json.loads(json_util.dumps(data))
