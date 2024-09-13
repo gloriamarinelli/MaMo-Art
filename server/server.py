@@ -1,4 +1,5 @@
 import json
+import re
 import pymongo
 from pymongo import DESCENDING, MongoClient
 from flask import Flask, jsonify, request
@@ -470,3 +471,32 @@ def parse_json(data):
 
 if __name__ == "__main__":
     app.run(debug=True, host="localhost", port=5000)
+
+
+@app.route("/search_paintings", methods=["GET"])
+def search_paintings():
+    # Ottenere l'intervallo di date dall'input dell'utente
+    start_year = request.args.get('start_year', type=int)
+    end_year = request.args.get('end_year', type=int)
+    
+    # Definire il range in cui cercare le date
+    if start_year is None or end_year is None:
+        return jsonify({"message": "Both start_year and end_year are required.", "status": 400})
+
+    # Collezione "paintings"
+    paintings_coll = db["paintings"]
+    
+    # Creare una query per cercare quadri nel range di date
+    query = {
+        "$or": [
+            {"Date": {"$regex": r"^\d{4}$", "$gte": str(start_year), "$lte": str(end_year)}},   # Formato xxxx
+            {"Date": {"$regex": r"^\d{4}-\d{2}$", "$gte": f"{start_year}-01", "$lte": f"{end_year}-12"}},  # Formato xxxx-xx
+            {"Date": {"$regex": r"^\d{4}-\d{4}$", "$gte": f"{start_year}-01", "$lte": f"{end_year}-12"}},  # Formato xxxx-xxxx
+        ]
+    }
+    
+    # Eseguire la query su MongoDB
+    results = list(paintings_coll.find(query))
+    
+    # Restituire i risultati in formato JSON
+    return jsonify(json.loads(json_util.dumps(results)))
