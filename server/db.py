@@ -88,11 +88,11 @@ def loadPaintings():
     print("Collection 'paintings' loaded successfully.")
 
 def loadPaintingsMunch():
-    print("Loading data into the MongoDB database...")
+    print("Loading Edvard Munch's paintings into the MongoDB database...")
     paintings = []
     paintings_titles = set()  # Use a set for title uniqueness
     paintings_right = []
-    starting_id = 218012
+    starting_id = 218012  # Last +1 id of csv file
 
     # Read data from the CSV file
     with open('./edvard_munch.csv', 'r', encoding='utf-8') as file:
@@ -101,38 +101,49 @@ def loadPaintingsMunch():
             # Clean each field in the row
             cleaned_row = [cleanText(field) for field in row]
             paintings.append(cleaned_row)
-    
-    # Get the MongoDB collection
-    paintings_coll = db['Edvard Munch']
 
-    # Remove duplicates titles
+    # Get the MongoDB collections
+    paintings_coll = db['paintings'] 
+    munch_coll = db['Edvard Munch']  
+
+    # Remove duplicate titles by keeping unique "title", "artist_id", and "name"
     for painting in paintings:
         title = painting[1]
-        if title not in paintings_titles:
-            paintings_titles.add(title)  
+        artist_name = painting[3]  
+
+        # Use a tuple (title, artist_name) for checking duplicates
+        if (title, artist_name) not in paintings_titles:
+            paintings_titles.add((title, artist_name)) 
             paintings_right.append(painting)
-    
+
     total_paintings = len(paintings_right)
 
-    # Insert each painting into the collection with progress indicator
     for index, painting in enumerate(paintings_right):
-
         title = painting[1]
+        artist_id = "4164"  
+        artist_name = "Edvard Munch"  
 
-        if paintings_coll.find_one({'title': title}):
-            print(f"Skipping duplicate painting: {title}")
+        # Check for duplicates in the 'paintings' collection and 'Edvard Munch' collection based on (title, artist_name)
+        existing_in_paintings = paintings_coll.find_one({'title': title, 'name': artist_name})
+        existing_in_munch = munch_coll.find_one({'title': title, 'name': artist_name})
+
+        if existing_in_paintings or existing_in_munch:
+            print(f"Skipping duplicate painting: '{title}' by {artist_name}")
             continue
 
+        # Create the painting document
         new_painting = {
-           'id': str(starting_id + index), 'title': painting[1], 'artist_id': "4164",
-                'name': "Edvard Munch", 'date': painting[3], 'medium': painting[5],
-                'dimensions': painting[6], 'acquisition_date': "",
-                'credit': "", 'catalogue': "", 'department': "",
-                'classification': "", 'diameter': "", 'circumference': "",
-                'height': "", 'length': "", 'width': "",
-                'depth': "", 'weight': ""
+            'id': str(starting_id + index), 'title': painting[1], 'artist_id': artist_id,
+            'name': artist_name, 'date': painting[3], 'medium': painting[5],
+            'dimensions': painting[6], 'acquisition_date': "",
+            'credit': "", 'catalogue': "", 'department': "",
+            'classification': "", 'diameter': "", 'circumference': "",
+            'height': "", 'length': "", 'width': "",
+            'depth': "", 'weight': ""
         }
 
+        # Insert into both collections
+        munch_coll.insert_one(new_painting)
         paintings_coll.insert_one(new_painting)
 
         # Calculate and print progress
@@ -140,6 +151,7 @@ def loadPaintingsMunch():
         print(f"Progress: {progress:.2f}%")
 
     print("Collection 'paintings of Munch' loaded successfully.")
+
 
 def loadArtists():
     print("Loading data into the MongoDB database...")

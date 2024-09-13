@@ -465,16 +465,8 @@ def getUserOrders():
     return jsonify({"cart": parse_json(orders)}), 200
 
    
-def parse_json(data):
-    return json.loads(json_util.dumps(data))
-
-
-if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port=5000)
-
-
-@app.route("/search_paintings", methods=["GET"])
-def search_paintings():
+@app.route("/searchPaintings", methods=["GET"])
+def searchPaintings():
     # Ottenere l'intervallo di date dall'input dell'utente
     start_year = request.args.get('start_year', type=int)
     end_year = request.args.get('end_year', type=int)
@@ -489,9 +481,9 @@ def search_paintings():
     # Creare una query per cercare quadri nel range di date
     query = {
         "$or": [
-            {"Date": {"$regex": r"^\d{4}$", "$gte": str(start_year), "$lte": str(end_year)}},   # Formato xxxx
-            {"Date": {"$regex": r"^\d{4}-\d{2}$", "$gte": f"{start_year}-01", "$lte": f"{end_year}-12"}},  # Formato xxxx-xx
-            {"Date": {"$regex": r"^\d{4}-\d{4}$", "$gte": f"{start_year}-01", "$lte": f"{end_year}-12"}},  # Formato xxxx-xxxx
+            {"date": {"$regex": r"^\d{4}$", "$gte": str(start_year), "$lte": str(end_year)}},   # Formato xxxx
+            {"date": {"$regex": r"^\d{4}-\d{2}$", "$gte": f"{start_year}-01", "$lte": f"{end_year}-12"}},  # Formato xxxx-xx
+            {"date": {"$regex": r"^\d{4}-\d{4}$", "$gte": f"{start_year}-01", "$lte": f"{end_year}-12"}},  # Formato xxxx-xxxx
         ]
     }
     
@@ -500,3 +492,10 @@ def search_paintings():
     
     # Restituire i risultati in formato JSON
     return jsonify(json.loads(json_util.dumps(results)))
+
+def parse_json(data):
+    return json.loads(json_util.dumps(data))
+
+
+if __name__ == "__main__":
+    app.run(debug=True, host="localhost", port=5000)
