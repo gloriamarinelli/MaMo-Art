@@ -1,6 +1,6 @@
-PWD C:\Users\glori\Desktop\MaMo-Art
+PWD c:\Users\glori\Desktop\MaMo-Art
 INPUT C:\Users\glori\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT report.tex
+INPUT c:\Users\glori\Desktop\MaMo-Art\report.tex
 OUTPUT report.log
 INPUT C:\Users\glori\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\glori\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
