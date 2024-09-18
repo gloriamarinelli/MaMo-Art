@@ -47,7 +47,7 @@ The application's architectural framework consists of the following components:
     \item A \textbf{frontend}, developed using the ReactJS framework.
 \end{itemize}
 
-The entire application is based on two datasets: the \href{https://www.kaggle.com/datasets/isaienkov/edvard-munch-paintings}{Edvard Munch Paintings dataset} and the \href{https://www.kaggle.com/datasets/momanyc/museum-collection?select=artworks.csv}{Museum of Modern Art (MoMA) Collection dataset}.
+The entire application is based on two datasets: the \href{https://www.kaggle.com/datasets/isaienkov/edvard-munch-paintings}{Edvard Munch Paintings dataset} and the \href{https://www.kaggle.com/datasets/momanyc/museum-collection?select=artworks.csv}{Museum of Modern Art (MoMA) Collection} dataset.
 
 The web application is structured as follows:
 
@@ -63,14 +63,77 @@ The web application is structured as follows:
 
 \end{itemize}
 
+\newpage
 \section{Dataset Description}
 \justify
 
+The application is built upon two datasets: the \href{https://www.kaggle.com/datasets/isaienkov/edvard-munch-paintings}{Edvard Munch Paintings dataset} and the \href{https://www.kaggle.com/datasets/momanyc/museum-collection?select=artworks.csv}{Museum of Modern Art (MoMA) Collection} dataset.
+
+
+The \textbf{first} dataset includes all known paintings created by the Norwegian artist Edvard Munch. This dataset consists of 1,789 entries, each providing metadata related to Munch's paintings. The columns in the dataset are as follows:
+
+\begin{itemize}
+    \item \textbf{number}: index number of the painting
+    \item \textbf{name}: title of the painting
+    \item \textbf{year}: year of creation
+    \item \textbf{location}: current location of the painting
+    \item \textbf{status}: indicates whether the painting is lost (no image exists)
+    \item \textbf{technique}: technique used in creating the painting
+    \item \textbf{size}: original dimensions of the painting
+    \item \textbf{filename}: image file name in the dataset
+\end{itemize}
+
+
+The \textbf{second} dataset is the MoMA Collection, which includes comprehensive records of artworks and artists represented in the museum. This dataset is divided into two CSV files: one containing artworks, with 218,000 records, and the other containing artists, with 67,700 records.
+\begin{itemize}
+    \item \textbf{artworks.csv} contains the following columns:
+          \begin{itemize}
+              \item \textbf{artwork id}: unique identifier for the artwork
+              \item \textbf{title}: title of the artwork
+              \item \textbf{artist id}: identifier for the artist
+              \item \textbf{name}: name of the artist
+              \item \textbf{date}: date of the artwork
+              \item \textbf{medium}: material or technique used
+              \item \textbf{dimensions}: physical dimensions of the artwork
+              \item \textbf{acquisition date}: date when the artwork was acquired by moma
+              \item \textbf{credit}: source of acquisition
+              \item \textbf{catalogue}: catalogue information
+              \item \textbf{department}: department within moma responsible for the artwork
+              \item \textbf{classification}: artwork classification
+              \item \textbf{object number}: unique identifier for the object in the museum’s system
+              \item \textbf{diameter (cm)}, \textbf{circumference (cm)}, \textbf{height (cm)}, \textbf{length (cm)}, \textbf{width (cm)}, \textbf{depth (cm)}, \textbf{weight (kg)}, \textbf{duration (s)}: physical measurements of the artwork, where applicable
+
+          \end{itemize}
+
+    \item \textbf{artists.csv} contains the following columns:
+          \begin{itemize}
+              \item \textbf{artist id}: unique identifier for the artist
+              \item \textbf{name}: name of the artist
+              \item \textbf{nationality}: nationality of the artist
+              \item \textbf{gender}: gender of the artist
+              \item \textbf{birth year}: year of birth
+              \item \textbf{death year}: year of death (if applicable)
+          \end{itemize}
+\end{itemize}
+
+\newpage
 \section{Database: MongoDB}
 \justify
 
+\textbf{MongoDB} is an open-source database designed for flexibility and scalability. It stores data in documents, making it easy to handle complex data. MongoDB can handle large amounts of unstructured data and can be scaled horizontally. MongoDB also offers features like replication, high availability, and indexing for better performance. It can be scaled horizontally through sharding, which distributes data across multiple servers for better performance and reliability.
+
+
 \subsection{Why use MongoDB?}
 \justify
+\textbf{MongoDB} is a good choice for the \textbf{MaMo Art Gallery} web app because it can handle complex data. The datasets contain different types of data, including paintings, artist details, dimensions, and acquisition history. MongoDB's \textbf{document-oriented approach} is ideal for this application. It can combine different datasets without any predefined relationships. This makes it easy to change the data model as the application changes.
+MongoDB also supports quick searches and indexing, which is important for the marketplace. Users can browse, order and view order histories in real time. MongoDB can handle more artworks and users without slowing down.
+
+\subsection{Analysis and management of data}
+\justify
+
+
+
+
 
 \section{Backend: Flask and Python}
 \justify
