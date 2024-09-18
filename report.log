@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.17)  18 SEP 2024 11:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.17)  18 SEP 2024 13:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -225,7 +225,7 @@ Package hyperref Info: Link coloring OFF on input line 8.
 \@outlinefile=\write3
 \openout3 = `report.out'.
 
-<sapienza.png, id=31, 1798.72pt x 573.14125pt>
+<sapienza.png, id=35, 1798.72pt x 573.14125pt>
 File: sapienza.png Graphic file (type png)
 <use sapienza.png>
 Package pdftex.def Info: sapienza.png  used on input line 13.
@@ -260,26 +260,30 @@ l.36 \newpage
 
 [4]
 
-[5] (report.aux)
+[5]
+
+[6]
+
+[7] (report.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-16>
  ***********
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 450FB6597BB63A1E8C9124667B696FCB;1040.
+(rerunfilecheck)             Checksum: D2BE12D0FFD9925209D32CCB647844DB;1137.
  ) 
 Here is how much of TeX's memory you used:
- 9029 strings out of 473899
- 146261 string characters out of 5726500
- 1933960 words of memory out of 5000000
- 31795 multiletter control sequences out of 15000+600000
+ 9033 strings out of 473899
+ 146303 string characters out of 5726500
+ 1934960 words of memory out of 5000000
+ 31796 multiletter control sequences out of 15000+600000
  563575 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  79i,5n,93p,550b,543s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\glori\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on report.pdf (6 pages, 116435 bytes).
+Output written on report.pdf (8 pages, 119027 bytes).
 PDF statistics:
- 103 PDF objects out of 1000 (max. 8388607)
- 14 named destinations out of 1000 (max. 500000)
- 62 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 117 PDF objects out of 1000 (max. 8388607)
+ 17 named destinations out of 1000 (max. 500000)
+ 70 words of extra memory for PDF output out of 10000 (max. 10000000)
 
