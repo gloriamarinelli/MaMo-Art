@@ -29,6 +29,7 @@ def before_request():
 client = MongoClient("mongodb://localhost:27017/")
 db = client["MaMo-Art"]
 
+
 @app.route("/")
 def fetch():
     return jsonify({"message": "Server working", "status": 200})
@@ -83,7 +84,7 @@ def login():
     )
 
 
-########### getPaintingsFilter
+########### getPaintingsFilter, get all paintings with PARAM = TITLE, DEPARTMENT, NAME using the filter method
 @app.route("/getPaintingsFilter", methods=["GET"])
 def getPaintingsFilter():
     paintings_coll = db["paintings"]
@@ -117,13 +118,12 @@ def getPaintingsFilter():
         )
     )
 
-    # Convert ObjectId to string in each document
     paintings = [serializeDocument(doc) for doc in paintings]
 
     return jsonify({"paintings": paintings, "status": 200})
 
 
-########### getPaintings, torna i paintings senza uso di strutture (no index, ...)
+########### getPaintings, get all paintings without any structure
 @app.route("/getPaintings", methods=["GET"])
 def getPaintings():
     paintings = []
@@ -139,9 +139,9 @@ def getPaintings():
     return jsonify({"paintings": paintings, "status": 200})
 
 
-########### getPaintingsByIndex, torna i paintings con PARAM = ID usando l'index
-@app.route("/getPaintingsByIndex", methods=["GET"])
-def getPaintingsByIndex():
+########### getPaintingsDetails, get all paintings with PARAM = ID with an index
+@app.route("/getPaintingsDetails", methods=["GET"])
+def getPaintingsDetails():
     paintings_coll = db["paintings"]
 
     # Create a dense secondary non-unique sorted index
@@ -154,7 +154,6 @@ def getPaintingsByIndex():
 
     query = {"id": id}
 
-    # Find and sort the documents by 'name' field in ascending order
     paintings = list(paintings_coll.find(query).sort("id", ASCENDING))
 
     if not paintings:
@@ -162,7 +161,6 @@ def getPaintingsByIndex():
             {"message": "No paintings found for the given ID!", "status": 404}
         )
 
-    # Convert ObjectId to string in each document
     paintings = [serializeDocument(doc) for doc in paintings]
 
     return jsonify({"paintings": paintings, "status": 200})
@@ -174,9 +172,9 @@ def serializeDocument(doc):
     return doc
 
 
-########### getPaintingsByTitle, torna i paintings con PARAM = TITLE senza uso di strutture (no index, ...)
-@app.route("/getPaintingsByTitle", methods=["GET"])
-def getPaintingsByTitle():
+########### getPaintingsTitle, get all paintings with PARAM = TITLE without any structure
+@app.route("/getPaintingsTitle", methods=["GET"])
+def getPaintingsTitle():
     title = request.args.get("title")
 
     if not title:
@@ -194,7 +192,7 @@ def getPaintingsByTitle():
     return jsonify({"paintings": parse_json(paintings), "status": 200})
 
 
-########### getPaintingsTitleByIndex, torna i paintings con PARAM = TITLE usando l'index
+########### getPaintingsTitleByIndex, get all paintings with PARAM = TITLE using an index
 @app.route("/getPaintingsTitleByIndex", methods=["GET"])
 def getPaintingsTitleByIndex():
     paintings_coll = db["paintings"]
@@ -217,13 +215,47 @@ def getPaintingsTitleByIndex():
             {"message": "No paintings found for the given title!", "status": 404}
         )
 
-    # Convert ObjectId to string in each document
     paintings = [serializeDocument(doc) for doc in paintings]
 
     return jsonify({"paintings": paintings, "status": 200})
 
 
-########### getPaintingsByDepByIndex, torna i paintings con PARAM = DEPARTMENT usando l'index
+########### getDepartements, get all departments without any structure
+@app.route("/getDepartments", methods=["GET"])
+def getDepartments():
+    paintings_coll = db["paintings"]
+
+    departments = paintings_coll.distinct("department")
+
+    if not departments:
+        return jsonify({"message": "No departments found!", "status": 404})
+
+    return jsonify({"departments": departments, "status": 200})
+
+
+########### getPaintingsDep, get all paintings with PARAM = DEPARTMENT without any structure
+@app.route("/getPaintingsDep", methods=["GET"])
+def getPaintingsDep():
+    department = request.args.get("department")
+
+    if not department:
+        return jsonify(
+            {"message": "Department query parameter is missing!", "status": 400}
+        )
+
+    paintings_coll = db["paintings"]
+    query = {"department": {"$regex": department, "$options": "i"}}
+    paintings = list(paintings_coll.find(query))
+
+    if not paintings:
+        return jsonify(
+            {"message": "No paintings found for the given department!", "status": 404}
+        )
+
+    return jsonify({"paintings": parse_json(paintings), "status": 200})
+
+
+########### getPaintingsDepByIndex, get all paintings with PARAM = DEPARTMENT using an index
 @app.route("/getPaintingsDepByIndex", methods=["GET"])
 def getPaintingsDepByIndex():
     paintings_coll = db["paintings"]
@@ -248,50 +280,14 @@ def getPaintingsDepByIndex():
             {"message": "No paintings found for the given name!", "status": 404}
         )
 
-    # Convert ObjectId to string in each document
     paintings = [serializeDocument(doc) for doc in paintings]
 
     return jsonify({"paintings": paintings, "status": 200})
 
 
-########### getPaintingsByDep, torna i paintings con PARAM = DEPARTMENT senza uso di strutture (no index, ...)
-@app.route("/getPaintingsByDep", methods=["GET"])
-def getPaintingsByDep():
-    department = request.args.get("department")
-
-    if not department:
-        return jsonify(
-            {"message": "Department query parameter is missing!", "status": 400}
-        )
-
-    paintings_coll = db["paintings"]
-    query = {"department": {"$regex": department, "$options": "i"}}
-    paintings = list(paintings_coll.find(query))
-
-    if not paintings:
-        return jsonify(
-            {"message": "No paintings found for the given department!", "status": 404}
-        )
-
-    return jsonify({"paintings": parse_json(paintings), "status": 200})
-
-
-########### getDepartements
-@app.route("/getDepartments", methods=["GET"])
-def getDepartments():
-    paintings_coll = db["paintings"]
-
-    departments = paintings_coll.distinct("department")
-
-    if not departments:
-        return jsonify({"message": "No departments found!", "status": 404})
-
-    return jsonify({"departments": departments, "status": 200})
-
-
-########### getPaintingsByArtist, torna i paintings con PARAM = NAME senza uso di strutture (no index, ...)
-@app.route("/getPaintingsByArtist", methods=["GET"])
-def getPaintingsByArtist():
+########### getPaintingsArtist, get all paintings with PARAM = NAME without any structure
+@app.route("/getPaintingsArtist", methods=["GET"])
+def getPaintingsArtist():
     name = request.args.get("name")
 
     if not name:
@@ -309,7 +305,28 @@ def getPaintingsByArtist():
     return jsonify({"paintings": parse_json(paintings), "status": 200})
 
 
-########### getPaintingsArtistByIndex, torna i paintings con PARAM = NAME usando l'index
+########### getArtists, use of the collections (except 'user' , 'paintings' and 'artists' ) in the database
+@app.route("/getArtists", methods=["GET"])
+def getArtists():
+    db = client["MaMo-Art"]
+
+    # Get all collections in the database
+    collections = db.list_collection_names()
+
+    # Filter out 'user' and 'paintings' and 'orders' collections
+    collections_to_return = [
+        col
+        for col in collections
+        if col not in ["user", "paintings", "orders", "artists"]
+    ]
+
+    # Sort the list of artists
+    collections_to_return.sort()
+
+    return {"artists": collections_to_return}, 200
+
+
+########### getPaintingsArtistByIndex, get all paintings with PARAM = NAME using an index
 @app.route("/getPaintingsArtistByIndex", methods=["GET"])
 def getPaintingsArtistByIndex():
     paintings_coll = db["paintings"]
@@ -332,52 +349,31 @@ def getPaintingsArtistByIndex():
             {"message": "No paintings found for the given name!", "status": 404}
         )
 
-    # Convert ObjectId to string in each document
     paintings = [serializeDocument(doc) for doc in paintings]
 
     return jsonify({"paintings": paintings, "status": 200})
 
 
-########### getArtists, use of the collections (except 'user' and 'paintings' ) in the database
-@app.route("/getArtists", methods=["GET"])
-def getArtists():
-    db = client["MaMo-Art"]
-
-    # Get all collections in the database
-    collections = db.list_collection_names()
-
-    # Filter out 'user' and 'paintings' and 'orders' collections
-    collections_to_return = [
-        col
-        for col in collections
-        if col not in ["user", "paintings", "orders", "artists"]
-    ]
-
-    # Sort the list of artists
-    collections_to_return.sort()
-
-    return {"artists": collections_to_return}, 200
-
-
+########### getArtistsPaintings, get all paintings with PARAM = NAME without any structure
 @app.route("/getArtistsPaintings", methods=["GET"])
 def getArtistsPaintings():
     name = request.args.get("name")
 
     if not name:
-        return jsonify({"error": "Missing name parameter"}), 400
+        return jsonify({"message": "Name query parameter is missing!", "status": 400})
 
     db = client["MaMo-Art"]
 
     # Ensure the artist exists
     if name not in db.list_collection_names():
-        return jsonify({"error": "Artist not found"}), 404
+        {"message": "No artists found for the given name!", "status": 404}
 
     # Get paintings from the artist's collection
     collection = db[name]
     paintings = list(collection.find({}))
 
     if not paintings:
-        return jsonify({"error": "No paintings found"}), 404
+        {"message": "No paintings found for the given name!", "status": 404}
 
     # list of dictionaries
     details_painting = [
@@ -407,6 +403,7 @@ def getArtistsPaintings():
     return jsonify({"paintings": details_painting}), 200
 
 
+########### getBio, get the biography of an artist with PARAM = NAME
 @app.route("/getBio", methods=["GET"])
 def getBio():
     name = request.args.get("name")
@@ -419,13 +416,14 @@ def getBio():
     artist = artists_coll.find_one({"name": {"$regex": name, "$options": "i"}})
 
     if not artist:
-        return jsonify({"message": "Artist not found!", "status": 404})
+        {"message": "No artists found for the given name!", "status": 404}
 
     artist["_id"] = str(artist["_id"])
 
     return jsonify({"artist": artist, "status": 200})
 
 
+########### addtocart, add an item to the cart with PARAM = ORDER_ID, USERNAME, ARTWORK_ID
 @app.route("/addtocart", methods=["POST"])
 def addtocart():
     data = request.get_json()
@@ -455,6 +453,7 @@ def addtocart():
     )
 
 
+########### getUserOrders, get all orders with PARAM = USERNAME with an index
 @app.route("/getUserOrders", methods=["GET"])
 def getUserOrders():
     username = request.args.get("username")
@@ -474,8 +473,8 @@ def getUserOrders():
 
     return jsonify({"cart": parse_json(orders)}), 200
 
-   
-@app.route("/searchPaintings", methods=["GET"])
+
+"""@app.route("/searchPaintings", methods=["GET"])
 def searchPaintings():
     start_year = request.args.get("start_year", type=int)
     end_year = request.args.get("end_year", type=int)
@@ -486,7 +485,7 @@ def searchPaintings():
         )
 
     paintings_coll = db["paintings"]
-    
+
     # Creare una query per cercare quadri nel range di date
     query = {
         "$or": [
@@ -519,6 +518,8 @@ def searchPaintings():
     results = list(paintings_coll.find(query, projection))
 
     return jsonify(json.loads(json_util.dumps(results)))
+"""
+
 
 def parse_json(data):
     return json.loads(json_util.dumps(data))

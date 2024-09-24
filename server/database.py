@@ -12,7 +12,7 @@ def cleanText(text):
 
 # Cleans up the name of the collection by: 
 # Removing dots from the string if it is at the end of the string
-def clean_collection_name(name):
+def cleanCollectionName(name):
     cleaned_name = name.strip().rstrip('.')
     return cleaned_name
 
@@ -60,7 +60,7 @@ def loadPaintings():
         # Insert the painting into the respective artist collections
         artist_names = painting[3].split(', ')
         for artist_name in artist_names:
-            cleaned_artist_name = clean_collection_name(artist_name)
+            cleaned_artist_name = cleanCollectionName(artist_name)
 
             # Skip if the cleaned artist name is empty
             if not cleaned_artist_name:
