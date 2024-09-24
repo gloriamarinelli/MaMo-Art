@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.17)  18 SEP 2024 13:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.17)  24 SEP 2024 11:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -180,7 +180,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 \Hy@SectionHShift=\skip65
 ) (C:\Program Files\MiKTeX\tex/latex/parskip\parskip.sty
 Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
-) (report.aux)
+)
+No file report.aux.
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
@@ -201,7 +202,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 8.
 LaTeX Font Info:    ... okay on input line 8.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 8.
 LaTeX Font Info:    ... okay on input line 8.
- (C:\Users\glori\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+(C:\Users\glori\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count284
 \scratchdimen=\dimen148
@@ -221,11 +222,10 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package hyperref Info: Link coloring OFF on input line 8.
- (report.out) (report.out)
 \@outlinefile=\write3
 \openout3 = `report.out'.
 
-<sapienza.png, id=35, 1798.72pt x 573.14125pt>
+<sapienza.png, id=3, 1798.72pt x 573.14125pt>
 File: sapienza.png Graphic file (type png)
 <use sapienza.png>
 Package pdftex.def Info: sapienza.png  used on input line 13.
@@ -234,14 +234,8 @@ Package pdftex.def Info: sapienza.png  used on input line 13.
 
 [1
 
-{C:/Users/glori/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./sapienza.png>] (report.toc
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 4.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 4.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 4.
-)
+{C:/Users/glori/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./sapienza.png>]
+No file report.toc.
 \tf@toc=\write4
 \openout4 = `report.toc'.
 
@@ -259,31 +253,208 @@ l.36 \newpage
 [3]
 
 [4]
+c:/Users/glori/Desktop/MaMo-Art/report.tex:137: Missing $ inserted.
+<inserted text> 
+                $
+l.137 ...ed from CSV files (paintings.csv, edvard_
+                                                  munch.csv, and artists.csv...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 137.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 137.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 137.
+c:/Users/glori/Desktop/MaMo-Art/report.tex:138: Missing $ inserted.
+<inserted text> 
+                $
+l.138 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:138: Missing } inserted.
+<inserted text> 
+                }
+l.138 
+      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Overfull \hbox (783.25331pt too wide) in paragraph at lines 136--138
+\OT1/cmr/m/n/12 is ex-tracted from CSV files (paint-ings.csv, edvard$[]\OML/cmm/m/it/12 unch:csv; andartists:csv\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 throughtheuseoftheCSVlibrary:Thefilescontaininformationonpaintingsandartists; andeachrowisprocessedinturn; withanyunnecessarydataremoved:[]$ 
+ []
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:138: Too many }'s.
+\par ...m \@noitemerr {\@@par }\fi \else {\@@par }
+                                                  \fi 
+l.138 
+      
+You've closed more groups than you opened.
+Such booboos are generally harmless, so keep going.
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:141: Missing $ inserted.
+<inserted text> 
+                $
+l.141 ...paintings are stored in a set (paintings_
+                                                  titles), thus simplifying ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:142: Missing $ inserted.
+<inserted text> 
+                $
+l.142 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:142: Missing } inserted.
+<inserted text> 
+                }
+l.142 
+      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Overfull \hbox (83.65002pt too wide) in paragraph at lines 139--142
+\OT1/cmr/m/n/12 a set (paintings$[]\OML/cmm/m/it/12 itles\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ; thussimplifyingtheidentificationofduplicatesduringdataprocessing:[]$ 
+ []
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:142: Too many }'s.
+\par ...m \@noitemerr {\@@par }\fi \else {\@@par }
+                                                  \fi 
+l.142 
+      
+You've closed more groups than you opened.
+Such booboos are generally harmless, so keep going.
+
+
 
 [5]
+c:/Users/glori/Desktop/MaMo-Art/report.tex:144: Missing $ inserted.
+<inserted text> 
+                $
+l.144 ...abase. This is achieved using the insert_
+                                                  one method, which allows f...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:145: Missing $ inserted.
+<inserted text> 
+                $
+l.145 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:145: Missing } inserted.
+<inserted text> 
+                }
+l.145 
+      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:145: Too many }'s.
+\par ...m \@noitemerr {\@@par }\fi \else {\@@par }
+                                                  \fi 
+l.145 
+      
+You've closed more groups than you opened.
+Such booboos are generally harmless, so keep going.
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:147: Missing $ inserted.
+<inserted text> 
+                $
+l.147 ...ns for specific artists using the update_
+                                                  one method. For instance, ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:150: Missing $ inserted.
+<inserted text> 
+                $
+l.150 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:150: Missing } inserted.
+<inserted text> 
+                }
+l.150 
+      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Overfull \hbox (1184.78311pt too wide) in paragraph at lines 146--150
+\OT1/cmr/m/n/12 lec-tions for spe-cific artists us-ing the update$[]\OML/cmm/m/it/12 nemethod:Forinstance; EdvardMunch[]sartworksareincludedinboththemaincollectionandadedicatedcollectionfortheartist; EdvardMunch:HandlingCollectionswithUpsertTopreventthereplicationofpaintingsduringupdates; theupdate[]nemethodwiththeupsert \OT1/cmr/m/n/12 =
+ []
+
+
+Overfull \hbox (610.07365pt too wide) in paragraph at lines 146--150
+\OML/cmm/m/it/12 Trueparameterguaranteestheinsertionofnewpaintingsintothecollectioniftheydonotalreadyexist:Thisisemployedwhenassociatingpaintingswithspecificartistswithintheirrespectivecollections:[]$ 
+ []
+
+c:/Users/glori/Desktop/MaMo-Art/report.tex:150: Too many }'s.
+\par ...m \@noitemerr {\@@par }\fi \else {\@@par }
+                                                  \fi 
+l.150 
+      
+You've closed more groups than you opened.
+Such booboos are generally harmless, so keep going.
+
+
 
 [6]
 
-[7] (report.aux)
+[7]
+
+[8] (report.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-16>
  ***********
-Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: D2BE12D0FFD9925209D32CCB647844DB;1137.
+
+
+Package rerunfilecheck Warning: File `report.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `report.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D2BE12D0FFD9925209D32CCB647844DB;1137.
  ) 
 Here is how much of TeX's memory you used:
- 9033 strings out of 473899
- 146303 string characters out of 5726500
- 1934960 words of memory out of 5000000
- 31796 multiletter control sequences out of 15000+600000
+ 9014 strings out of 473899
+ 145927 string characters out of 5726500
+ 1933960 words of memory out of 5000000
+ 31784 multiletter control sequences out of 15000+600000
  563575 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 79i,5n,93p,550b,543s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\glori\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on report.pdf (8 pages, 119027 bytes).
+ 79i,6n,93p,673b,543s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\glori\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on report.pdf (9 pages, 151462 bytes).
 PDF statistics:
- 117 PDF objects out of 1000 (max. 8388607)
- 17 named destinations out of 1000 (max. 500000)
- 70 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 103 PDF objects out of 1000 (max. 8388607)
+ 18 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

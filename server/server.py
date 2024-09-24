@@ -413,10 +413,15 @@ def getBio():
 
     artists_coll = db["artists"]
 
-    artist = artists_coll.find_one({"name": {"$regex": name, "$options": "i"}})
+    # Escape special characters in the artist name for regex
+    fixed_name = re.escape(name)
+
+    artist = artists_coll.find_one({"name": {"$regex": fixed_name, "$options": "i"}})
 
     if not artist:
-        {"message": "No artists found for the given name!", "status": 404}
+        return jsonify(
+            {"message": "No artists found for the given name!", "status": 404}
+        )
 
     artist["_id"] = str(artist["_id"])
 

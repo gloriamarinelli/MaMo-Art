@@ -3,6 +3,6 @@
 \contentsline {section}{\numberline {3}Database: MongoDB}{5}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Why use MongoDB?}{5}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Analysis and management of data}{5}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Sharding}{5}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Backend: Flask and Python}{6}{section.4}%
-\contentsline {section}{\numberline {5}Frontend: React}{7}{section.5}%
+\contentsline {subsection}{\numberline {3.3}Sharding}{6}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Backend: Flask and Python}{7}{section.4}%
+\contentsline {section}{\numberline {5}Frontend: React}{8}{section.5}%

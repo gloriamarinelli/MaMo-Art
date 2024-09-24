@@ -131,6 +131,28 @@ MongoDB also supports quick searches and indexing, which is important for the ma
 \subsection{Analysis and management of data}
 \justify
 
+The \textbf{database.py} script is responsible for loading painting and artist data from CSV files into a MongoDB database. The script then processes the painting data, cleaning it, removing any duplicate titles and inserting the records into a collection titled paintings. Furthermore, it creates collections for each artist using the update and insert functions to guarantee the absence of duplicates. Furthermore, a dedicated function is responsible for loading Edvard Munch's paintings into both a general and a specific collection. Finally, the artist data is loaded into the artists collection.
+
+CSV file reading and parsing
+The data pertaining to paintings and artists is extracted from CSV files (paintings.csv, edvard_munch.csv, and artists.csv) through the use of the CSV library. The files contain information on paintings and artists, and each row is processed in turn, with any unnecessary data removed.
+
+Text Cleaning
+The CSV files are cleaned by removing unnecessary spaces and commas to ensure data consistency before insertion and data normalisation. Furthermore, any special characters in collection names are removed, such as dots at the end of artist names, to prevent any potential naming issues when creating MongoDB collections.
+To avoid the repetition of entries for paintings and artists within the database, the titles of paintings are stored in a set (paintings_titles), thus simplifying the identification of duplicates during data processing.
+
+Inserting data into MongoDB
+Once the data has been cleaned and deduplicated, it is inserted into MongoDB collections. Each painting or artist is represented as a document in the database. This is achieved using the insert_one method, which allows for the addition of each record individually.
+
+Managing MongoDB Collections for Specific Artists
+Paintings are inserted not only into the aggregate collection of paintings, but also into distinct collections for specific artists using the update_one method. For instance, Edvard Munch's artworks are included in both the main collection and a dedicated collection for the artist, Edvard Munch.
+Handling Collections with Upsert
+To prevent the replication of paintings during updates, the update_one method with the upsert=True parameter guarantees the insertion of new paintings into the collection if they do not already exist. This is employed when associating paintings with specific artists within their respective collections.
+
+Handling Duplicate Checks for Edvard Munch
+A specific check is carried out to determine whether a painting by Edvard Munch is already present in one of the collections. In the case that a duplicate is identified, the insertion is cancelled.
+
+
+
 \subsection{Sharding}
 \justify
 
