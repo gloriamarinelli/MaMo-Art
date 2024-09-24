@@ -131,35 +131,37 @@ MongoDB also supports quick searches and indexing, which is important for the ma
 \subsection{Analysis and management of data}
 \justify
 
-The \textbf{database.py} script is responsible for loading painting and artist data from CSV files into a MongoDB database. The script then processes the painting data, cleaning it, removing any duplicate titles and inserting the records into a collection titled paintings. Furthermore, it creates collections for each artist using the update and insert functions to guarantee the absence of duplicates. Furthermore, a dedicated function is responsible for loading Edvard Munch's paintings into both a general and a specific collection. Finally, the artist data is loaded into the artists collection.
+The \textbf{database.py} script is responsible for loading painting and artist data from CSV files into a MongoDB database. The script then processes the painting data, cleans it, removes any duplicate titles, and inserts the records into a collection titled \textit{paintings}. Furthermore, it creates collections for each artist using the \textit{update} and \textit{insert} functions to guarantee the absence of duplicates. Additionally, a dedicated function is responsible for loading Edvard Munch's paintings into both a general and a specific collection. Finally, the artist data is loaded into the \textit{artists} collection.
 
-CSV file reading and parsing
-The data pertaining to paintings and artists is extracted from CSV files (paintings.csv, edvard_munch.csv, and artists.csv) through the use of the CSV library. The files contain information on paintings and artists, and each row is processed in turn, with any unnecessary data removed.
+\subsubsection{CSV file reading and parsing}
+The data pertaining to paintings and artists is extracted from CSV files $\left(\textit{paintings.csv}, \textit{edvard\_munch.csv}, \textit{artists.csv}\right)$ using the \textit{CSV} library. These files contain information on paintings and artists, and each row is processed in turn, with any unnecessary data removed.
 
-Text Cleaning
-The CSV files are cleaned by removing unnecessary spaces and commas to ensure data consistency before insertion and data normalisation. Furthermore, any special characters in collection names are removed, such as dots at the end of artist names, to prevent any potential naming issues when creating MongoDB collections.
-To avoid the repetition of entries for paintings and artists within the database, the titles of paintings are stored in a set (paintings_titles), thus simplifying the identification of duplicates during data processing.
+\subsubsection{Text cleaning}
+The CSV files are cleaned by removing unnecessary spaces and commas to ensure data consistency before insertion and normalization. Furthermore, any special characters in collection names are removed, such as dots at the end of artist names, to prevent any potential naming issues when creating MongoDB collections.
 
-Inserting data into MongoDB
-Once the data has been cleaned and deduplicated, it is inserted into MongoDB collections. Each painting or artist is represented as a document in the database. This is achieved using the insert_one method, which allows for the addition of each record individually.
+To avoid repetition of entries for paintings and artists within the database, the titles of paintings are stored in a set $\left(\textit{paintings\_titles}\right)$, thus simplifying the identification of duplicates during data processing.
 
-Managing MongoDB Collections for Specific Artists
-Paintings are inserted not only into the aggregate collection of paintings, but also into distinct collections for specific artists using the update_one method. For instance, Edvard Munch's artworks are included in both the main collection and a dedicated collection for the artist, Edvard Munch.
-Handling Collections with Upsert
-To prevent the replication of paintings during updates, the update_one method with the upsert=True parameter guarantees the insertion of new paintings into the collection if they do not already exist. This is employed when associating paintings with specific artists within their respective collections.
+\subsubsection{Inserting data into MongoDB}
+Once the data has been cleaned and deduplicated, it is inserted into MongoDB collections. Each painting or artist is represented as a document in the database. This is achieved using the \textit{insert\_one} method, which allows for the addition of each record individually.
 
-Handling Duplicate Checks for Edvard Munch
+\subsubsection{Managing MongoDB collections for specific artists}
+Paintings are inserted not only into the aggregate collection of \textit{paintings}, but also into distinct collections for specific artists using the \textit{update\_one} method. For instance, Edvard Munch's artworks are included in both the main collection and a dedicated collection for the artist, \textit{Edvard Munch}.
+
+\subsubsection{Handling collections}
+To prevent the replication of paintings during updates, the \textit{update\_one} method with the \textit{upsert=True} parameter guarantees the insertion of new paintings into the collection if they do not already exist. This is employed when associating paintings with specific artists within their respective collections.
+
+\subsubsection{Handling duplicate checks for Edvard Munch}
 A specific check is carried out to determine whether a painting by Edvard Munch is already present in one of the collections. In the case that a duplicate is identified, the insertion is cancelled.
-
 
 
 \subsection{Sharding}
 \justify
 
+The technique of \textbf{sharding} in MongoDB is employed to distribute data across multiple servers, thereby enhancing the performance, scalability, and reliability of large-scale databases. When a dataset reaches the limits of a single server's capacity, sharding enables horizontal scaling through the partitioning of data into smaller units, termed "shards," which are then distributed across multiple servers. Each shard contains a portion of the complete dataset.
 
-
+In the context of the \textbf{MaMo Art Gallery}, the implementation of sharding could prove particularly beneficial as the size of the dataset (including the large number of paintings, artist details, and user orders) increases over time. By distributing the database workload across multiple servers, sharding ensures that the application remains responsive and scalable, even when handling high volumes of data or user traffic.
 \newpage
-\section{Backend: Flask and Python}
+\section{API Development: Flask}
 \justify
 
 \newpage
