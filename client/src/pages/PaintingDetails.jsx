@@ -22,7 +22,7 @@ function PaintingDetails() {
     const fetchPainting = async () => {
       try {
         const response = await fetch(
-          `${endpoint}/getPaintingsByIndex?id=${id}`
+          `${endpoint}/getPaintingsDetails?id=${id}`
         );
         const data = await response.json();
         if (data.paintings && data.paintings.length > 0) {

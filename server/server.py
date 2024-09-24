@@ -285,7 +285,7 @@ def getPaintingsDepByIndex():
     return jsonify({"paintings": paintings, "status": 200})
 
 
-########### getPaintingsArtist, get all paintings with PARAM = NAME without any structure
+########### getPaintingsArtist DB = PAINTINGS, get all paintings with PARAM = NAME without any structure
 @app.route("/getPaintingsArtist", methods=["GET"])
 def getPaintingsArtist():
     name = request.args.get("name")
@@ -293,7 +293,7 @@ def getPaintingsArtist():
     if not name:
         return jsonify({"message": "Name query parameter is missing!", "status": 400})
 
-    paintings_coll = db["paintings"]
+    paintings_coll = db["paintings"]  # collection 'paintings'
     query = {"name": {"$regex": name, "$options": "i"}}
     paintings = list(paintings_coll.find(query))
 
@@ -305,31 +305,10 @@ def getPaintingsArtist():
     return jsonify({"paintings": parse_json(paintings), "status": 200})
 
 
-########### getArtists, use of the collections (except 'user' , 'paintings' and 'artists' ) in the database
-@app.route("/getArtists", methods=["GET"])
-def getArtists():
-    db = client["MaMo-Art"]
-
-    # Get all collections in the database
-    collections = db.list_collection_names()
-
-    # Filter out 'user' and 'paintings' and 'orders' collections
-    collections_to_return = [
-        col
-        for col in collections
-        if col not in ["user", "paintings", "orders", "artists"]
-    ]
-
-    # Sort the list of artists
-    collections_to_return.sort()
-
-    return {"artists": collections_to_return}, 200
-
-
 ########### getPaintingsArtistByIndex, get all paintings with PARAM = NAME using an index
 @app.route("/getPaintingsArtistByIndex", methods=["GET"])
 def getPaintingsArtistByIndex():
-    paintings_coll = db["paintings"]
+    paintings_coll = db["paintings"]  # collection 'paintings'
 
     # Create a dense secondary non-unique sorted index
     paintings_coll.create_index([("name", ASCENDING)], name="name_index")
@@ -354,15 +333,36 @@ def getPaintingsArtistByIndex():
     return jsonify({"paintings": paintings, "status": 200})
 
 
-########### getArtistsPaintings, get all paintings with PARAM = NAME without any structure
-@app.route("/getArtistsPaintings", methods=["GET"])
-def getArtistsPaintings():
+########### getArtists, use of the collections (except 'user' , 'paintings' and 'artists' ) in the database
+@app.route("/getArtists", methods=["GET"])
+def getArtists():
+    db = client["MaMo-Art"]
+
+    # Get all collections in the database
+    collections = db.list_collection_names()
+
+    # Filter out 'user' and 'paintings' and 'orders' collections
+    collections_to_return = [
+        col
+        for col in collections
+        if col not in ["user", "paintings", "orders", "artists"]
+    ]
+
+    # Sort the list of artists
+    collections_to_return.sort()
+
+    return {"artists": collections_to_return}, 200
+
+
+########### getPaintingsArtistCollection DB = ALL THE COLLECTIONS, get all paintings with PARAM = NAME without any structure
+@app.route("/getPaintingsArtistCollection", methods=["GET"])
+def getPaintingsArtistCollection():
     name = request.args.get("name")
 
     if not name:
         return jsonify({"message": "Name query parameter is missing!", "status": 400})
 
-    db = client["MaMo-Art"]
+    db = client["MaMo-Art"]  # database 'MaMo-Art'
 
     # Ensure the artist exists
     if name not in db.list_collection_names():

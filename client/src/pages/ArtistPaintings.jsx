@@ -22,7 +22,7 @@ function ArtistPaintings() {
     const fetchPaintings = async () => {
       try {
         const response = await fetch(
-          `${endpoint}/getArtistsPaintings?name=${artistName}`
+          `${endpoint}/getPaintingsArtistCollection?name=${artistName}`
         );
         const data = await response.json();
         if (data.paintings && data.paintings.length > 0) {
