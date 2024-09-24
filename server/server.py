@@ -28,6 +28,8 @@ def before_request():
 client = MongoClient("mongodb://localhost:27017/")
 db = client["MaMo-Art"]
 
+
+
 @app.route("/")
 def fetch():
     return jsonify({"message": "Server working", "status": 200})
@@ -465,6 +467,16 @@ def getUserOrders():
     return jsonify({"cart": parse_json(orders)}), 200
 
    
+from pymongo import MongoClient
+from flask import Flask, request, jsonify
+import json
+from bson import json_util
+
+app = Flask(__name__)
+
+
+db = client['nome_del_tuo_database']
+
 @app.route("/searchPaintings", methods=["GET"])
 def searchPaintings():
     # Ottenere l'intervallo di date dall'input dell'utente
@@ -477,6 +489,18 @@ def searchPaintings():
 
     # Collezione "paintings"
     paintings_coll = db["paintings"]
+    
+    # Creare l'indice parziale se non esiste già
+    paintings_coll.create_index(
+        [("date", 1)],  # Indice crescente sul campo 'Date'
+        partialFilterExpression={
+            "$or": [
+                {"date": {"$regex": "^(19[0-9]{2}|2000)$"}},                 # Formato xxxx (1900-2000)
+                {"date": {"$regex": "^(19[0-9]{2}|2000)-[0-9]{2}$"}},         # Formato xxxx-xx (1900-2000)
+                {"date": {"$regex": "^(19[0-9]{2}|2000)-(19[0-9]{2}|2000)$"}} # Formato xxxx-xxxx (1900-2000)
+            ]
+        }
+    )
     
     # Creare una query per cercare quadri nel range di date
     query = {
@@ -492,6 +516,10 @@ def searchPaintings():
     
     # Restituire i risultati in formato JSON
     return jsonify(json.loads(json_util.dumps(results)))
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 
 def parse_json(data):
     return json.loads(json_util.dumps(data))

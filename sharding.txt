@@ -1,0 +1,58 @@
+mkdir C:\data\shard1
+mkdir C:\data\shard2
+mkdir C:\data\shard3
+mkdir C:\data\config1
+mkdir C:\data\config2
+mkdir C:\data\config3
+
+.\mongod --shardsvr --replSet shard1 --port 27001 --dbpath C:\data\shard1 
+.\mongod --shardsvr --replSet shard2 --port 27002 --dbpath C:\data\shard2 
+.\mongod --shardsvr --replSet shard3 --port 27003 --dbpath C:\data\shard3
+
+.\mongosh --port 27001
+rs.initiate()
+
+.\mongosh --port 27002
+rs.initiate()
+
+.\mongosh --port 27003
+rs.initiate()
+
+.\mongod --configsvr --replSet configReplSet --port 27020 --dbpath C:\data\config1 
+.\mongod --configsvr --replSet configReplSet --port 27021 --dbpath C:\data\config2
+.\mongod --configsvr --replSet configReplSet --port 27022 --dbpath C:\data\config3
+
+.\mongosh --port 27020
+rs.initiate({
+   _id: "configReplSet",
+   configsvr: true,
+   members: [
+      { _id: 0, host: "localhost:27020" },
+      { _id: 1, host: "localhost:27021" },
+      { _id: 2, host: "localhost:27022" }
+   ]
+})
+
+.\mongos --configdb configReplSet/localhost:27020,localhost:27021,localhost:27022 --port 27018 
+
+.\mongosh --port 27018
+
+sh.addShard("shard1/localhost:27001")
+sh.addShard("shard2/localhost:27002")
+sh.addShard("shard3/localhost:27003")
+
+sh.enableSharding("MaMo-Art")
+
+use MaMo-Art
+sh.shardCollection("MaMo-Art.paintings", { "_id": "hashed" })
+
+sh.status()
+
+sh.startBalancer() (Solo se il bilanciamento è disabilitato)
+
+
+
+
+
+
+

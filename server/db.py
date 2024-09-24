@@ -55,6 +55,7 @@ def loadPaintings():
             'depth': painting[18], 'weight': painting[19]
         }
         paintings_coll.insert_one(new_painting)
+        
 
         # Insert the painting into the respective artist collections
         artist_names = painting[3].split(', ')
