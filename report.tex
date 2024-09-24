@@ -4,6 +4,8 @@
 \usepackage{ragged2e}
 \usepackage{hyperref}
 \usepackage{parskip} 
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,breaklines=true}
 
 \begin{document}
 
@@ -86,7 +88,7 @@ The \textbf{first} dataset includes all known paintings created by the Norwegian
 
 The \textbf{second} dataset is the MoMA Collection, which includes comprehensive records of artworks and artists represented in the museum. This dataset is divided into two CSV files: one containing artworks, with 218,000 records, and the other containing artists, with 67,700 records.
 \begin{itemize}
-    \item \textbf{artworks.csv} contains the following columns:
+    \item \texttt{artworks.csv} contains the following columns:
           \begin{itemize}
               \item \textbf{artwork id}: unique identifier for the artwork
               \item \textbf{title}: title of the artwork
@@ -105,7 +107,7 @@ The \textbf{second} dataset is the MoMA Collection, which includes comprehensive
 
           \end{itemize}
 
-    \item \textbf{artists.csv} contains the following columns:
+    \item \texttt{artists.csv} contains the following columns:
           \begin{itemize}
               \item \textbf{artist id}: unique identifier for the artist
               \item \textbf{name}: name of the artist
@@ -125,30 +127,29 @@ The \textbf{second} dataset is the MoMA Collection, which includes comprehensive
 
 \subsection{Why use MongoDB?}
 \justify
-\textbf{MongoDB} is a good choice for the \textbf{MaMo Art Gallery} web app because it can handle complex data. The datasets contain different types of data, including paintings, artist details, dimensions, and acquisition history. MongoDB's \textbf{document-oriented approach} is ideal for this application. It can combine different datasets without any predefined relationships. This makes it easy to change the data model as the application changes.
-MongoDB also supports quick searches and indexing, which is important for the marketplace. Users can browse, order and view order histories in real time. MongoDB can handle more artworks and users without slowing down.
+\textbf{MongoDB} is a good choice for the \textbf{MaMo Art Gallery} web app. The datasets contain different types of data, including paintings, artists, dimensions and acquisition history. MongoDB's \textbf{document-oriented approach} is ideal for this application because it can combine different datasets without any predefined relationships. MongoDB also supports quick searches and indexing, which is important for the marketplace. Furthermore, users can browse, order and view order histories in real time.
 
 \subsection{Analysis and management of data}
 \justify
 
-The \textbf{database.py} script is responsible for loading painting and artist data from CSV files into a MongoDB database. The script then processes the painting data, cleans it, removes any duplicate titles, and inserts the records into a collection titled \textit{paintings}. Furthermore, it creates collections for each artist using the \textit{update} and \textit{insert} functions to guarantee the absence of duplicates. Additionally, a dedicated function is responsible for loading Edvard Munch's paintings into both a general and a specific collection. Finally, the artist data is loaded into the \textit{artists} collection.
+The \texttt{database.py} script loads painting and artist data from CSV files into a MongoDB database. It cleans the data, removes duplicate painting titles, and inserts the records into a \textit{paintings} collection. It also creates separate collections for each artist to avoid duplicates, with Edvard Munch's paintings stored in both general and specific collections. Finally, it loads the artist data into an \textit{artists} collection, resulting in the MaMo-Art database containing \textit{paintings}, \textit{artists}, and individual collections for each artist.
 
 \subsubsection{CSV file reading and parsing}
-The data pertaining to paintings and artists is extracted from CSV files $\left(\textit{paintings.csv}, \textit{edvard\_munch.csv}, \textit{artists.csv}\right)$ using the \textit{CSV} library. These files contain information on paintings and artists, and each row is processed in turn, with any unnecessary data removed.
+The data pertaining to paintings and artists is extracted from CSV files $\left(\texttt{paintings.csv}, \texttt{edvard\_munch.csv}, \texttt{artists.csv}\right)$ using the \textit{CSV} library. These files contain information on paintings and artists, and each row is processed in turn, with any unnecessary data removed.
 
 \subsubsection{Text cleaning}
 The CSV files are cleaned by removing unnecessary spaces and commas to ensure data consistency before insertion and normalization. Furthermore, any special characters in collection names are removed, such as dots at the end of artist names, to prevent any potential naming issues when creating MongoDB collections.
 
-To avoid repetition of entries for paintings and artists within the database, the titles of paintings are stored in a set $\left(\textit{paintings\_titles}\right)$, thus simplifying the identification of duplicates during data processing.
+To avoid repetition of entries for paintings and artists within the database, the titles of paintings are stored in a set $\left(\texttt{paintings\_titles}\right)$, thus simplifying the identification of duplicates during data processing.
 
 \subsubsection{Inserting data into MongoDB}
 Once the data has been cleaned and deduplicated, it is inserted into MongoDB collections. Each painting or artist is represented as a document in the database. This is achieved using the \textit{insert\_one} method, which allows for the addition of each record individually.
 
 \subsubsection{Managing MongoDB collections for specific artists}
-Paintings are inserted not only into the aggregate collection of \textit{paintings}, but also into distinct collections for specific artists using the \textit{update\_one} method. For instance, Edvard Munch's artworks are included in both the main collection and a dedicated collection for the artist, \textit{Edvard Munch}.
+Paintings are inserted not only into the aggregate collection of \textit{paintings}, but also into distinct collections for specific artists using the \texttt{update\_one} method. For instance, Edvard Munch's artworks are included in both the main collection and a dedicated collection for the artist, \textit{Edvard Munch}.
 
 \subsubsection{Handling collections}
-To prevent the replication of paintings during updates, the \textit{update\_one} method with the \textit{upsert=True} parameter guarantees the insertion of new paintings into the collection if they do not already exist. This is employed when associating paintings with specific artists within their respective collections.
+To prevent the replication of paintings during updates, the \texttt{update\_one} method with the \texttt{upsert=True} parameter guarantees the insertion of new paintings into the collection if they do not already exist. This is employed when associating paintings with specific artists within their respective collections.
 
 \subsubsection{Handling duplicate checks for Edvard Munch}
 A specific check is carried out to determine whether a painting by Edvard Munch is already present in one of the collections. In the case that a duplicate is identified, the insertion is cancelled.
@@ -157,9 +158,127 @@ A specific check is carried out to determine whether a painting by Edvard Munch 
 \subsection{Sharding}
 \justify
 
-The technique of \textbf{sharding} in MongoDB is employed to distribute data across multiple servers, thereby enhancing the performance, scalability, and reliability of large-scale databases. When a dataset reaches the limits of a single server's capacity, sharding enables horizontal scaling through the partitioning of data into smaller units, termed "shards," which are then distributed across multiple servers. Each shard contains a portion of the complete dataset.
+The technique of \textbf{sharding} in MongoDB is employed to distribute data across multiple servers, thereby enhancing the performance, scalability, and reliability of large-scale databases. When a dataset reaches the limits of a single server's capacity, sharding enables horizontal scaling through the partitioning of data into smaller units, called \textbf{shards}, which are then distributed across multiple servers. Each shard contains a portion of the complete dataset.
 
-In the context of the \textbf{MaMo Art Gallery}, the implementation of sharding could prove particularly beneficial as the size of the dataset (including the large number of paintings, artist details, and user orders) increases over time. By distributing the database workload across multiple servers, sharding ensures that the application remains responsive and scalable, even when handling high volumes of data or user traffic.
+In the context of the \textbf{MaMo Art Gallery}, the implementation of sharding could prove particularly beneficial as the size of the dataset (including the large number of paintings, artist details, and user orders) increases over time. 
+
+\subsubsection{Configuring sharding}
+This section explains how to set up sharding in MongoDB. It involves creating multiple shards, setting up configuration servers, starting replica sets, and enabling sharding for a specific database. Here’s an explanation of each step.
+
+\begin{itemize}
+    \item \textbf{Creating directories for shards and config servers}
+
+    \begin{lstlisting}
+    mkdir C:\data\shard1
+    mkdir C:\data\shard2
+    mkdir C:\data\shard3
+    mkdir C:\data\config1
+    mkdir C:\data\config2
+    mkdir C:\data\config3
+    \end{lstlisting}
+
+    Directories are created to store data for shards and config servers. Shards store parts of the database, while config servers manage the information for the sharded cluster.
+
+    \item \textbf{Starting MongoDB instances for each shard} 
+
+    \begin{lstlisting}
+    .\mongod --shardsvr --replSet shard1 --port 27001 --dbpath C:\data\shard1 
+    .\mongod --shardsvr --replSet shard2 --port 27002 --dbpath C:\data\shard2 
+    .\mongod --shardsvr --replSet shard3 --port 27003 --dbpath C:\data\shard3
+    \end{lstlisting}
+
+    Three MongoDB instances are started on different ports (27001, 27002, and 27003), each representing a shard in the cluster. The \texttt{--replSet} option names each replica set (shard1, shard2, shard3).
+
+
+    \item \textbf{Initiating replica sets for the shards}
+
+    \begin{lstlisting}
+    .\mongosh --port 27001
+    rs.initiate()
+
+    .\mongosh --port 27002
+    rs.initiate()
+
+    .\mongosh --port 27003
+    rs.initiate()
+    \end{lstlisting}
+
+    Each shard is configured as a replica set, ensuring that data is copied for safety and high availability.
+
+    \item \textbf{Starting and configuring config servers}
+
+    \begin{lstlisting}
+    .\mongod --configsvr --replSet configReplSet --port 27020 --dbpath C:\data\config1 
+    .\mongod --configsvr --replSet configReplSet --port 27021 --dbpath C:\data\config2
+    .\mongod --configsvr --replSet configReplSet --port 27022 --dbpath C:\data\config3
+    \end{lstlisting}
+
+    Three MongoDB instances store metadata for the sharded cluster. The \texttt{--configsvr} flag designates these instances as config servers. They are part of a replica set called \textit{configReplSet} to ensure high availability.
+
+    \item \textbf{Initiating the config server replica set}
+
+    \begin{lstlisting}
+    .\mongosh --port 27020
+    rs.initiate({
+       _id: "configReplSet",
+       configsvr: true,
+       members: [
+          { _id: 0, host: "localhost:27020" },
+          { _id: 1, host: "localhost:27021" },
+          { _id: 2, host: "localhost:27022" }
+       ]
+    })
+    \end{lstlisting}
+
+    The config server replica set is initiated by specifying its members on ports 27020, 27021, and 27022.
+
+    \item \textbf{Starting the \texttt{mongos} router}
+
+    \begin{lstlisting}
+    .\mongos --configdb configReplSet/localhost:27020,localhost:27021,localhost:27022 --port 27018
+    \end{lstlisting}
+
+    A \texttt{mongos} instance is started on port 27018. The \texttt{mongos} routes queries to the appropriate shard and connects to the config servers to get cluster information.
+
+    \item \textbf{Adding shards to the cluster}
+
+    \begin{lstlisting}
+    .\mongosh --port 27018
+
+    sh.addShard("shard1/localhost:27001")
+    sh.addShard("shard2/localhost:27002")
+    sh.addShard("shard3/localhost:27003")
+    \end{lstlisting}
+
+    Each shard is added to the cluster using the \texttt{addShard} command. The system now recognizes shards 1, 2, and 3 as part of the sharded database.
+
+    \item \textbf{Enabling sharding for the database}
+
+    \begin{lstlisting}
+    sh.enableSharding("MaMo-Art")
+    \end{lstlisting}
+
+    Sharding is enabled for the \texttt{MaMo-Art} database, allowing the distribution of collections across the shards.
+
+    \item \textbf{Sharding the paintings collection}
+
+    \begin{lstlisting}
+    use MaMo-Art
+    sh.shardCollection("MaMo-Art.paintings", { "_id": "hashed" })
+    \end{lstlisting}
+
+    The \texttt{MaMo-Art} database is sharded based on the \texttt{\_id} field. A hashed sharding key ensures that data is distributed evenly across shards.
+
+    \item \textbf{Checking sharding status and starting the balancer}
+
+    \begin{lstlisting}
+    sh.status()
+    sh.startBalancer()
+    \end{lstlisting}
+
+    The status of the sharded cluster is checked using \texttt{sh.status()}, and the balancer is started. The balancer helps distribute data across shards to prevent any one shard from becoming overloaded.
+\end{itemize}
+
 \newpage
 \section{API Development: Flask}
 \justify
