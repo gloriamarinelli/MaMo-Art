@@ -3,13 +3,8 @@
 \contentsline {section}{\numberline {3}Database: MongoDB}{5}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Why use MongoDB?}{5}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Analysis and management of data}{5}{subsection.3.2}%
-\contentsline {subsubsection}{\numberline {3.2.1}CSV file reading and parsing}{5}{subsubsection.3.2.1}%
-\contentsline {subsubsection}{\numberline {3.2.2}Text cleaning}{5}{subsubsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.3}Inserting data into MongoDB}{6}{subsubsection.3.2.3}%
-\contentsline {subsubsection}{\numberline {3.2.4}Managing MongoDB collections for specific artists}{6}{subsubsection.3.2.4}%
-\contentsline {subsubsection}{\numberline {3.2.5}Handling collections}{6}{subsubsection.3.2.5}%
-\contentsline {subsubsection}{\numberline {3.2.6}Handling duplicate checks for Edvard Munch}{6}{subsubsection.3.2.6}%
 \contentsline {subsection}{\numberline {3.3}Sharding}{6}{subsection.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.1}Configuring sharding}{7}{subsubsection.3.3.1}%
 \contentsline {section}{\numberline {4}API Development: Flask}{10}{section.4}%
-\contentsline {section}{\numberline {5}Frontend: React}{11}{section.5}%
+\contentsline {subsection}{\numberline {4.1}API Endpoints}{10}{subsection.4.1}%
+\contentsline {section}{\numberline {5}Frontend: React}{13}{section.5}%

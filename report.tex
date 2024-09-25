@@ -134,24 +134,30 @@ The \textbf{second} dataset is the MoMA Collection, which includes comprehensive
 
 The \texttt{database.py} script loads painting and artist data from CSV files into a MongoDB database. It cleans the data, removes duplicate painting titles, and inserts the records into a \textit{paintings} collection. It also creates separate collections for each artist to avoid duplicates, with Edvard Munch's paintings stored in both general and specific collections. Finally, it loads the artist data into an \textit{artists} collection, resulting in the MaMo-Art database containing \textit{paintings}, \textit{artists}, and individual collections for each artist.
 
-\subsubsection{CSV file reading and parsing}
+\textbf{CSV file reading and parsing}
+
 The data pertaining to paintings and artists is extracted from CSV files $\left(\texttt{paintings.csv}, \texttt{edvard\_munch.csv}, \texttt{artists.csv}\right)$ using the \textit{CSV} library. These files contain information on paintings and artists, and each row is processed in turn, with any unnecessary data removed.
 
-\subsubsection{Text cleaning}
+\textbf{Text cleaning}
+
 The CSV files are cleaned by removing unnecessary spaces and commas to ensure data consistency before insertion and normalization. Furthermore, any special characters in collection names are removed, such as dots at the end of artist names, to prevent any potential naming issues when creating MongoDB collections.
 
 To avoid repetition of entries for paintings and artists within the database, the titles of paintings are stored in a set $\left(\texttt{paintings\_titles}\right)$, thus simplifying the identification of duplicates during data processing.
 
-\subsubsection{Inserting data into MongoDB}
+\textbf{Inserting data into MongoDB}
+
 Once the data has been cleaned and deduplicated, it is inserted into MongoDB collections. Each painting or artist is represented as a document in the database. This is achieved using the \textit{insert\_one} method, which allows for the addition of each record individually.
 
-\subsubsection{Managing MongoDB collections for specific artists}
+\textbf{Managing MongoDB collections for specific artists}
+
 Paintings are inserted not only into the aggregate collection of \textit{paintings}, but also into distinct collections for specific artists using the \texttt{update\_one} method. For instance, Edvard Munch's artworks are included in both the main collection and a dedicated collection for the artist, \textit{Edvard Munch}.
 
-\subsubsection{Handling collections}
+\textbf{Handling collections}
+
 To prevent the replication of paintings during updates, the \texttt{update\_one} method with the \texttt{upsert=True} parameter guarantees the insertion of new paintings into the collection if they do not already exist. This is employed when associating paintings with specific artists within their respective collections.
 
-\subsubsection{Handling duplicate checks for Edvard Munch}
+\textbf{Handling duplicate checks for Edvard Munch}
+
 A specific check is carried out to determine whether a painting by Edvard Munch is already present in one of the collections. In the case that a duplicate is identified, the insertion is cancelled.
 
 
@@ -160,7 +166,7 @@ A specific check is carried out to determine whether a painting by Edvard Munch 
 
 The technique of \textbf{sharding} in MongoDB is employed to distribute data across multiple servers, thereby enhancing the performance, scalability, and reliability of large-scale databases. When a dataset reaches the limits of a single server's capacity, sharding enables horizontal scaling through the partitioning of data into smaller units, called \textbf{shards}, which are then distributed across multiple servers. Each shard contains a portion of the complete dataset.
 
-In the context of the \textbf{MaMo Art Gallery}, the implementation of sharding could prove particularly beneficial as the size of the dataset (including the large number of paintings, artist details, and user orders) increases over time. 
+In the context of the \textbf{MaMo Art Gallery}, the implementation of sharding could prove particularly beneficial as the size of the dataset (including the large number of paintings, artist details, and user orders) increases over time.
 
 \subsubsection{Configuring sharding}
 This section explains how to set up sharding in MongoDB. It involves creating multiple shards, setting up configuration servers, starting replica sets, and enabling sharding for a specific database. Here’s an explanation of each step.
@@ -168,7 +174,7 @@ This section explains how to set up sharding in MongoDB. It involves creating mu
 \begin{itemize}
     \item \textbf{Creating directories for shards and config servers}
 
-    \begin{lstlisting}
+          \begin{lstlisting}
     mkdir C:\data\shard1
     mkdir C:\data\shard2
     mkdir C:\data\shard3
@@ -177,22 +183,22 @@ This section explains how to set up sharding in MongoDB. It involves creating mu
     mkdir C:\data\config3
     \end{lstlisting}
 
-    Directories are created to store data for shards and config servers. Shards store parts of the database, while config servers manage the information for the sharded cluster.
+          Directories are created to store data for shards and config servers. Shards store parts of the database, while config servers manage the information for the sharded cluster.
 
-    \item \textbf{Starting MongoDB instances for each shard} 
+    \item \textbf{Starting MongoDB instances for each shard}
 
-    \begin{lstlisting}
+          \begin{lstlisting}
     .\mongod --shardsvr --replSet shard1 --port 27001 --dbpath C:\data\shard1 
     .\mongod --shardsvr --replSet shard2 --port 27002 --dbpath C:\data\shard2 
     .\mongod --shardsvr --replSet shard3 --port 27003 --dbpath C:\data\shard3
     \end{lstlisting}
 
-    Three MongoDB instances are started on different ports (27001, 27002, and 27003), each representing a shard in the cluster. The \texttt{--replSet} option names each replica set (shard1, shard2, shard3).
+          Three MongoDB instances are started on different ports (\textbf{27001, 27002} and \textbf{27003}), each representing a shard in the cluster. The \texttt{--replSet} option names each replica set (\textbf{shard1, shard2, shard3}).
 
 
     \item \textbf{Initiating replica sets for the shards}
 
-    \begin{lstlisting}
+          \begin{lstlisting}
     .\mongosh --port 27001
     rs.initiate()
 
@@ -203,21 +209,21 @@ This section explains how to set up sharding in MongoDB. It involves creating mu
     rs.initiate()
     \end{lstlisting}
 
-    Each shard is configured as a replica set, ensuring that data is copied for safety and high availability.
+          Each shard is configured as a replica set, ensuring that data is copied for safety and high availability.
 
     \item \textbf{Starting and configuring config servers}
 
-    \begin{lstlisting}
+          \begin{lstlisting}
     .\mongod --configsvr --replSet configReplSet --port 27020 --dbpath C:\data\config1 
     .\mongod --configsvr --replSet configReplSet --port 27021 --dbpath C:\data\config2
     .\mongod --configsvr --replSet configReplSet --port 27022 --dbpath C:\data\config3
     \end{lstlisting}
 
-    Three MongoDB instances store metadata for the sharded cluster. The \texttt{--configsvr} flag designates these instances as config servers. They are part of a replica set called \textit{configReplSet} to ensure high availability.
+          Three MongoDB instances store metadata for the sharded cluster. The \texttt{--configsvr} flag designates these instances as config servers. They are part of a replica set called \texttt{configReplSet} to ensure high availability.
 
     \item \textbf{Initiating the config server replica set}
 
-    \begin{lstlisting}
+          \begin{lstlisting}
     .\mongosh --port 27020
     rs.initiate({
        _id: "configReplSet",
@@ -230,19 +236,19 @@ This section explains how to set up sharding in MongoDB. It involves creating mu
     })
     \end{lstlisting}
 
-    The config server replica set is initiated by specifying its members on ports 27020, 27021, and 27022.
+          The config server replica set is initiated by specifying its members on ports \textbf{27020, 27021}, and \textbf{27022}.
 
     \item \textbf{Starting the \texttt{mongos} router}
 
-    \begin{lstlisting}
+          \begin{lstlisting}
     .\mongos --configdb configReplSet/localhost:27020,localhost:27021,localhost:27022 --port 27018
     \end{lstlisting}
 
-    A \texttt{mongos} instance is started on port 27018. The \texttt{mongos} routes queries to the appropriate shard and connects to the config servers to get cluster information.
+          A \texttt{mongos} instance is started on port \textbf{27018}. The \texttt{mongos} routes queries to the appropriate shard and connects to the config servers to get cluster information.
 
     \item \textbf{Adding shards to the cluster}
 
-    \begin{lstlisting}
+          \begin{lstlisting}
     .\mongosh --port 27018
 
     sh.addShard("shard1/localhost:27001")
@@ -250,41 +256,88 @@ This section explains how to set up sharding in MongoDB. It involves creating mu
     sh.addShard("shard3/localhost:27003")
     \end{lstlisting}
 
-    Each shard is added to the cluster using the \texttt{addShard} command. The system now recognizes shards 1, 2, and 3 as part of the sharded database.
+          Each shard is added to the cluster using the \texttt{addShard} command. The system now recognizes \textbf{shards 1, 2}, and \textbf{3} as part of the sharded database.
 
     \item \textbf{Enabling sharding for the database}
 
-    \begin{lstlisting}
+          \begin{lstlisting}
     sh.enableSharding("MaMo-Art")
     \end{lstlisting}
 
-    Sharding is enabled for the \texttt{MaMo-Art} database, allowing the distribution of collections across the shards.
+          Sharding is enabled for the \texttt{MaMo-Art} database, allowing the distribution of collections across the shards.
 
     \item \textbf{Sharding the paintings collection}
 
-    \begin{lstlisting}
+          \begin{lstlisting}
     use MaMo-Art
     sh.shardCollection("MaMo-Art.paintings", { "_id": "hashed" })
     \end{lstlisting}
 
-    The \texttt{MaMo-Art} database is sharded based on the \texttt{\_id} field. A hashed sharding key ensures that data is distributed evenly across shards.
+          The \texttt{MaMo-Art} database is sharded based on the \texttt{\_id} field. A hashed sharding key ensures that data is distributed evenly across shards.
 
     \item \textbf{Checking sharding status and starting the balancer}
 
-    \begin{lstlisting}
+          \begin{lstlisting}
     sh.status()
     sh.startBalancer()
     \end{lstlisting}
 
-    The status of the sharded cluster is checked using \texttt{sh.status()}, and the balancer is started. The balancer helps distribute data across shards to prevent any one shard from becoming overloaded.
+          The status of the sharded cluster is checked using \texttt{sh.status()}, and the balancer is started. The balancer helps distribute data across shards to prevent any one shard from becoming overloaded.
 \end{itemize}
 
 \newpage
 \section{API Development: Flask}
 \justify
 
-\newpage
+The \texttt{server.py} file defines a \textbf{Flask-based} web application programming interface (\textbf{API}) that interacts with a MongoDB database for the purpose of managing paintings and user data. Additionally, indexes are employed on relevant fields to enhance query performance and responses are consistently formatted in \textbf{JSON}.
 
+
+\subsection{API Endpoints} \justify The \textbf{API} has many endpoints that interact with the database. These include user authentication, managing painting data, searching, filtering, and handling cart operations. The following is a detailed overview of the available API endpoints, their purpose and how they interact with the database.
+
+
+\begin{itemize} 
+    
+    \item \textbf{/register} (POST): it is used to register new users. It accepts a JSON body containing the username, name, and password of the user, and stores this information in the \textit{user} collection. Before storing the user, the system checks if the username already exists to prevent duplicate entries.
+
+
+    \item \textbf{/login} (POST): Handles user login by validating the provided username and password against the stored credentials in the \texttt{user} collection. If the credentials match, a successful login response is returned; otherwise, it returns an error message.
+
+    \item \textbf{/getPaintingsFilter} (GET): Retrieves paintings based on filters such as \texttt{title}, \texttt{department}, and \texttt{name}. It uses a composite index on these fields to speed up query performance. If no filters are provided, the endpoint returns an error message requesting at least one parameter.
+
+    \item \textbf{/getPaintings} (GET): This endpoint retrieves all paintings from the database, without applying any filters or sorting mechanisms. It fetches all the documents from the \texttt{paintings} collection and returns them in JSON format.
+
+    \item \textbf{/getPaintingsDetails} (GET): Allows retrieval of painting details by specifying the painting's ID. It utilizes an index on the \texttt{id} field to enhance lookup speed, returning detailed information about the painting matching the given ID.
+
+    \item \textbf{/getPaintingsTitle} (GET): Retrieves all paintings with a title that matches a given regular expression. This operation does not leverage any indices, and the query is case-insensitive, allowing partial matches on painting titles.
+
+    \item \textbf{/getPaintingsTitleByIndex} (GET): Similar to the \texttt{/getPaintingsTitle} endpoint, but it utilizes an index on the \texttt{title} field for improved performance. Paintings are sorted by their title in ascending order before being returned.
+
+    \item \textbf{/getDepartments} (GET): Fetches a distinct list of all departments from the \texttt{paintings} collection. This allows clients to retrieve department names without fetching all paintings.
+
+    \item \textbf{/getPaintingsDep} (GET): Returns all paintings from a specific department, using the \texttt{department} parameter. The search is case-insensitive and partial matches are allowed. It returns an error if no department parameter is provided.
+
+    \item \textbf{/getPaintingsDepByIndex} (GET): Like \texttt{/getPaintingsDep}, this endpoint retrieves paintings based on department, but it uses an index on the \texttt{department} field for optimized querying.
+
+    \item \textbf{/getPaintingsArtist} (GET): Allows retrieval of paintings by artist name. The name parameter is matched using a regular expression that allows for case-insensitive searches.
+
+    \item \textbf{/getPaintingsArtistByIndex} (GET): Retrieves paintings by artist name but with the added benefit of an index on the \texttt{name} field. This significantly improves performance when fetching artist-specific paintings.
+
+    \item \textbf{/getArtists} (GET): Fetches a list of all collections in the MongoDB database, excluding the \texttt{user}, \texttt{paintings}, \texttt{orders}, and \texttt{artists} collections. This provides an organized way to list available artists without returning unnecessary collections.
+
+    \item \textbf{/getPaintingsArtistCollection} (GET): Retrieves all paintings from a specific artist's collection. The artist's name is passed as a parameter, and the paintings are fetched from the corresponding collection.
+
+    \item \textbf{/getBio} (GET): Fetches the biography of a specific artist, using the \texttt{artists} collection. The artist's name is passed as a query parameter, and a case-insensitive search is performed to match the name. If found, the artist's biography is returned.
+
+    \item \textbf{/addtocart} (POST): Adds an item to the user's cart. The request takes an order ID, username, and artwork ID as parameters, and inserts this data into the \texttt{orders} collection with a timestamp.
+
+    \item \textbf{/getUserOrders} (GET): Retrieves all orders associated with a specific username. The endpoint uses an index on the \texttt{username} field for faster lookups, returning a list of order IDs, artwork IDs, and timestamps in descending order.
+
+\end{itemize}
+
+Each endpoint handles error scenarios carefully, returning appropriate HTTP status codes and messages in JSON format, ensuring consistent communication with client applications.
+
+
+\newpage
 \section{Frontend: React}
 \justify
 
