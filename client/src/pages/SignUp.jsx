@@ -22,12 +22,18 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
-  
-  const [invalidUsername, setInvalidUsername] = useState(LoginResult.correctField);
-  const [invalidPassword, setInvalidPassword] = useState(LoginResult.correctField);
+
+  const [invalidUsername, setInvalidUsername] = useState(
+    LoginResult.correctField
+  );
+  const [invalidPassword, setInvalidPassword] = useState(
+    LoginResult.correctField
+  );
   const [showAlert, setShowAlert] = useState(false);
   const [invalidName, setInvalidName] = useState(LoginResult.correctField);
-  const [invalidConfirmPass, setInvalidConfirmPass] = useState(LoginResult.correctField);
+  const [invalidConfirmPass, setInvalidConfirmPass] = useState(
+    LoginResult.correctField
+  );
 
   async function SubmitLogin() {
     var checkPassed = true;
@@ -85,7 +91,10 @@ function SignUp() {
   }
 
   return (
-    <div className="SignUpContainer" style={{ backgroundImage: `url(${image1})` }}>
+    <div
+      className="SignUpContainer"
+      style={{ backgroundImage: `url(${image1})` }}
+    >
       {showAlert && (
         <Alert
           message=""
@@ -157,10 +166,14 @@ function SignUp() {
             />
             <div className="InputLabels">
               {invalidPassword === LoginResult.invalidField && (
-                <h5 className="invalidContentMessage">Insert at least 8 characters!</h5>
+                <h5 className="invalidContentMessage">
+                  Insert at least 8 characters!
+                </h5>
               )}
               {invalidPassword === LoginResult.wrongContent && (
-                <h5 className="invalidContentMessage">Passwords are different!</h5>
+                <h5 className="invalidContentMessage">
+                  Passwords are different!
+                </h5>
               )}
             </div>
           </div>
@@ -180,7 +193,9 @@ function SignUp() {
                 <h5 className="invalidContentMessage">Invalid content!</h5>
               )}
               {invalidConfirmPass === LoginResult.wrongContent && (
-                <h5 className="invalidContentMessage">Passwords are different!</h5>
+                <h5 className="invalidContentMessage">
+                  Passwords are different!
+                </h5>
               )}
             </div>
           </div>

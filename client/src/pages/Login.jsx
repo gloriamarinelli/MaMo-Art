@@ -72,7 +72,7 @@ function Login() {
     if (loggedIn) {
       setLogoutTimeout();
     }
-  }, [loggedIn]);
+  });
 
   return (
     <>

@@ -10,27 +10,27 @@
 \begin{document}
 
 \begin{titlepage}
-    \begingroup
-    \centering
-    \includegraphics[width=0.5\textwidth]{sapienza.png}\par\vspace{1cm}
+      \begingroup
+      \centering
+      \includegraphics[width=0.5\textwidth]{sapienza.png}\par\vspace{1cm}
 
-    {\bfseries\large Data Management Project \par}\vspace{0.5cm}
+      {\bfseries\large Data Management Project \par}\vspace{0.5cm}
 
-    {\bfseries\LARGE Mamo Art Gallery \par}\vspace{1cm}
+      {\bfseries\LARGE Mamo Art Gallery \par}\vspace{1cm}
 
-    {\small Faculty of Information Engineering, Computer Science and Statistics
-        \par}\vspace{0.1cm}
+      {\small Faculty of Information Engineering, Computer Science and Statistics
+            \par}\vspace{0.1cm}
 
-    {\small
-        M.Sc. Engineering in Computer Science
-        \par}\vspace{10cm}
+      {\small
+            M.Sc. Engineering in Computer Science
+            \par}\vspace{10cm}
 
-    \endgroup
+      \endgroup
 
-    {\textbf{\small
-            Presented by: \\
-            Gloria Marinelli, 2054014 \\
-            Mario Morra, 2156770}}\vfill
+      {\textbf{\small
+                  Presented by: \\
+                  Gloria Marinelli, 2054014 \\
+                  Mario Morra, 2156770}}\vfill
 
 \end{titlepage}
 
@@ -44,9 +44,9 @@ The idea is a web-based application which serves as an online marketplace for th
 The application's architectural framework consists of the following components:
 
 \begin{itemize}
-    \item A \textbf{database}, managed by MongoDB.
-    \item A \textbf{backend}, constructed using Python with the Flask web framework.
-    \item A \textbf{frontend}, developed using the ReactJS framework.
+      \item A \textbf{database}, managed by MongoDB.
+      \item A \textbf{backend}, constructed using Python with the Flask web framework.
+      \item A \textbf{frontend}, developed using the ReactJS framework.
 \end{itemize}
 
 The entire application is based on two datasets: the \href{https://www.kaggle.com/datasets/isaienkov/edvard-munch-paintings}{Edvard Munch Paintings } dataset and the \href{https://www.kaggle.com/datasets/momanyc/museum-collection?select=artworks.csv}{Museum of Modern Art (MoMA) Collection} dataset.
@@ -54,14 +54,14 @@ The entire application is based on two datasets: the \href{https://www.kaggle.co
 The web application is structured as follows:
 
 \begin{itemize}
-    \item The \textbf{login page}
-    \item the \textbf{sign up page}
+      \item The \textbf{login page}
+      \item the \textbf{sign up page}
 
-    \item The \textbf{homepage}: displays all available paintings at MaMo Art gallery. Selecting a painting will display a summary of relevant information about the artwork, including the title, name, date, medium, dimensions, acquisition date, and other pertinent details. Furthermore, users have the option to purchase the selected artwork directly from this page, which will then be added to their list of orders.
+      \item The \textbf{homepage}: displays all available paintings at MaMo Art gallery. Selecting a painting will display a summary of relevant information about the artwork, including the title, name, date, medium, dimensions, acquisition date, and other pertinent details. Furthermore, users have the option to purchase the selected artwork directly from this page, which will then be added to their list of orders.
 
-    \item The \textbf{orders page}: displays all orders placed by the user, including the Order ID, the Artwork ID and the date of the order.
+      \item The \textbf{orders page}: displays all orders placed by the user, including the Order ID, the Artwork ID and the date of the order.
 
-    \item The \textbf{artists page}:  displays all artists associated with MaMo Art Gallery. Clicking on an artist displays their biography (nationality, gender, birth year, death year) and the list of their relative paintings.
+      \item The \textbf{artists page}:  displays all artists associated with MaMo Art Gallery. Clicking on an artist displays their biography (nationality, gender, birth year, death year) and the list of their relative paintings.
 
 \end{itemize}
 
@@ -74,48 +74,49 @@ The application is built upon two datasets: the \href{https://www.kaggle.com/dat
 
 The \textbf{first} dataset includes all known paintings created by the Norwegian artist Edvard Munch. This dataset consists of 1,789 entries, each providing metadata related to Munch's paintings. The columns in the dataset are as follows:
 
+
 \begin{itemize}
-    \item \textbf{number}: index number of the painting
-    \item \textbf{name}: title of the painting
-    \item \textbf{year}: year of creation
-    \item \textbf{location}: current location of the painting
-    \item \textbf{status}: indicates whether the painting is lost (no image exists)
-    \item \textbf{technique}: technique used in creating the painting
-    \item \textbf{size}: original dimensions of the painting
-    \item \textbf{filename}: image file name in the dataset
+      \item \textbf{number}: index number of the painting
+      \item \textbf{name}: title of the painting
+      \item \textbf{year}: year of creation
+      \item \textbf{location}: current location of the painting
+      \item \textbf{status}: indicates whether the painting is lost (no image exists)
+      \item \textbf{technique}: technique used in creating the painting
+      \item \textbf{size}: original dimensions of the painting
+      \item \textbf{filename}: image file name in the dataset
 \end{itemize}
 
 
 The \textbf{second} dataset is the MoMA Collection, which includes comprehensive records of artworks and artists represented in the museum. This dataset is divided into two CSV files: one containing artworks, with 218,000 records, and the other containing artists, with 67,700 records.
 \begin{itemize}
-    \item \texttt{artworks.csv} contains the following columns:
-          \begin{itemize}
-              \item \textbf{artwork id}: unique identifier for the artwork
-              \item \textbf{title}: title of the artwork
-              \item \textbf{artist id}: identifier for the artist
-              \item \textbf{name}: name of the artist
-              \item \textbf{date}: date of the artwork
-              \item \textbf{medium}: material or technique used
-              \item \textbf{dimensions}: physical dimensions of the artwork
-              \item \textbf{acquisition date}: date when the artwork was acquired by moma
-              \item \textbf{credit}: source of acquisition
-              \item \textbf{catalogue}: catalogue information
-              \item \textbf{department}: department within moma responsible for the artwork
-              \item \textbf{classification}: artwork classification
-              \item \textbf{object number}: unique identifier for the object in the museum’s system
-              \item \textbf{diameter (cm)}, \textbf{circumference (cm)}, \textbf{height (cm)}, \textbf{length (cm)}, \textbf{width (cm)}, \textbf{depth (cm)}, \textbf{weight (kg)}, \textbf{duration (s)}: physical measurements of the artwork, where applicable
+      \item \texttt{artworks.csv} contains the following columns:
+            \begin{itemize}
+                  \item \textbf{artwork id}: unique identifier for the artwork
+                  \item \textbf{title}: title of the artwork
+                  \item \textbf{artist id}: identifier for the artist
+                  \item \textbf{name}: name of the artist
+                  \item \textbf{date}: date of the artwork
+                  \item \textbf{medium}: material or technique used
+                  \item \textbf{dimensions}: physical dimensions of the artwork
+                  \item \textbf{acquisition date}: date when the artwork was acquired by moma
+                  \item \textbf{credit}: source of acquisition
+                  \item \textbf{catalogue}: catalogue information
+                  \item \textbf{department}: department within moma responsible for the artwork
+                  \item \textbf{classification}: artwork classification
+                  \item \textbf{object number}: unique identifier for the object in the museum’s system
+                  \item \textbf{diameter (cm)}, \textbf{circumference (cm)}, \textbf{height (cm)}, \textbf{length (cm)}, \textbf{width (cm)}, \textbf{depth (cm)}, \textbf{weight (kg)}, \textbf{duration (s)}: physical measurements of the artwork, where applicable
 
-          \end{itemize}
+            \end{itemize}
 
-    \item \texttt{artists.csv} contains the following columns:
-          \begin{itemize}
-              \item \textbf{artist id}: unique identifier for the artist
-              \item \textbf{name}: name of the artist
-              \item \textbf{nationality}: nationality of the artist
-              \item \textbf{gender}: gender of the artist
-              \item \textbf{birth year}: year of birth
-              \item \textbf{death year}: year of death (if applicable)
-          \end{itemize}
+      \item \texttt{artists.csv} contains the following columns:
+            \begin{itemize}
+                  \item \textbf{artist id}: unique identifier for the artist
+                  \item \textbf{name}: name of the artist
+                  \item \textbf{nationality}: nationality of the artist
+                  \item \textbf{gender}: gender of the artist
+                  \item \textbf{birth year}: year of birth
+                  \item \textbf{death year}: year of death (if applicable)
+            \end{itemize}
 \end{itemize}
 
 \newpage
@@ -172,9 +173,9 @@ In the context of the \textbf{MaMo Art Gallery}, the implementation of sharding 
 This section explains how to set up sharding in MongoDB. It involves creating multiple shards, setting up configuration servers, starting replica sets, and enabling sharding for a specific database. Here’s an explanation of each step.
 
 \begin{itemize}
-    \item \textbf{Creating directories for shards and config servers}
+      \item \textbf{Creating directories for shards and config servers}
 
-          \begin{lstlisting}
+            \begin{lstlisting}
     mkdir C:\data\shard1
     mkdir C:\data\shard2
     mkdir C:\data\shard3
@@ -183,22 +184,22 @@ This section explains how to set up sharding in MongoDB. It involves creating mu
     mkdir C:\data\config3
     \end{lstlisting}
 
-          Directories are created to store data for shards and config servers. Shards store parts of the database, while config servers manage the information for the sharded cluster.
+            Directories are created to store data for shards and config servers. Shards store parts of the database, while config servers manage the information for the sharded cluster.
 
-    \item \textbf{Starting MongoDB instances for each shard}
+      \item \textbf{Starting MongoDB instances for each shard}
 
-          \begin{lstlisting}
+            \begin{lstlisting}
     .\mongod --shardsvr --replSet shard1 --port 27001 --dbpath C:\data\shard1 
     .\mongod --shardsvr --replSet shard2 --port 27002 --dbpath C:\data\shard2 
     .\mongod --shardsvr --replSet shard3 --port 27003 --dbpath C:\data\shard3
     \end{lstlisting}
 
-          Three MongoDB instances are started on different ports (\textbf{27001, 27002} and \textbf{27003}), each representing a shard in the cluster. The \texttt{--replSet} option names each replica set (\textbf{shard1, shard2, shard3}).
+            Three MongoDB instances are started on different ports (\textbf{27001, 27002} and \textbf{27003}), each representing a shard in the cluster. The \texttt{--replSet} option names each replica set (\textbf{shard1, shard2, shard3}).
 
 
-    \item \textbf{Initiating replica sets for the shards}
+      \item \textbf{Initiating replica sets for the shards}
 
-          \begin{lstlisting}
+            \begin{lstlisting}
     .\mongosh --port 27001
     rs.initiate()
 
@@ -209,21 +210,21 @@ This section explains how to set up sharding in MongoDB. It involves creating mu
     rs.initiate()
     \end{lstlisting}
 
-          Each shard is configured as a replica set, ensuring that data is copied for safety and high availability.
+            Each shard is configured as a replica set, ensuring that data is copied for safety and high availability.
 
-    \item \textbf{Starting and configuring config servers}
+      \item \textbf{Starting and configuring config servers}
 
-          \begin{lstlisting}
+            \begin{lstlisting}
     .\mongod --configsvr --replSet configReplSet --port 27020 --dbpath C:\data\config1 
     .\mongod --configsvr --replSet configReplSet --port 27021 --dbpath C:\data\config2
     .\mongod --configsvr --replSet configReplSet --port 27022 --dbpath C:\data\config3
     \end{lstlisting}
 
-          Three MongoDB instances store metadata for the sharded cluster. The \texttt{--configsvr} flag designates these instances as config servers. They are part of a replica set called \texttt{configReplSet} to ensure high availability.
+            Three MongoDB instances store metadata for the sharded cluster. The \texttt{--configsvr} flag designates these instances as config servers. They are part of a replica set called \texttt{configReplSet} to ensure high availability.
 
-    \item \textbf{Initiating the config server replica set}
+      \item \textbf{Initiating the config server replica set}
 
-          \begin{lstlisting}
+            \begin{lstlisting}
     .\mongosh --port 27020
     rs.initiate({
        _id: "configReplSet",
@@ -236,19 +237,19 @@ This section explains how to set up sharding in MongoDB. It involves creating mu
     })
     \end{lstlisting}
 
-          The config server replica set is initiated by specifying its members on ports \textbf{27020, 27021}, and \textbf{27022}.
+            The config server replica set is initiated by specifying its members on ports \textbf{27020, 27021}, and \textbf{27022}.
 
-    \item \textbf{Starting the \texttt{mongos} router}
+      \item \textbf{Starting the \texttt{mongos} router}
 
-          \begin{lstlisting}
+            \begin{lstlisting}
     .\mongos --configdb configReplSet/localhost:27020,localhost:27021,localhost:27022 --port 27018
     \end{lstlisting}
 
-          A \texttt{mongos} instance is started on port \textbf{27018}. The \texttt{mongos} routes queries to the appropriate shard and connects to the config servers to get cluster information.
+            A \texttt{mongos} instance is started on port \textbf{27018}. The \texttt{mongos} routes queries to the appropriate shard and connects to the config servers to get cluster information.
 
-    \item \textbf{Adding shards to the cluster}
+      \item \textbf{Adding shards to the cluster}
 
-          \begin{lstlisting}
+            \begin{lstlisting}
     .\mongosh --port 27018
 
     sh.addShard("shard1/localhost:27001")
@@ -256,33 +257,33 @@ This section explains how to set up sharding in MongoDB. It involves creating mu
     sh.addShard("shard3/localhost:27003")
     \end{lstlisting}
 
-          Each shard is added to the cluster using the \texttt{addShard} command. The system now recognizes \textbf{shards 1, 2}, and \textbf{3} as part of the sharded database.
+            Each shard is added to the cluster using the \texttt{addShard} command. The system now recognizes \textbf{shards 1, 2}, and \textbf{3} as part of the sharded database.
 
-    \item \textbf{Enabling sharding for the database}
+      \item \textbf{Enabling sharding for the database}
 
-          \begin{lstlisting}
+            \begin{lstlisting}
     sh.enableSharding("MaMo-Art")
     \end{lstlisting}
 
-          Sharding is enabled for the \texttt{MaMo-Art} database, allowing the distribution of collections across the shards.
+            Sharding is enabled for the \texttt{MaMo-Art} database, allowing the distribution of collections across the shards.
 
-    \item \textbf{Sharding the paintings collection}
+      \item \textbf{Sharding the paintings collection}
 
-          \begin{lstlisting}
+            \begin{lstlisting}
     use MaMo-Art
     sh.shardCollection("MaMo-Art.paintings", { "_id": "hashed" })
     \end{lstlisting}
 
-          The \texttt{MaMo-Art} database is sharded based on the \texttt{\_id} field. A hashed sharding key ensures that data is distributed evenly across shards.
+            The \texttt{MaMo-Art} database is sharded based on the \texttt{\_id} field. A hashed sharding key ensures that data is distributed evenly across shards.
 
-    \item \textbf{Checking sharding status and starting the balancer}
+      \item \textbf{Checking sharding status and starting the balancer}
 
-          \begin{lstlisting}
+            \begin{lstlisting}
     sh.status()
     sh.startBalancer()
     \end{lstlisting}
 
-          The status of the sharded cluster is checked using \texttt{sh.status()}, and the balancer is started. The balancer helps distribute data across shards to prevent any one shard from becoming overloaded.
+            The status of the sharded cluster is checked using \texttt{sh.status()}, and the balancer is started. The balancer helps distribute data across shards to prevent any one shard from becoming overloaded.
 \end{itemize}
 
 \newpage
@@ -295,50 +296,35 @@ The \texttt{server.py} file defines a \textbf{Flask-based} web application progr
 \subsection{API Endpoints} \justify The \textbf{API} has many endpoints that interact with the database. These include user authentication, managing painting data, searching, filtering, and handling cart operations. The following is a detailed overview of the available API endpoints, their purpose and how they interact with the database.
 
 
-\begin{itemize} 
-    
-    \item \textbf{/register} (POST): it is used to register new users. It accepts a JSON body containing the username, name, and password of the user, and stores this information in the \textit{user} collection. Before storing the user, the system checks if the username already exists to prevent duplicate entries.
+\begin{itemize}
+
+      \item \textbf{/register} (POST): it is used to register new users. It accepts a JSON body containing the \textbf{username, name}, and \textbf{password} of the user, and stores this information in the \textit{user} collection. Before storing the user, the system checks if the username already exists to prevent duplicate entries.
+
+      \item \textbf{/login} (POST): handles user login by checking that the \textbf{username} and \textbf{password} match the credentials stored in the \textit{user} collection. If they match, a successful login response is returned, otherwise an error message.
 
 
-    \item \textbf{/login} (POST): Handles user login by validating the provided username and password against the stored credentials in the \texttt{user} collection. If the credentials match, a successful login response is returned; otherwise, it returns an error message.
+      \item \textbf{/getPaintings} (GET): returns all paintings from the \textit{paintings} collection without applying any filters or sorting mechanisms.
+      \item
+      \item \textbf{/getDepartments} (GET):
 
-    \item \textbf{/getPaintingsFilter} (GET): Retrieves paintings based on filters such as \texttt{title}, \texttt{department}, and \texttt{name}. It uses a composite index on these fields to speed up query performance. If no filters are provided, the endpoint returns an error message requesting at least one parameter.
+      \item \textbf{/getPaintingsFilter} (GET): returns paintings from the \textit{paintings} collection, based on filters such as \textbf{title, department} and \textbf{name} (at least one parameter is required, otherwise an error is returned). It uses a \textbf{compound index} on these fields to improve query performance.
 
-    \item \textbf{/getPaintings} (GET): This endpoint retrieves all paintings from the database, without applying any filters or sorting mechanisms. It fetches all the documents from the \texttt{paintings} collection and returns them in JSON format.
+      \item \textbf{/getPaintingsDetails} (GET): returns a specific painting from the \textit{paintings} collection based on the provided \textbf{id} parameter. It utilises an \textbf{index} on the \textbf{id} field to enhance lookup speed.
 
-    \item \textbf{/getPaintingsDetails} (GET): Allows retrieval of painting details by specifying the painting's ID. It utilizes an index on the \texttt{id} field to enhance lookup speed, returning detailed information about the painting matching the given ID.
+      \item \textbf{/addtocart} (GET):
+      \item \textbf{/getArtists} (GET):
+      \item \textbf{/getPaintingsArtistCollection} (GET):
+      \item \textbf{/getBio} (GET):
+      \item \textbf{/getUserOrders} (GET):
 
-    \item \textbf{/getPaintingsTitle} (GET): Retrieves all paintings with a title that matches a given regular expression. This operation does not leverage any indices, and the query is case-insensitive, allowing partial matches on painting titles.
 
-    \item \textbf{/getPaintingsTitleByIndex} (GET): Similar to the \texttt{/getPaintingsTitle} endpoint, but it utilizes an index on the \texttt{title} field for improved performance. Paintings are sorted by their title in ascending order before being returned.
 
-    \item \textbf{/getDepartments} (GET): Fetches a distinct list of all departments from the \texttt{paintings} collection. This allows clients to retrieve department names without fetching all paintings.
-
-    \item \textbf{/getPaintingsDep} (GET): Returns all paintings from a specific department, using the \texttt{department} parameter. The search is case-insensitive and partial matches are allowed. It returns an error if no department parameter is provided.
-
-    \item \textbf{/getPaintingsDepByIndex} (GET): Like \texttt{/getPaintingsDep}, this endpoint retrieves paintings based on department, but it uses an index on the \texttt{department} field for optimized querying.
-
-    \item \textbf{/getPaintingsArtist} (GET): Allows retrieval of paintings by artist name. The name parameter is matched using a regular expression that allows for case-insensitive searches.
-
-    \item \textbf{/getPaintingsArtistByIndex} (GET): Retrieves paintings by artist name but with the added benefit of an index on the \texttt{name} field. This significantly improves performance when fetching artist-specific paintings.
-
-    \item \textbf{/getArtists} (GET): Fetches a list of all collections in the MongoDB database, excluding the \texttt{user}, \texttt{paintings}, \texttt{orders}, and \texttt{artists} collections. This provides an organized way to list available artists without returning unnecessary collections.
-
-    \item \textbf{/getPaintingsArtistCollection} (GET): Retrieves all paintings from a specific artist's collection. The artist's name is passed as a parameter, and the paintings are fetched from the corresponding collection.
-
-    \item \textbf{/getBio} (GET): Fetches the biography of a specific artist, using the \texttt{artists} collection. The artist's name is passed as a query parameter, and a case-insensitive search is performed to match the name. If found, the artist's biography is returned.
-
-    \item \textbf{/addtocart} (POST): Adds an item to the user's cart. The request takes an order ID, username, and artwork ID as parameters, and inserts this data into the \texttt{orders} collection with a timestamp.
-
-    \item \textbf{/getUserOrders} (GET): Retrieves all orders associated with a specific username. The endpoint uses an index on the \texttt{username} field for faster lookups, returning a list of order IDs, artwork IDs, and timestamps in descending order.
 
 \end{itemize}
 
 Each endpoint handles error scenarios carefully, returning appropriate HTTP status codes and messages in JSON format, ensuring consistent communication with client applications.
 
 
-\newpage
-\section{Frontend: React}
-\justify
+
 
 \end{document}

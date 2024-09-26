@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavbarComponents";
 import {
   CircularProgress,
@@ -7,10 +6,6 @@ import {
   CardContent,
   Typography,
   Grid,
-  Pagination,
-  CardActions,
-  Button,
-  Box,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -55,7 +50,7 @@ function Orders() {
   const handleOpenOrder = async (artwork_id) => {
     try {
       const response = await fetch(
-        `${endpoint}/getPaintingsByIndex?id=${artwork_id}`
+        `${endpoint}/getPaintingsDetails?id=${artwork_id}`
       );
       const data = await response.json();
       if (data.paintings && data.paintings.length > 0) {
@@ -145,8 +140,8 @@ function Orders() {
       </div>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle style={{color: "#ff7f50", textAlign: "center"}}>
-         <b>Painting Details</b> 
+        <DialogTitle style={{ color: "#ff7f50", textAlign: "center" }}>
+          <b>Painting Details</b>
           <IconButton
             edge="end"
             color="inherit"
@@ -155,7 +150,7 @@ function Orders() {
             sx={{
               position: "absolute",
               right: 20,
-              top:10,
+              top: 10,
               color: (theme) => theme.palette.grey[500],
             }}
           >
@@ -166,7 +161,7 @@ function Orders() {
           {selectedArtwork ? (
             <div>
               <Typography variant="h6">
-              <strong>Title:</strong> {selectedArtwork.title}
+                <strong>Title:</strong> {selectedArtwork.title}
               </Typography>
               <hr></hr>
               <Typography variant="body1">

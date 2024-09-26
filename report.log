@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.17)  25 SEP 2024 15:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.17)  26 SEP 2024 10:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -250,7 +250,7 @@ Package hyperref Info: Link coloring OFF on input line 10.
 \openout3 = `report.out'.
 
 \c@lstlisting=\count298
-<sapienza.png, id=43, 1798.72pt x 573.14125pt>
+<sapienza.png, id=39, 1798.72pt x 573.14125pt>
 File: sapienza.png Graphic file (type png)
 <use sapienza.png>
 Package pdftex.def Info: sapienza.png  used on input line 15.
@@ -288,7 +288,7 @@ l.38 \newpage
 [5]
 
 [6]
-Overfull \hbox (1.06905pt too wide) in paragraph at lines 196--197
+Overfull \hbox (1.06905pt too wide) in paragraph at lines 197--198
 []\OT1/cmr/m/n/12 Three Mon-goDB in-stances are started on dif-fer-ent ports (\OT1/cmr/bx/n/12 27001, 27002
  []
 
@@ -296,7 +296,7 @@ Overfull \hbox (1.06905pt too wide) in paragraph at lines 196--197
 
 [7]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 241.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 242.
 
 
 [8]
@@ -304,41 +304,27 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
 [9]
 
 [10]
-Overfull \hbox (23.10413pt too wide) in paragraph at lines 313--314
-[]\OT1/cmr/bx/n/12 /getPaintingsTitleByIndex \OT1/cmr/m/n/12 (GET): Sim-i-lar to the \OT1/cmtt/m/n/12 /getPaintingsTitle
- []
 
-
-Overfull \hbox (11.40854pt too wide) in paragraph at lines 317--318
-\OT1/cmr/m/n/12 part-ment, us-ing the \OT1/cmtt/m/n/12 department \OT1/cmr/m/n/12 pa-ram-e-ter. The search is case-insensitive
- []
-
-
-
-[11]
-
-[12]
-
-[13] (report.aux)
+[11] (report.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-16>
  ***********
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 692EB26DE26C3D251B26F03F3EDD9BE0;1415.
+(rerunfilecheck)             Checksum: 6E03FF87FE7D2289D6F023B510494280;1293.
  ) 
 Here is how much of TeX's memory you used:
- 10727 strings out of 473899
- 169166 string characters out of 5726500
+ 10723 strings out of 473899
+ 169132 string characters out of 5726500
  2019960 words of memory out of 5000000
- 33417 multiletter control sequences out of 15000+600000
+ 33416 multiletter control sequences out of 15000+600000
  564091 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  79i,6n,93p,644b,1956s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\glori\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on report.pdf (14 pages, 177504 bytes).
+Output written on report.pdf (12 pages, 172617 bytes).
 PDF statistics:
- 231 PDF objects out of 1000 (max. 8388607)
- 76 named destinations out of 1000 (max. 500000)
- 86 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 217 PDF objects out of 1000 (max. 8388607)
+ 73 named destinations out of 1000 (max. 500000)
+ 78 words of extra memory for PDF output out of 10000 (max. 10000000)
 

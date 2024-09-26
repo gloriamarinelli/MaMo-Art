@@ -74,7 +74,7 @@ function PaintingDetails() {
       .padStart(7, "0");
     const randomLetters = Array.from({ length: 3 }, () =>
       letters.charAt(Math.floor(Math.random() * letters.length))
-    ).join(""); 
+    ).join("");
     return `${randomLetters}${numbers}`;
   };
 
