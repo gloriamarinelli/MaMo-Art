@@ -26,8 +26,11 @@ def before_request():
 
 
 # client = MongoClient('mongodb+srv://user1:rxGIWxHGMKNWWee0@cluster0.gbypuyv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient("mongodb://localhost:27018/")
 db = client["MaMo-Art"]
+
+
+########### API USED IN THE FRONTEND ###########
 
 
 @app.route("/")
@@ -84,6 +87,35 @@ def login():
     )
 
 
+########### getPaintings, get all paintings without any structure
+@app.route("/getPaintings", methods=["GET"])
+def getPaintings():
+    paintings = []
+    paintings_coll = db["paintings"]
+
+    for painting in paintings_coll.find():
+        painting["_id"] = str(painting["_id"])
+        paintings.append(painting)
+
+    if not paintings:
+        return jsonify({"message": "No paintings found!", "status": 404})
+
+    return jsonify({"paintings": paintings, "status": 200})
+
+
+########### getDepartements, get all departments without any structure
+@app.route("/getDepartments", methods=["GET"])
+def getDepartments():
+    paintings_coll = db["paintings"]
+
+    departments = paintings_coll.distinct("department")
+
+    if not departments:
+        return jsonify({"message": "No departments found!", "status": 404})
+
+    return jsonify({"departments": departments, "status": 200})
+
+
 ########### getPaintingsFilter, get all paintings with PARAM = TITLE, DEPARTMENT, NAME using the filter method
 @app.route("/getPaintingsFilter", methods=["GET"])
 def getPaintingsFilter():
@@ -123,22 +155,6 @@ def getPaintingsFilter():
     return jsonify({"paintings": paintings, "status": 200})
 
 
-########### getPaintings, get all paintings without any structure
-@app.route("/getPaintings", methods=["GET"])
-def getPaintings():
-    paintings = []
-    paintings_coll = db["paintings"]
-
-    for painting in paintings_coll.find():
-        painting["_id"] = str(painting["_id"])
-        paintings.append(painting)
-
-    if not paintings:
-        return jsonify({"message": "No paintings found!", "status": 404})
-
-    return jsonify({"paintings": paintings, "status": 200})
-
-
 ########### getPaintingsDetails, get all paintings with PARAM = ID with an index
 @app.route("/getPaintingsDetails", methods=["GET"])
 def getPaintingsDetails():
@@ -166,10 +182,153 @@ def getPaintingsDetails():
     return jsonify({"paintings": paintings, "status": 200})
 
 
-def serializeDocument(doc):
-    if "_id" in doc:
-        doc["_id"] = str(doc["_id"])
-    return doc
+########### addtocart, add an item to the cart with PARAM = ORDER_ID, USERNAME, ARTWORK_ID
+@app.route("/addtocart", methods=["POST"])
+def addtocart():
+    data = request.get_json()
+
+    cart_coll = db["orders"]
+
+    order_id = data.get("order_id")
+    username = data.get("username")
+    artwork_id = data.get("artwork_id")
+    timestamp = datetime.now()
+
+    if not order_id or not username or not artwork_id:
+        return jsonify({"error": "Missing required fields"}), 400
+
+    cart_data = {
+        "order_id": order_id,
+        "username": username,
+        "artwork_id": artwork_id,
+        "timestamp": timestamp,
+    }
+
+    result = cart_coll.insert_one(cart_data)
+
+    return (
+        jsonify({"message": "Item added to cart", "cart_id": str(result.inserted_id)}),
+        201,
+    )
+
+
+########### getArtists, use of the collections (except 'user' , 'paintings' and 'artists' ) in the database
+@app.route("/getArtists", methods=["GET"])
+def getArtists():
+    db = client["MaMo-Art"]
+
+    # Get all collections in the database
+    collections = db.list_collection_names()
+
+    # Filter out 'user' and 'paintings' and 'orders' collections
+    collections_to_return = [
+        col
+        for col in collections
+        if col not in ["user", "paintings", "orders", "artists"]
+    ]
+
+    # Sort the list of artists
+    collections_to_return.sort()
+
+    return {"artists": collections_to_return}, 200
+
+
+########### getPaintingsArtistCollection DB = ALL THE COLLECTIONS, get all paintings with PARAM = NAME without any structure
+@app.route("/getPaintingsArtistCollection", methods=["GET"])
+def getPaintingsArtistCollection():
+    name = request.args.get("name")
+
+    if not name:
+        return jsonify({"message": "Name query parameter is missing!", "status": 400})
+
+    db = client["MaMo-Art"]  # database 'MaMo-Art'
+
+    # Ensure the artist exists
+    if name not in db.list_collection_names():
+        {"message": "No artists found for the given name!", "status": 404}
+
+    # Get paintings from the artist's collection
+    collection = db[name]
+    paintings = list(collection.find({}))
+
+    if not paintings:
+        {"message": "No paintings found for the given name!", "status": 404}
+
+    # list of dictionaries
+    details_painting = [
+        {
+            "title": p.get("title"),
+            "date": p.get("date"),
+            "medium": p.get("medium"),
+            "dimensions": p.get("dimensions"),
+            "acquisition_date": p.get("acquisition_date"),
+            "credit": p.get("credit"),
+            "catalogue": p.get("catalogue"),
+            "department": p.get("department"),
+            "classification": p.get("classification"),
+            "object_number": p.get("object_number"),
+            "diameter_cm": p.get("diameter_cm"),
+            "circumference_cm": p.get("circumference_cm"),
+            "height_cm": p.get("height_cm"),
+            "length_cm": p.get("length_cm"),
+            "width_cm": p.get("width_cm"),
+            "depth_cm": p.get("depth_cm"),
+            "weight_kg": p.get("weight_kg"),
+            "duration_s": p.get("duration_s"),
+        }
+        for p in paintings
+    ]
+
+    return jsonify({"paintings": details_painting}), 200
+
+
+########### getBio, get the biography of an artist with PARAM = NAME
+@app.route("/getBio", methods=["GET"])
+def getBio():
+    name = request.args.get("name")
+
+    if not name:
+        return jsonify({"message": "Name parameter is required!", "status": 400})
+
+    artists_coll = db["artists"]
+
+    # Escape special characters in the artist name for regex
+    fixed_name = re.escape(name)
+
+    artist = artists_coll.find_one({"name": {"$regex": fixed_name, "$options": "i"}})
+
+    if not artist:
+        return jsonify(
+            {"message": "No artists found for the given name!", "status": 404}
+        )
+
+    artist["_id"] = str(artist["_id"])
+
+    return jsonify({"artist": artist, "status": 200})
+
+
+########### getUserOrders, get all orders with PARAM = USERNAME with an index
+@app.route("/getUserOrders", methods=["GET"])
+def getUserOrders():
+    username = request.args.get("username")
+
+    if not username:
+        return jsonify({"error": "Missing username parameter"}), 400
+
+    cart_coll = db["orders"]
+
+    cart_coll.create_index([("username", ASCENDING)], name="username_index")
+
+    query = {"username": username}
+
+    orders_details = {"order_id": 1, "artwork_id": 1, "timestamp": 1, "_id": 0}
+
+    orders = list(cart_coll.find(query, orders_details).sort("timestamp", DESCENDING))
+
+    return jsonify({"cart": parse_json(orders)}), 200
+
+
+########### API THAT USE DIFFERENT STRUCTURE FOR THE SAME QUERY ###########
 
 
 ########### getPaintingsTitle, get all paintings with PARAM = TITLE without any structure
@@ -218,19 +377,6 @@ def getPaintingsTitleByIndex():
     paintings = [serializeDocument(doc) for doc in paintings]
 
     return jsonify({"paintings": paintings, "status": 200})
-
-
-########### getDepartements, get all departments without any structure
-@app.route("/getDepartments", methods=["GET"])
-def getDepartments():
-    paintings_coll = db["paintings"]
-
-    departments = paintings_coll.distinct("department")
-
-    if not departments:
-        return jsonify({"message": "No departments found!", "status": 404})
-
-    return jsonify({"departments": departments, "status": 200})
 
 
 ########### getPaintingsDep, get all paintings with PARAM = DEPARTMENT without any structure
@@ -333,201 +479,14 @@ def getPaintingsArtistByIndex():
     return jsonify({"paintings": paintings, "status": 200})
 
 
-########### getArtists, use of the collections (except 'user' , 'paintings' and 'artists' ) in the database
-@app.route("/getArtists", methods=["GET"])
-def getArtists():
-    db = client["MaMo-Art"]
-
-    # Get all collections in the database
-    collections = db.list_collection_names()
-
-    # Filter out 'user' and 'paintings' and 'orders' collections
-    collections_to_return = [
-        col
-        for col in collections
-        if col not in ["user", "paintings", "orders", "artists"]
-    ]
-
-    # Sort the list of artists
-    collections_to_return.sort()
-
-    return {"artists": collections_to_return}, 200
-
-
-########### getPaintingsArtistCollection DB = ALL THE COLLECTIONS, get all paintings with PARAM = NAME without any structure
-@app.route("/getPaintingsArtistCollection", methods=["GET"])
-def getPaintingsArtistCollection():
-    name = request.args.get("name")
-
-    if not name:
-        return jsonify({"message": "Name query parameter is missing!", "status": 400})
-
-    db = client["MaMo-Art"]  # database 'MaMo-Art'
-
-    # Ensure the artist exists
-    if name not in db.list_collection_names():
-        {"message": "No artists found for the given name!", "status": 404}
-
-    # Get paintings from the artist's collection
-    collection = db[name]
-    paintings = list(collection.find({}))
-
-    if not paintings:
-        {"message": "No paintings found for the given name!", "status": 404}
-
-    # list of dictionaries
-    details_painting = [
-        {
-            "title": p.get("title"),
-            "date": p.get("date"),
-            "medium": p.get("medium"),
-            "dimensions": p.get("dimensions"),
-            "acquisition_date": p.get("acquisition_date"),
-            "credit": p.get("credit"),
-            "catalogue": p.get("catalogue"),
-            "department": p.get("department"),
-            "classification": p.get("classification"),
-            "object_number": p.get("object_number"),
-            "diameter_cm": p.get("diameter_cm"),
-            "circumference_cm": p.get("circumference_cm"),
-            "height_cm": p.get("height_cm"),
-            "length_cm": p.get("length_cm"),
-            "width_cm": p.get("width_cm"),
-            "depth_cm": p.get("depth_cm"),
-            "weight_kg": p.get("weight_kg"),
-            "duration_s": p.get("duration_s"),
-        }
-        for p in paintings
-    ]
-
-    return jsonify({"paintings": details_painting}), 200
-
-
-########### getBio, get the biography of an artist with PARAM = NAME
-@app.route("/getBio", methods=["GET"])
-def getBio():
-    name = request.args.get("name")
-
-    if not name:
-        return jsonify({"message": "Name parameter is required!", "status": 400})
-
-    artists_coll = db["artists"]
-
-    # Escape special characters in the artist name for regex
-    fixed_name = re.escape(name)
-
-    artist = artists_coll.find_one({"name": {"$regex": fixed_name, "$options": "i"}})
-
-    if not artist:
-        return jsonify(
-            {"message": "No artists found for the given name!", "status": 404}
-        )
-
-    artist["_id"] = str(artist["_id"])
-
-    return jsonify({"artist": artist, "status": 200})
-
-
-########### addtocart, add an item to the cart with PARAM = ORDER_ID, USERNAME, ARTWORK_ID
-@app.route("/addtocart", methods=["POST"])
-def addtocart():
-    data = request.get_json()
-
-    cart_coll = db["orders"]
-
-    order_id = data.get("order_id")
-    username = data.get("username")
-    artwork_id = data.get("artwork_id")
-    timestamp = datetime.now()
-
-    if not order_id or not username or not artwork_id:
-        return jsonify({"error": "Missing required fields"}), 400
-
-    cart_data = {
-        "order_id": order_id,
-        "username": username,
-        "artwork_id": artwork_id,
-        "timestamp": timestamp,
-    }
-
-    result = cart_coll.insert_one(cart_data)
-
-    return (
-        jsonify({"message": "Item added to cart", "cart_id": str(result.inserted_id)}),
-        201,
-    )
-
-
-########### getUserOrders, get all orders with PARAM = USERNAME with an index
-@app.route("/getUserOrders", methods=["GET"])
-def getUserOrders():
-    username = request.args.get("username")
-
-    if not username:
-        return jsonify({"error": "Missing username parameter"}), 400
-
-    cart_coll = db["orders"]
-
-    cart_coll.create_index([("username", ASCENDING)], name="username_index")
-
-    query = {"username": username}
-
-    orders_details = {"order_id": 1, "artwork_id": 1, "timestamp": 1, "_id": 0}
-
-    orders = list(cart_coll.find(query, orders_details).sort("timestamp", DESCENDING))
-
-    return jsonify({"cart": parse_json(orders)}), 200
-
-
-"""@app.route("/searchPaintings", methods=["GET"])
-def searchPaintings():
-    start_year = request.args.get("start_year", type=int)
-    end_year = request.args.get("end_year", type=int)
-
-    if start_year is None or end_year is None:
-        return jsonify(
-            {"message": "Both start_year and end_year are required.", "status": 400}
-        )
-
-    paintings_coll = db["paintings"]
-
-    # Creare una query per cercare quadri nel range di date
-    query = {
-        "$or": [
-            {
-                "date": {
-                    "$regex": r"^\d{4}$",
-                    "$gte": str(start_year),
-                    "$lte": str(end_year),
-                }
-            },  # Format xxxx
-            {
-                "date": {
-                    "$regex": r"^\d{4}-\d{2}$",
-                    "$gte": f"{start_year}-01",
-                    "$lte": f"{end_year}-12",
-                }
-            },  # Format xxxx-xx
-            {
-                "date": {
-                    "$regex": r"^\d{4}-\d{4}$",
-                    "$gte": f"{start_year}-01",
-                    "$lte": f"{end_year}-12",
-                }
-            },  # Format xxxx-xxxx
-        ]
-    }
-
-    projection = {"title": 1, "date": 1, "_id": 0}
-
-    results = list(paintings_coll.find(query, projection))
-
-    return jsonify(json.loads(json_util.dumps(results)))
-"""
-
-
 def parse_json(data):
     return json.loads(json_util.dumps(data))
+
+
+def serializeDocument(doc):
+    if "_id" in doc:
+        doc["_id"] = str(doc["_id"])
+    return doc
 
 
 if __name__ == "__main__":

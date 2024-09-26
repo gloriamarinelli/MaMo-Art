@@ -302,29 +302,25 @@ The \texttt{server.py} file defines a \textbf{Flask-based} web application progr
 
       \item \textbf{/login} (POST): handles user login by checking that the \textbf{username} and \textbf{password} match the credentials stored in the \textit{user} collection. If they match, a successful login response is returned, otherwise an error message.
 
-
       \item \textbf{/getPaintings} (GET): returns all paintings from the \textit{paintings} collection without applying any filters or sorting mechanisms.
-      \item
-      \item \textbf{/getDepartments} (GET):
+
+      \item \textbf{/getDepartments} (GET): returns a unique list of all the departments from the \textit{paintings} collection, allowing the clients to obtain department names without retrieving all data.
+
 
       \item \textbf{/getPaintingsFilter} (GET): returns paintings from the \textit{paintings} collection, based on filters such as \textbf{title, department} and \textbf{name} (at least one parameter is required, otherwise an error is returned). It uses a \textbf{compound index} on these fields to improve query performance.
 
       \item \textbf{/getPaintingsDetails} (GET): returns a specific painting from the \textit{paintings} collection based on the provided \textbf{id} parameter. It utilises an \textbf{index} on the \textbf{id} field to enhance lookup speed.
 
-      \item \textbf{/addtocart} (GET):
-      \item \textbf{/getArtists} (GET):
-      \item \textbf{/getPaintingsArtistCollection} (GET):
-      \item \textbf{/getBio} (GET):
-      \item \textbf{/getUserOrders} (GET):
+      \item \textbf{/addtocart} (GET): adds an item to the user's cart. The request takes three parameters: an \textbf{order ID}, a \textbf{username}, and an \textbf{artwork ID}. These are inserted into the \textit{orders} collection with a timestamp.
 
+      \item \textbf{/getArtists} (GET): returns a list of all collections that have been named in accordance with the artist's name and that are currently stored in the database. It excludes collections of  \textit{users, paintings, orders} and \textit{artists}. This lists available artists without returning unnecessary collections.
 
+      \item \textbf{/getPaintingsArtistCollection} (GET): returns all paintings from a specific \textit{artist}'s collection. The \textbf{name of the artist} is provided as a parameter, and the paintings are retrieved from the corresponding collection.
 
+      \item \textbf{/getBio} (GET): fetches the biography of a specific artist from the \textit{artist}'s collection. The \textbf{name of the artist} is provided as a query parameter, and if a match is found, the artist's biography is returned.
+
+      \item \textbf{/getUserOrders} (GET): returns all orders that are associated with a specific username. The endpoint employs an \textbf{index} on the \textbf{username} field to enhance the efficiency of queries, returning a list of \textbf{order IDs, artwork IDs,} and \textbf{timestamps} in descending order.
 
 \end{itemize}
-
-Each endpoint handles error scenarios carefully, returning appropriate HTTP status codes and messages in JSON format, ensuring consistent communication with client applications.
-
-
-
 
 \end{document}
