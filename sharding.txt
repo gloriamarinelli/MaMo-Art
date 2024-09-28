@@ -33,6 +33,7 @@ rs.initiate({
    ]
 })
 
+(mongo db folder)
 .\mongos --configdb configReplSet/localhost:27020,localhost:27021,localhost:27022 --port 27018 
 
 .\mongosh --port 27018
@@ -44,7 +45,7 @@ sh.addShard("shard3/localhost:27003")
 sh.enableSharding("MaMo-Art")
 
 use MaMo-Art
-sh.shardCollection("MaMo-Art.paintings", { "_id": "hashed" })
+sh.shardCollection("MaMo-Art.paintings", { "title": "hashed" })
 
 sh.status()
 
