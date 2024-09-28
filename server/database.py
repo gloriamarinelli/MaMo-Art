@@ -4,6 +4,7 @@ import pymongo
 
 # Setup MongoDB client
 client = pymongo.MongoClient("mongodb://localhost:27018")
+# client = pymongo.MongoClient("mongodb://localhost:27017")
 db = client["MaMo-Art"]
 
 
@@ -22,7 +23,7 @@ def cleanCollectionName(name):
 def loadPaintings():
     print("Loading data into the MongoDB database...")
     paintings = []
-    paintings_titles = set()
+    paintings_titles = set()  # Use a set for title uniqueness
     paintings_right = []
 
     # Read data from the CSV file
@@ -33,19 +34,20 @@ def loadPaintings():
             cleaned_row = [cleanText(field) for field in row]
             paintings.append(cleaned_row)
 
-    # Get the MongoDB collection
     paintings_coll = db["paintings"]
 
-    # Remove duplicates titles
+    # Remove duplicates titles by artist
     for painting in paintings:
         title = painting[1]
-        if title not in paintings_titles:
-            paintings_titles.add(title)
+        artist_name = painting[3]
+
+        # Use a tuple (title, artist_name) for checking duplicates
+        if (title, artist_name) not in paintings_titles:
+            paintings_titles.add((title, artist_name))
             paintings_right.append(painting)
 
     total_paintings = len(paintings_right)
 
-    # Insert each painting into the collection with progress indicator
     for index, painting in enumerate(paintings_right):
         new_painting = {
             "id": painting[0],
@@ -81,8 +83,10 @@ def loadPaintings():
 
             artist_coll = db[cleaned_artist_name]
 
-            # Create a filter that avoids updating the _id field
-            filter = {"title": painting[1]}
+            filter = {
+                "title": painting[1],
+                "artist_id": painting[2],
+            }
             update = {
                 "$set": {
                     "id": painting[0],
@@ -109,7 +113,6 @@ def loadPaintings():
 
             artist_coll.update_one(filter, update, upsert=True)
 
-        # Calculate and print progress
         progress = (index + 1) / total_paintings * 100
         print(f"Progress: {progress:.2f}%")
 
