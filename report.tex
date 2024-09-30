@@ -3,6 +3,14 @@
 \usepackage{lipsum} 
 \usepackage{ragged2e}
 \usepackage{hyperref}
+\hypersetup{
+    hidelinks,      
+    colorlinks=true, 
+    linkcolor=blue,  
+    citecolor=black, 
+    urlcolor=blue    
+}
+
 \usepackage{parskip} 
 \usepackage{listings}
 \lstset{basicstyle=\ttfamily,breaklines=true}
@@ -23,8 +31,11 @@
 
       {\small
             M.Sc. Engineering in Computer Science
-            \par}\vspace{10cm}
+            \par}\vspace{4cm}
 
+      {\small
+            \textbf{Academic Year 2023/2024}
+            \par}\vspace{5cm}
       \endgroup
 
       {\textbf{\small
@@ -324,6 +335,9 @@ The \texttt{server.py} file defines a \textbf{Flask-based} web application progr
 \end{itemize}
 
 \section{Performance Analysis}
+
+Once an index has been created in MongoDB, the resulting index will be of the \textbf{B+-tree variety}, which is characterised by frequent read and write activity.
+Given the high volume of queries applied to specific elements of the dataset, the use of \textbf{indexes} was identified as an effective method to enhance performance. \\
 In order to balance the measurements and comparisons, the analysis was always performed on the same sample.
 
 \subsection{getPaintingsTitle vs getPaintingsTitleByIndex}
@@ -378,12 +392,23 @@ if name:
 \end{lstlisting}
 This approach reduces query time by minimizing the need for a full collection scan, even when using \textbf{multiple search parameters}. From a user experience perspective, the ability to search using a compound index allows for greater \textbf{flexibility} and \textbf{time efficiency}, as users can input more search criteria. However, it is important to note that indexing on three fields can negatively impact performance compared to the \textbf{getPaintingsTitleByIndex} function, which uses a single field index.
 
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/getPaintingsFilterS.png}
+      \caption{getPaintingsFilter}
+\end{figure}
+
 \subsection{getPaintingsArtistByIndex vs getPaintingsArtistCollection}
 \textbf{getPaintingsArtistByIndex}: The function is designed to simplify the retrieval of all paintings created by a specific artist. This is achieved through the use of a search parameter (\textbf{name}), which \textbf{indexes} the \textbf{artist's name} and enables the filtering of data. It optimizes the search process by reducing the number of scanned documents.
 \begin{lstlisting}[language=Python]
 paintings_coll.create_index([("name", ASCENDING)], name="name_index")
 query = {"name": {"$regex": name, "$options": "i"}}
 \end{lstlisting}
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/getPaintingsArtistByIndexS.png}
+      \caption{getPaintingsArtistByIndex}
+\end{figure}
 
 \textbf{getPaintingsArtistCollection}: On the other hand, this approach dynamically accesses a collection whose name matches the name of the selected artist. Each artist has their own collection containing documents that represent their paintings, created during the data upload phase. Moreover, this structure allows \textbf{flexibility} (each artist can have their own collection schema) but complicates the management of the database.
 \begin{lstlisting}[language=Python]
@@ -391,9 +416,10 @@ collection = db[name]
 paintings = list(collection.find({}))
 \end{lstlisting}
 
-\subsection{Conclusion}
-
-Once an index has been created in MongoDB, the resulting index will be of the \textbf{B+-tree variety},which is characterised by frequent read and write activity, which is characterised by frequent read and write activity.
-Given the high volume of queries applied to specific elements of the dataset, the use of indexes was identified as an effective method to enhance performance.
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/getPaintingsArtistCollectionS.png}
+      \caption{getPaintingsArtistCollection}
+\end{figure}
 
 \end{document}
