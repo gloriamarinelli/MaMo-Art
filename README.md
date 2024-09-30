@@ -1,3 +1,6 @@
+![alt text](https://github.com/gloriamarinelli/MaMo-Art/blob/main/client/src/images/MaMo.png)
+
+
 # MaMo Art 
 
 **Presented by:**
