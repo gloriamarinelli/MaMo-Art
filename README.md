@@ -1,6 +1,3 @@
-![alt text](https://github.com/gloriamarinelli/MaMo-Art/blob/main/client/src/images/MaMo.png)
-
-
 # MaMo Art 
 
 **Presented by:**
@@ -22,3 +19,5 @@ The web application is structured as follows:
 - The **homepage**: displays all available paintings at MaMo Art gallery. Selecting a painting will display a summary of relevant information about the artwork, including the title, name, date, medium, dimensions, acquisition date, and other pertinent details. Furthermore, users have the option to purchase the selected artwork directly from this page, which will then be added to their list of orders.
 - The **orders** page: displays all orders placed by the user, including the Order ID, the Artwork ID and the date of the order.
 - The **artists** page: displays all artists associated with **MaMo Art Gallery**. Clicking on an artist displays their biography (nationality, gender, birth year, death year) and the list of their relative paintings.
+
+![alt text](https://github.com/gloriamarinelli/MaMo-Art/blob/main/client/src/images/MaMo.png)
