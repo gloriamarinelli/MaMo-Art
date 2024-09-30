@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.17)  28 SEP 2024 10:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.9.17)  30 SEP 2024 16:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -250,7 +250,7 @@ Package hyperref Info: Link coloring OFF on input line 10.
 \openout3 = `report.out'.
 
 \c@lstlisting=\count298
-<sapienza.png, id=43, 1798.72pt x 573.14125pt>
+<sapienza.png, id=63, 1798.72pt x 573.14125pt>
 File: sapienza.png Graphic file (type png)
 <use sapienza.png>
 Package pdftex.def Info: sapienza.png  used on input line 15.
@@ -266,6 +266,11 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 4.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 4.
+
+Overfull \hbox (30.55963pt too wide) in paragraph at lines 12--12
+ [][] [][]\OT1/cmr/m/n/12 getPaintingsDep vs get-Paint-ings-Dep-ByIn-dex and get-Paint-ingsArtist 
+ []
+
 )
 \tf@toc=\write4
 \openout4 = `report.toc'.
@@ -303,28 +308,56 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
 
 [9]
 
-[10]
+[10] (C:\Users\glori\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2024/05/25 1.10b listings language file
+)
+LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 334.
+ (C:\Users\glori\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmtt.fd
+File: ts1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+<images/getPaintingsTitleS.png, id=191, 1445.4pt x 522.45187pt>
+File: images/getPaintingsTitleS.png Graphic file (type png)
+<use images/getPaintingsTitleS.png>
+Package pdftex.def Info: images/getPaintingsTitleS.png  used on input line 340.
+(pdftex.def)             Requested size: 390.0pt x 140.96822pt.
 
-[11] (report.aux)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[11]
+<images/getPaintingsTitleByIndexS.png, id=200, 1445.4pt x 521.69907pt>
+File: images/getPaintingsTitleByIndexS.png Graphic file (type png)
+<use images/getPaintingsTitleByIndexS.png>
+Package pdftex.def Info: images/getPaintingsTitleByIndexS.png  used on input line 356.
+(pdftex.def)             Requested size: 390.0pt x 140.76509pt.
+
+
+[12 <./images/getPaintingsTitleS.png> <./images/getPaintingsTitleByIndexS.png>]
+
+[13]
+
+[14] (report.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-16>
  ***********
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 8F250CE1153BBE805797B35CA7F7E798;1440.
+(rerunfilecheck)             Checksum: EEA3CE596E3E65ACA26FEA67971D77C3;3021.
  ) 
 Here is how much of TeX's memory you used:
- 10725 strings out of 473899
- 169152 string characters out of 5726500
+ 10957 strings out of 473899
+ 172767 string characters out of 5726500
  2019960 words of memory out of 5000000
- 33417 multiletter control sequences out of 15000+600000
- 564091 words of font info for 56 fonts, out of 8000000 for 9000
+ 33610 multiletter control sequences out of 15000+600000
+ 564388 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  79i,6n,93p,644b,1956s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\glori\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on report.pdf (12 pages, 174903 bytes).
+ <C:\Users\glori\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tctt1200.pk> <C:\Users\glori\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/glori/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on report.pdf (15 pages, 340744 bytes).
 PDF statistics:
- 222 PDF objects out of 1000 (max. 8388607)
- 74 named destinations out of 1000 (max. 500000)
- 86 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 300 PDF objects out of 1000 (max. 8388607)
+ 106 named destinations out of 1000 (max. 500000)
+ 136 words of extra memory for PDF output out of 10000 (max. 10000000)
 

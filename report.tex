@@ -324,5 +324,76 @@ The \texttt{server.py} file defines a \textbf{Flask-based} web application progr
 \end{itemize}
 
 \section{Performance Analysis}
+In order to balance the measurements and comparisons, the analysis was always performed on the same sample.
+
+\subsection{getPaintingsTitle vs getPaintingsTitleByIndex}
+
+
+\textbf{getPaintingsTitle}: The proposed solution does not use indexes and instead relies on the following query:
+\begin{lstlisting}[language=Python]
+query = {"title": {"$regex": title, "$options": "i"}}
+\end{lstlisting}
+This query uses a regular expression to perform a case-insensitive search on the \textbf{title}. However, the use of regular expressions, especially without indexing, results in a \textbf{full collection scan}, which is inefficient for large datasets, particularly for fields such as \textbf{title} that have high cardinality. Therefore, this approach has a considerable impact on performance that can be potentially slow and inefficient.
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/getPaintingsTitleS.png}
+      \caption{getPaintingsTitle}
+
+\end{figure}
+
+\textbf{getPaintingsTitleByIndex}: On the other hand, this endpoint is designed to enhance query performance by creating an \textbf{index} on the \textbf{title} field:
+\begin{lstlisting}[language=Python]
+paintings_coll.create_index([("title", ASCENDING)], name="title_index")
+\end{lstlisting}
+The use of the index rapidly identifies matching documents, rather than conducting a \textbf{full scan} of the entire collection. Indeed, this approach \textbf{reduces the search space}, enhancing the efficiency of the query. Furthermore, the index guarantees that the query is \textbf{sorted} in \textbf{ascending order} based on the \textbf{title}, as follows:
+\begin{lstlisting}[language=Python]
+paintings = list(paintings_coll.find(query).sort("title", ASCENDING))
+\end{lstlisting}
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/getPaintingsTitleByIndexS.png}
+      \caption{getPaintingsTitleByIndex}
+\end{figure}
+
+\subsection{getPaintingsDep vs getPaintingsDepByIndex and getPaintingsArtist vs getPaintingsArtistByIndex}
+
+The functions \textbf{getPaintingsDep} and \textbf{getPaintingsArtist} perform similar operations as the previous ones, but they also create indexing on the departments field and on the artist field. This results in a notable increase in processing speed.
+
+\subsection{getPaintingsFilter vs getPaintingsTitleByIndex}
+\textbf{getPaintingsFilter}: The proposed endpoint utilizes a \textbf{compound index} on three fields: \textbf{title, department,} and \textbf{name}.
+\begin{lstlisting}[language=Python]
+paintings_coll.create_index([("title", ASCENDING), ("department", ASCENDING), ("name", ASCENDING)], name="triple_index")
+\end{lstlisting}
+The \textbf{triple-index approach} guarantees that the query can rapidly narrow down results based on multiple criteria, making it ideal for \textbf{complex search filters}. The query is constructed as follows:
+\begin{lstlisting}[language=Python]
+query = {}
+if title:
+    query["title"] = {"$regex": title, "$options": "i"}
+if department:
+    query["department"] = {"$regex": department, "$options": "i"}
+if name:
+    query["name"] = {"$regex": name, "$options": "i"}
+\end{lstlisting}
+This approach reduces query time by minimizing the need for a full collection scan, even when using \textbf{multiple search parameters}. From a user experience perspective, the ability to search using a compound index allows for greater \textbf{flexibility} and \textbf{time efficiency}, as users can input more search criteria. However, it is important to note that indexing on three fields can negatively impact performance compared to the \textbf{getPaintingsTitleByIndex} function, which uses a single field index.
+
+\subsection{getPaintingsArtistByIndex vs getPaintingsArtistCollection}
+\textbf{getPaintingsArtistByIndex}: The function is designed to simplify the retrieval of all paintings created by a specific artist. This is achieved through the use of a search parameter (\textbf{name}), which \textbf{indexes} the \textbf{artist's name} and enables the filtering of data. It optimizes the search process by reducing the number of scanned documents.
+\begin{lstlisting}[language=Python]
+paintings_coll.create_index([("name", ASCENDING)], name="name_index")
+query = {"name": {"$regex": name, "$options": "i"}}
+\end{lstlisting}
+
+\textbf{getPaintingsArtistCollection}: On the other hand, this approach dynamically accesses a collection whose name matches the name of the selected artist. Each artist has their own collection containing documents that represent their paintings, created during the data upload phase. Moreover, this structure allows \textbf{flexibility} (each artist can have their own collection schema) but complicates the management of the database.
+\begin{lstlisting}[language=Python]
+collection = db[name]
+paintings = list(collection.find({}))
+\end{lstlisting}
+
+\subsection{Conclusion}
+
+Once an index has been created in MongoDB, the resulting index will be of the \textbf{B+-tree variety},which is characterised by frequent read and write activity, which is characterised by frequent read and write activity.
+Given the high volume of queries applied to specific elements of the dataset, the use of indexes was identified as an effective method to enhance performance.
 
 \end{document}
