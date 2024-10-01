@@ -4,7 +4,7 @@ import pymongo
 
 # Setup MongoDB client
 client = pymongo.MongoClient("mongodb://localhost:27018")
-# client = pymongo.MongoClient("mongodb://localhost:27017")
+#client = pymongo.MongoClient("mongodb://localhost:27017")
 db = client["MaMo-Art"]
 
 
@@ -36,7 +36,7 @@ def loadPaintings():
 
     paintings_coll = db["paintings"]
 
-    # Remove duplicates titles by artist
+    # Remove duplicates 
     for painting in paintings:
         title = painting[1]
         artist_name = painting[3]
@@ -138,7 +138,7 @@ def loadPaintingsMunch():
     paintings_coll = db["paintings"]
     munch_coll = db["Edvard Munch"]
 
-    # Remove duplicate titles by keeping unique "title", "artist_id", and "name"
+    # Remove duplicate 
     for painting in paintings:
         title = painting[1]
         artist_name = painting[3]
