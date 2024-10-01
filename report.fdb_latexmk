@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1727707747.23548 "c:/Users/glori/Desktop/MaMo-Art/report.tex" "report.pdf" "report" 1727707749.08426 0
+["pdflatex"] 1727785815.43309 "c:/Users/glori/Desktop/MaMo-Art/report.tex" "report.pdf" "report" 1727785817.32193 0
   "C:/Program Files/MiKTeX/tex/generic/stringenc/stringenc.sty" 1575105840 21514 b7557edcee22835ef6b03ede1802dad4 ""
   "C:/Program Files/MiKTeX/tex/latex/lipsum/lipsum.ltd.tex" 1633253722 95525 6fd0552101a6b1f9b7a84b402ec435ba ""
   "C:/Program Files/MiKTeX/tex/latex/lipsum/lipsum.sty" 1633253722 14690 c2c754218a7108db7823a4839c1bc3cd ""
@@ -83,16 +83,16 @@
   "C:/Users/glori/AppData/Local/Programs/MiKTeX/tex/latex/refcount/refcount.sty" 1576433952 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
   "C:/Users/glori/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657800696 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "C:/Users/glori/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "c:/Users/glori/Desktop/MaMo-Art/report.tex" 1727707746 25636 62a624bf4bdf18a4a5af48be70f7a8af ""
+  "c:/Users/glori/Desktop/MaMo-Art/report.tex" 1727785814 25609 0ea2589aa2b1413886728c9a65383c45 ""
   "images/getPaintingsArtistByIndexS.png" 1727706722 118805 e61e75abd02386f3dc6f2e9ff75f5b48 ""
   "images/getPaintingsArtistCollectionS.png" 1727706768 121397 7c31d7f69e1c5713aa47936415ca3cd7 ""
   "images/getPaintingsFilterS.png" 1727706787 115598 b17e17d5f0fd4ad279cc0a1647f51f09 ""
   "images/getPaintingsTitleByIndexS.png" 1727706806 117851 28a5de22c0804a57666009b5154591e2 ""
   "images/getPaintingsTitleS.png" 1727706819 115362 1f576193a2d0afb79697ff7a6f939922 ""
-  "report.aux" 1727707748 2719 5593b602f7fbd51f32a4ebff5878db8e "pdflatex"
-  "report.out" 1727707748 2913 a225bea5b291dcd3bfce7434b0fa3def "pdflatex"
-  "report.tex" 1727707746 25636 62a624bf4bdf18a4a5af48be70f7a8af ""
-  "report.toc" 1727707748 1310 907444ef86f5456800d0cdd90c03bab7 "pdflatex"
+  "report.aux" 1727785817 2719 5593b602f7fbd51f32a4ebff5878db8e "pdflatex"
+  "report.out" 1727785817 2913 a225bea5b291dcd3bfce7434b0fa3def "pdflatex"
+  "report.tex" 1727785814 25609 0ea2589aa2b1413886728c9a65383c45 ""
+  "report.toc" 1727785817 1310 907444ef86f5456800d0cdd90c03bab7 "pdflatex"
   "sapienza.png" 1726591590 28853 0bd0047b6728ec6ec3fb36da08793f67 ""
   (generated)
   "report.aux"
