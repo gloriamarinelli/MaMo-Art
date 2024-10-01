@@ -362,6 +362,8 @@ paintings_coll.create_index([("title", ASCENDING)], name="title_index")
 \end{lstlisting}
 The use of the index rapidly identifies matching documents, rather than conducting a \textbf{full scan} of the entire collection. Indeed, this approach \textbf{reduces the search space}, enhancing the efficiency of the query. Furthermore, the index guarantees that the query is \textbf{sorted} in \textbf{ascending order} based on the \textbf{title}, as follows:
 \begin{lstlisting}[language=Python]
+query = {"title": {"$regex": title, "$options": "i"}}
+
 paintings = list(paintings_coll.find(query).sort("title", ASCENDING))
 \end{lstlisting}
 
