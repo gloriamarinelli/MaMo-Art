@@ -3,8 +3,8 @@ import re
 import pymongo
 
 # Setup MongoDB client
-client = pymongo.MongoClient("mongodb://localhost:27018")
-#client = pymongo.MongoClient("mongodb://localhost:27017")
+#client = pymongo.MongoClient("mongodb://localhost:27018")
+client = pymongo.MongoClient("mongodb://localhost:27017")
 db = client["MaMo-Art"]
 
 

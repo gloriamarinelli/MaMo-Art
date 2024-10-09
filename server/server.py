@@ -25,7 +25,7 @@ def before_request():
         return ("", 200, headers)
 
 
-client = MongoClient("mongodb://localhost:27018/")
+client = MongoClient("mongodb://localhost:27017/")
 db = client["MaMo-Art"]
 
 
