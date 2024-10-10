@@ -1,4 +1,4 @@
-# MaMo Art 
+# MaMo Art - Data Management Project
 
 **Presented by:**
 
